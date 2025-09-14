@@ -2,7 +2,7 @@
 title: Hello World
 published: 2025-09-14
 description: "Test"
-image: "./cover.jpeg"
+image: "./cover.jpg"
 tags: [Blog]
 category: Odds and Ends
 draft: false
