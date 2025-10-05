@@ -11,11 +11,11 @@ draft: false
 
 ## 软件安装
 Anaconda：配置不同的虚拟环境
-    Anaconda官网下载页面[click](https://www.anaconda.com/download)
+    Anaconda官网下载页面 [[click]](https://www.anaconda.com/download)
 
 Vscode：代码运行场景
-    Vscode官网下载页面[click](https://code.visualstudio.com/Download)
+    Vscode官网下载页面 [[click]](https://code.visualstudio.com/Download)
 
-## Where to Place the Post Files
+## 环境配置
 
 
