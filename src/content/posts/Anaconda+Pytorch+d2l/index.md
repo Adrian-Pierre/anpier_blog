@@ -10,14 +10,14 @@ draft: false
 
 
 ## 软件安装
-我们需要安装的软件有：<br>
+我们需要安装软件如下：<br>
 
 &emsp;&emsp;Anaconda：配置不同的虚拟环境<br>
-&emsp;&emsp;&emsp;&emsp;Anaconda官网下载页面 [[ Click ]](https://www.anaconda.com/download)
+&emsp;&emsp;&emsp;&emsp;Anaconda官网下载页面 （[https://www.anaconda.com/download](https://www.anaconda.com/download){:target="_blank"}）
 
-&emsp;&emsp;Vscode：代码运行场景<br>
-&emsp;&emsp;&emsp;&emsp;Vscode官网下载页面 [[ Click ]](https://code.visualstudio.com/Download)
+&emsp;&emsp;Vscode：代码运行环境<br>
+&emsp;&emsp;&emsp;&emsp;Vscode官网下载页面 （[https://code.visualstudio.com/Download](https://code.visualstudio.com/Download){:target="_blank"}）
 
 ## 环境配置
 
-
+> 如果想要使用GPU进行深度学习模型的训练，就需要安装CUDA，我这用的是Nvidia的GPU
