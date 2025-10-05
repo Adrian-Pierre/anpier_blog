@@ -19,6 +19,8 @@ draft: false
 
 &emsp;&emsp;&emsp;&emsp;或者按照该博客来安装下载 （[vscode安装+配置+使用+调试【保姆级教程】](https://blog.csdn.net/weixin_60915103/article/details/131617196)）
 
+---
+
 ## 环境配置
 
 :::note
@@ -27,44 +29,53 @@ draft: false
 
 ### 安装CUDA以及cudnn
 
-&emsp;&emsp;检查自己电脑支持的CUDA版本：打开cmd执行.
+检查自己电脑支持的CUDA版本：打开cmd执行.
 
         nvidia-smi
 
-&emsp;&emsp;前往[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载自己电脑支持版本的 CUDA ，我选择12.8.0版本.
+前往[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载自己电脑支持版本的 CUDA ，我选择12.8.0版本.
 
-    > 下载时选择自定义，勾选下载全部选项，并记住安装路径.
+> 下载时选择自定义，勾选下载全部选项，并记住安装路径.
 
-&emsp;&emsp;检验是否安装成功：打开cmd执行.
+检验是否安装成功：打开cmd执行.
 
         nvcc -V
 
-&emsp;&emsp;前往[官网](https://developer.nvidia.com/rdp/cudnn-archive)下载对应版本的 cudnn 压缩包，后进行解压，我选择8.9.7版本.
+前往[官网](https://developer.nvidia.com/rdp/cudnn-archive)下载对应版本的 cudnn 压缩包，后进行解压，我选择8.9.7版本.
 
-&emsp;&emsp;进入指定目录（上文记住的安装路径），如C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8，将bin，include，lib三个文件夹拖入进行替换.
+进入指定目录（上文记住的安装路径），如C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8，将bin，include，lib三个文件夹拖入进行替换.<br><br>
 
 ### 创建虚拟环境并配置pytorch
 
-&emsp;&emsp;打开Anaconda Prompt，创建环境：
+打开Anaconda Prompt，创建环境：
 
-        ```python
         # 创建虚拟环境
         conda create -n 虚拟环境名 python=3.9
-        ```
 
-&emsp;&emsp;激活环境：
+激活环境：
 
-        ```python
         # 激活指定虚拟环境
         conda activate 虚拟环境名
-        ```
-&emsp;&emsp;查看环境是否创建成功：
 
-        ```python
+查看环境是否创建成功：
+
         # 查看所有虚拟环境
         conda env list
-        ```
 
-&emsp;&emsp;安装Pytorch命令复制网址： [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally/)
+安装Pytorch命令复制网址： [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally/)
 
-    > 选择自己版本的选项，在环境激活的情况下，复制命令并安装.
+> 选择自己版本的选项，在环境激活的情况下，复制命令并安装.
+
+查看Pytorch是否安装成功：
+
+> 创建.py文件，并将conda中刚刚安装环境中的python作为解释器，具体教程看:
+
+<iframe width="100%" height="468" src="//player.bilibili.com/player.html?bvid=BV1Fo46e3EAZ&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+> 运行下列代码，不报错即安装成功:
+
+    ```python
+    import torch
+    print(torch.__version__)
+    print(torch.cuda.is_available())
+    ```
