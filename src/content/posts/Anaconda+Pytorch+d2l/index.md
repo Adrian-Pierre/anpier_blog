@@ -11,12 +11,12 @@ draft: false
 
 ## 软件安装
 
-我们需要安装软件如下：
+&emsp;&emsp;Anaconda官网下载 （[https://www.anaconda.com/download](https://www.anaconda.com/download)）
 
-&emsp;&emsp;Anaconda官网下载页面 （[https://www.anaconda.com/download](https://www.anaconda.com/download)）
 &emsp;&emsp;&emsp;&emsp;或者按照该博客来安装下载 （[最新版最详细Anaconda新手安装+配置+环境创建教程](https://blog.csdn.net/qq_44000789/article/details/142214660)）
 
-&emsp;&emsp;Vscode官网下载页面 （[https://code.visualstudio.com/Download](https://code.visualstudio.com/Download)）
+&emsp;&emsp;Vscode官网下载 （[https://code.visualstudio.com/Download](https://code.visualstudio.com/Download)）
+
 &emsp;&emsp;&emsp;&emsp;或者按照该博客来安装下载 （[vscode安装+配置+使用+调试【保姆级教程】](https://blog.csdn.net/weixin_60915103/article/details/131617196)）
 
 ## 环境配置
