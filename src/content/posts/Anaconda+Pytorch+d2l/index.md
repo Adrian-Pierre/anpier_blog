@@ -20,6 +20,4 @@ draft: false
 
 ## 环境配置
 
-<span style="color:gray;">如果想要使用GPU进行深度学习模型的训练，就需要安装CUDA，我这用的是Nvidia的GPU</span>
-
-> 如果想要使用GPU进行深度学习模型的训练，就需要安装CUDA，我这用的是Nvidia的GPU
+> <span style="color:gray;">如果想要使用GPU进行深度学习模型的训练，就需要安装CUDA，我这用的是Nvidia的GPU</span>
