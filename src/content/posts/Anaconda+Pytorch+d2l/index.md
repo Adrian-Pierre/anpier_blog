@@ -13,7 +13,10 @@ draft: false
 我们需要安装软件如下：<br>
 
 &emsp;&emsp;Anaconda官网下载页面 （[https://www.anaconda.com/download](https://www.anaconda.com/download)）
-![](https://adrian-imagebed.oss-cn-hangzhou.aliyuncs.com/blog/20251005172437640.png)
+<p align="center">
+  <img src="https://adrian-imagebed.oss-cn-hangzhou.aliyuncs.com/blog/20251005172437640.png" alt="截图">
+</p>
+
 
 &emsp;&emsp;Vscode官网下载页面 （[https://code.visualstudio.com/Download](https://code.visualstudio.com/Download)）
 
