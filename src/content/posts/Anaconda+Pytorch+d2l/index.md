@@ -10,11 +10,13 @@ draft: false
 
 
 ## 软件安装
-Anaconda：配置不同的虚拟环境
-    Anaconda官网下载页面 [[click]](https://www.anaconda.com/download)
+我们需要安装的软件有：<br>
 
-Vscode：代码运行场景
-    Vscode官网下载页面 [[click]](https://code.visualstudio.com/Download)
+&emsp;&emsp;Anaconda：配置不同的虚拟环境<br>
+&emsp;&emsp;&emsp;&emsp;Anaconda官网下载页面 [[ Click ]](https://www.anaconda.com/download)
+
+&emsp;&emsp;Vscode：代码运行场景<br>
+&emsp;&emsp;&emsp;&emsp;Vscode官网下载页面 [[ Click ]](https://code.visualstudio.com/Download)
 
 ## 环境配置
 
