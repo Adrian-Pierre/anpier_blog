@@ -24,3 +24,16 @@ draft: false
 :::note
 如果想要使用GPU进行深度学习模型的训练，就需要安装CUDA，我用的是Nvidia的GPU
 :::
+
+### 安装CUDA以及cudnn
+
+检查自己电脑支持的CUDA版本：打开cmd执行
+```
+nvidia-smi
+```
+前往[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载自己电脑支持版本的CUDA，我选择12.8.0版本.
+
+检验是否安装成功：打开cmd执行
+```
+nvcc -V
+```
