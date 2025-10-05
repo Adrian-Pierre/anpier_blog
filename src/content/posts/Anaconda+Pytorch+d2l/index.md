@@ -27,21 +27,21 @@ draft: false
 
 ### 安装CUDA以及cudnn
 
-1. 检查自己电脑支持的CUDA版本：打开cmd执行.
-   
+&emsp;&emsp;检查自己电脑支持的CUDA版本：打开cmd执行.
+
         nvidia-smi
 
-2. 前往[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载自己电脑支持版本的 CUDA ，我选择12.8.0版本.
+&emsp;&emsp;前往[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载自己电脑支持版本的 CUDA ，我选择12.8.0版本.
 
     > 下载时选择自定义，勾选下载全部选项，并记住安装路径.
 
-3. 检验是否安装成功：打开cmd执行.
-   
-        nvcc -V
-   
-4. 前往[官网](https://developer.nvidia.com/rdp/cudnn-archive)下载对应版本的 cudnn 压缩包，后进行解压，我选择8.9.7版本.
+&emsp;&emsp;检验是否安装成功：打开cmd执行.
 
-5. 进入指定目录（上文记住的安装路径），如C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8，将bin，include，lib三个文件夹拖入进行替换.
+        nvcc -V
+
+&emsp;&emsp;前往[官网](https://developer.nvidia.com/rdp/cudnn-archive)下载对应版本的 cudnn 压缩包，后进行解压，我选择8.9.7版本.
+
+&emsp;&emsp;进入指定目录（上文记住的安装路径），如C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8，将bin，include，lib三个文件夹拖入进行替换.
 
 ### 创建虚拟环境并配置pytorch
 
