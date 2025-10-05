@@ -45,15 +45,26 @@ draft: false
 
 ### 创建虚拟环境并配置pytorch
 
-&emsp;&emsp;打开Anaconda Prompt，基础命令如下：
+&emsp;&emsp;打开Anaconda Prompt，创建环境：
 
-```python
-# 查看所有虚拟环境
-conda env list
+        ```python
+        # 创建虚拟环境
+        conda create -n 虚拟环境名 python=3.9
+        ```
 
-# 激活指定虚拟环境
-conda activate 虚拟环境名
+&emsp;&emsp;激活环境：
 
-# 创建虚拟环境
-conda create -n 虚拟环境名 python=3.9
-```
+        ```python
+        # 激活指定虚拟环境
+        conda activate 虚拟环境名
+        ```
+&emsp;&emsp;查看环境是否创建成功：
+
+        ```python
+        # 查看所有虚拟环境
+        conda env list
+        ```
+
+&emsp;&emsp;安装Pytorch命令复制网址： [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally/)
+
+    > 选择自己版本的选项，在环境激活的情况下，复制命令并安装.
