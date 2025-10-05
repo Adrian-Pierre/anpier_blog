@@ -9,8 +9,6 @@ draft: false
 ---
 
 
-This blog template is built with [Astro](https://astro.build/). For the things that are not mentioned in this guide, you may find the answers in the [Astro Docs](https://docs.astro.build/).
-
 ## 软件安装
 Anaconda：配置不同的虚拟环境
     Anaconda官网下载页面[click](https://www.anaconda.com/download)
