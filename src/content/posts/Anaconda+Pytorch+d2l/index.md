@@ -49,24 +49,19 @@ draft: false
 
 打开Anaconda Prompt，创建环境：
 
-        # 创建虚拟环境
         conda create -n 虚拟环境名 python=3.9
 
 激活环境：
 
-        # 激活指定虚拟环境
         conda activate 虚拟环境名
 
 查看环境是否创建成功：
 
-        # 查看所有虚拟环境
         conda env list
 
 安装Pytorch命令复制网址： [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally/)
 
 > 选择自己版本的选项，在环境激活的情况下，复制命令并安装.
-
-查看Pytorch是否安装成功：
 
 > 创建.py文件，并将conda中刚刚安装环境中的python作为解释器，具体教程看:
 
@@ -74,8 +69,12 @@ draft: false
 
 > 运行下列代码，不报错即安装成功:
 
-    ```python
-    import torch
-    print(torch.__version__)
-    print(torch.cuda.is_available())
-    ```
+```python
+import torch
+print(torch.__version__)
+print(torch.cuda.is_available())
+```
+
+---
+
+## 软件配置
