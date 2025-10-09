@@ -1,0 +1,181 @@
+{
+  "main": {
+    "id": "fb89ed4ef8678737",
+    "type": "split",
+    "children": [
+      {
+        "id": "1f1fc9abe815da54",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "317464fae11b0aa2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "index"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4be1dcfa8416473b",
+    "type": "split",
+    "children": [
+      {
+        "id": "9f4c842e64861d21",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "417836d914f71d76",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "7c9ff7cef408f12c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "a37843a7969bcbeb",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "222a3323ac4c7608",
+    "type": "split",
+    "children": [
+      {
+        "id": "a1519103b1c2665e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8f32862d267aa027",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "index 的反向链接列表"
+            }
+          },
+          {
+            "id": "2fef8de1cfaf533d",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "index 的出链列表"
+            }
+          },
+          {
+            "id": "b21e0402f1c1ea74",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "4936595d4ec088f3",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "index 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:创建新数据库": false
+    }
+  },
+  "active": "417836d914f71d76",
+  "lastOpenFiles": [
+    "assets/image/1.png",
+    "2025-10-05.md",
+    "posts/Anaconda+Pytorch+d2l/index.md",
+    "posts/Anaconda+Pytorch+d2l/cover.jpg",
+    "assets/image",
+    "assets"
+  ]
+}
