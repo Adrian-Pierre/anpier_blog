@@ -15,6 +15,10 @@ draft: false
 
 2. Vscode[官网下载](https://code.visualstudio.com/Download)，或者按照该博客来[安装下载](https://blog.csdn.net/weixin_60915103/article/details/131617196)
 
+3. 也可按照该视频配置
+
+<iframe width="100%" height="468" src="//player.bilibili.com/player.html?bvid=BV1Fo46e3EAZ&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
 ---
 
 ## 环境配置
