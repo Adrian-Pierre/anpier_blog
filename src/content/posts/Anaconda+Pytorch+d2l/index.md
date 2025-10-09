@@ -115,20 +115,14 @@ jupyter notebook --generate-config
 The directory to use
 ```
 
->原文件如下：
+>修改如下：
 
-```conda
-## The directory to use for notebooks and kernels.
-#  Default: ''
-# c.ServerApp.root_dir = ''
-```
+```diff lang="conda"
+    ## The directory to use for notebooks and kernels.
+    #  Default: ''
+-   # c.ServerApp.root_dir = ''
++   c.ServerApp.root_dir = '默认打开路径'
 
->修改为：
-
-```conda
-## The directory to use for notebooks and kernels.
-#  Default: ''
-c.ServerApp.root_dir = '默认打开路径'
 ```
 
 4. 打开Anaconda Prompt，激活环境后，执行：
