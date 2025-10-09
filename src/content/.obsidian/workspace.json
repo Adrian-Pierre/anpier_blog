@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "file": "posts/markdown-extended.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "markdown-extended"
             }
           }
         ]
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200.5
   },
   "right": {
     "id": "222a3323ac4c7608",
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "file": "posts/markdown-extended.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "index 的反向链接列表"
+              "title": "markdown-extended 的反向链接列表"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "file": "posts/markdown-extended.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "index 的出链列表"
+              "title": "markdown-extended 的出链列表"
             }
           },
           {
@@ -142,13 +142,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "file": "posts/markdown-extended.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "index 的大纲"
+              "title": "markdown-extended 的大纲"
             }
           }
         ]
@@ -169,11 +169,18 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "417836d914f71d76",
+  "active": "317464fae11b0aa2",
   "lastOpenFiles": [
+    "posts/markdown.md",
+    "posts/Anaconda+Pytorch+d2l/index.md",
+    "assets/image/螢幕擷取畫面 2025-10-05 052503.png",
+    "assets/image/螢幕擷取畫面 2025-10-05 052452.png",
+    "assets/image/螢幕擷取畫面 2025-10-10 004807.png",
+    "assets/image/螢幕擷取畫面 2025-10-05 051145.png",
+    "assets/image/index-1.png",
+    "assets/image/index.png",
     "assets/image/1.png",
     "2025-10-05.md",
-    "posts/Anaconda+Pytorch+d2l/index.md",
     "posts/Anaconda+Pytorch+d2l/cover.jpg",
     "assets/image",
     "assets"

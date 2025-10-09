@@ -43,39 +43,47 @@ nvidia-smi
 nvcc -V
 ```
 
+![](../../assets/image/螢幕擷取畫面%202025-10-05%20051145.png)
+
 4. 前往[官网](https://developer.nvidia.com/rdp/cudnn-archive)下载对应版本的 cudnn 压缩包，后进行解压，我选择8.9.7版本.
 
 5. 进入指定目录（上文记住的安装路径），如C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.8，将bin，include，lib三个文件夹拖入进行替换.<br><br>
 
 ### 创建虚拟环境并配置pytorch
 
-打开Anaconda Prompt，创建环境：
+1. 打开Anaconda Prompt，创建环境：
 
 ```conda
 conda create -n 虚拟环境名 python=3.9
 ```
 
-激活环境：
+2. 激活环境：
 
 ```conda
 conda activate 虚拟环境名
 ```
 
-查看环境是否创建成功：
+3. 查看环境是否创建成功：
 
 ```conda
 conda env list
 ```
 
-安装Pytorch命令复制网址： [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally/)
+![](../../assets/image/螢幕擷取畫面%202025-10-10%20004807.png)
 
-选择自己版本的选项，在环境激活的情况下，复制命令并安装.
+4. 安装Pytorch命令复制网址： [https://pytorch.org/get-started/locally](https://pytorch.org/get-started/locally/)  选择自己版本的选项，在环境激活的情况下，复制命令并安装.
 
-创建.py文件，并将conda中刚刚安装环境中的python作为解释器，具体教程看:
+![](../../assets/image/螢幕擷取畫面%202025-10-05%20052503.png)
+
+:::note
+下载的包会比较大，如我的是3.5G，如比较小可能不是安装的GPU版本
+:::
+
+5. 创建.py文件，并将conda中刚刚安装环境中的python作为解释器，具体教程看:
 
 <iframe width="100%" height="468" src="//player.bilibili.com/player.html?bvid=BV1Fo46e3EAZ&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
-> 运行下列代码，不报错即安装成功:
+6. 运行下列代码，不报错即安装成功:
 
 ```python
 import torch
@@ -89,25 +97,25 @@ print(torch.cuda.is_available())
 
 ### Jupyter Notebook
 
-打开Anaconda Prompt，激活环境后，执行：
+1. 打开Anaconda Prompt，激活环境后，执行：
 
 ```conda
 pip install jupyter
 ```
 
-下载完后，执行，查看Jupyter的配置路径，只需看到路径，终端中输入 "N" 即可：
+2. 下载完后，执行，查看Jupyter的配置路径，只需看到路径，终端中输入 "N" 即可：
 
 ```conda
 jupyter notebook --generate-config
 ```
 
-进入路径，打开 "jupyter_notebook_config" 文件，搜索：
+3. 进入路径，打开 "jupyter_notebook_config" 文件，搜索：
 
 ```conda
 The directory to use
 ```
 
-原文件如下：
+>原文件如下：
 
 ```conda
 ## The directory to use for notebooks and kernels.
@@ -115,7 +123,7 @@ The directory to use
 # c.ServerApp.root_dir = ''
 ```
 
-修改为：
+>修改为：
 
 ```conda
 ## The directory to use for notebooks and kernels.
@@ -123,13 +131,13 @@ The directory to use
 c.ServerApp.root_dir = '默认打开路径'
 ```
 
-打开Anaconda Prompt，激活环境后，执行：
+4. 打开Anaconda Prompt，激活环境后，执行：
 
 ```conda
 conda install ipykernel
 ```
 
-将环境写入内核：
+5. 将环境写入内核：
 
 ```conda
 python -m ipykernel --user --name 你创建环境的名字 --display-name "你创建环境的名字"
@@ -137,13 +145,13 @@ python -m ipykernel --user --name 你创建环境的名字 --display-name "你�
 
 ### d2l库安装
 
-打开Anaconda Prompt，激活环境后，执行：
+1. 打开Anaconda Prompt，激活环境后，执行：
 
 ```conda
 pip install d2l
 ```
 
-> 运行下列代码，不报错即安装成功:
+2. 运行下列代码，不报错即安装成功:
 
 ```python
 import torch
