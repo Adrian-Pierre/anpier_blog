@@ -35,7 +35,7 @@ nvidia-smi
 
 > 下载时选择自定义，勾选下载全部选项，并记住安装路径.
 
-![[../../assets/image/1.png]]
+![](../../assets/image/1.png)
 
 3. 检验是否安装成功：打开cmd执行.
 
