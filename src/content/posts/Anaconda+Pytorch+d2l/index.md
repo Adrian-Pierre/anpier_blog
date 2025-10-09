@@ -35,6 +35,8 @@ draft: false
 nvidia-smi
 ```
 
+![](../../assets/image/螢幕擷取畫面%202025-10-10%20010239.png)
+
 2. 前往[官网](https://developer.nvidia.com/cuda-toolkit-archive)下载自己电脑支持版本的 CUDA ，我选择12.8.0版本.
 
 > 下载时选择自定义，勾选下载全部选项，并记住安装路径.
