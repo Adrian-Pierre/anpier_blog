@@ -1,9 +1,10 @@
 ---
 title: 配置 Conda + Pytorch + d2l 环境
 published: 2025-10-05
-description: "在Window系统上配置李沐深度学习相关环境"
-#image: "./cover.jpg"
-tags: [Environment]
+description: 在Window系统上配置李沐深度学习相关环境
+image: "./cover.jpg"
+tags:
+  - Environment
 category: Deep Learning
 draft: false
 ---

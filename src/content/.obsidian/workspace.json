@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "file": "posts/LED_dianzhen/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200.5
+    "width": 200
   },
   "right": {
     "id": "222a3323ac4c7608",
@@ -171,18 +171,26 @@
   },
   "active": "317464fae11b0aa2",
   "lastOpenFiles": [
-    "assets/image/螢幕擷取畫面 2025-10-10 010239.png",
-    "posts/Anaconda+Pytorch+d2l/cover.jpg",
+    "assets/image/20250302032948100.png",
+    "assets/image/20250302032857613.png",
+    "assets/image/20250302032817216.png",
+    "assets/image/20250302032755579.png",
+    "assets/image/20250302032415593.png",
+    "assets/image/20250302004618016.png",
+    "assets/image/20250228203054634.png",
+    "assets/image/20250228202931289.jpg",
+    "assets/image/20250228202911673.jpg",
+    "assets/image/20250228202854499.jpg",
+    "assets/image/20250211204419128.png",
+    "posts/Anaconda+Pytorch+d2l/index.md",
+    "posts/LED_dianzhen/index.md",
+    "posts/LED_dianzhen",
+    "posts/Anaconda+Pytorch+d2l - 副本/index.md",
+    "posts/Anaconda+Pytorch+d2l - 副本",
+    "posts/draft.md",
+    "posts/expressive-code.md",
     "posts/markdown-extended.md",
     "posts/markdown.md",
-    "posts/Anaconda+Pytorch+d2l/index.md",
-    "assets/image/螢幕擷取畫面 2025-10-05 052503.png",
-    "assets/image/螢幕擷取畫面 2025-10-05 052452.png",
-    "assets/image/螢幕擷取畫面 2025-10-10 004807.png",
-    "assets/image/螢幕擷取畫面 2025-10-05 051145.png",
-    "assets/image/index-1.png",
-    "assets/image/index.png",
-    "assets/image/1.png",
     "2025-10-05.md",
     "assets/image",
     "assets"
