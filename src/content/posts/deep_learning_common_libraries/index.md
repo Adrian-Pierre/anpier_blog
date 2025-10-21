@@ -55,8 +55,9 @@ print(len(my_dataset))
 img, label = my_dataset[idx]
 ```
 
-# CV2 & Image
+---
 
+# CV2 & Image
 ## Image
 
 ```python
@@ -105,5 +106,7 @@ edges = cv2.Canny(blur, 100, 200)
 # 保存结果
 cv2.imwrite("edges.jpg", edges)
 ```
+
+---
 
 # TensorBoard
