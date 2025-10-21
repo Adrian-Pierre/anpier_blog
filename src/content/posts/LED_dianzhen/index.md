@@ -1,7 +1,7 @@
 ---
 title: 圆形LED点阵屏幕
 published: 2025-02-11
-description: 看到了国外大佬做的，觉得挺有意思，自己也复刻了一个
+description: 看到了国外大佬做的，觉得挺有意思，自己也想复刻了一个
 image: ./cover.png
 tags:
   - project

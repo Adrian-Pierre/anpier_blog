@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/Anaconda+Pytorch+d2l/index.md",
+                "file": "posts/deep_learning_common_libraries/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": " ",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "书签"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -171,6 +172,10 @@
   },
   "active": "317464fae11b0aa2",
   "lastOpenFiles": [
+    "posts/deep_learning_common_libraries/cover.jpg",
+    "posts/Anaconda+Pytorch+d2l/index.md",
+    "posts/deep_learning_common_libraries/index.md",
+    "posts/deep_learning_common_libraries",
     "assets/image/螢幕擷取畫面 2025-10-20 235111 1.png",
     "assets/image/螢幕擷取畫面 2025-10-20 235111.png",
     "posts/LED_dianzhen/index.md",
@@ -181,9 +186,6 @@
     "assets/image/20250302032415593.png",
     "assets/image/20250302004618016.png",
     "assets/image/20250228203054634.png",
-    "assets/image/20250228202931289.jpg",
-    "assets/image/20250228202911673.jpg",
-    "posts/Anaconda+Pytorch+d2l/index.md",
     "posts/LED_dianzhen",
     "posts/Anaconda+Pytorch+d2l - 副本/index.md",
     "posts/Anaconda+Pytorch+d2l - 副本",
