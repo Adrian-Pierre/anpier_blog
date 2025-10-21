@@ -1,5 +1,5 @@
 ---
-title: 深度学习常用库介绍
+title: 深度学习常用库
 published: 2025-10-21
 tags:
   - library
@@ -10,7 +10,9 @@ draft: false
 	
 ```python
 import torch
+import numpy as np
 from torch.utils.data import Dataset  #torchvision
+from torch.utils.tensorboard import SummaryWriter  #tensorboard("pip install tensorboard")
 from PIL import Image  #Pillow
 import cv2  #opencv-python("pip install opencv-python")  
 import os
@@ -83,6 +85,10 @@ img.save("out.png")
 
 ## CV2
 
+```conda
+pip install opencv-python
+```
+
 ```python
 import cv2
 ```
@@ -110,3 +116,55 @@ cv2.imwrite("edges.jpg", edges)
 ---
 
 # TensorBoard
+
+```conda
+pip install tensorboard
+```
+
+```python
+Tensorboard??      #查看Tensorboard类的官方介绍  
+help(Tensorboard)   #查看Tensorboard类的官方介绍
+```
+
+```python
+import numpy as np
+from torch.utils.tensorboard import SummaryWriter
+``` 
+
+```python
+writer = SummaryWriter("My_TensorBoard")
+```
+
+## writer.add_image()
+
+```python
+img_path = "Relative_Image_Path"
+img_PIL = Image.open(img_path)
+img_array = np.array(img_PIL)
+print(type(img_array))
+print(img_array.shape)  # (512, 768, 3)
+                        # HWC---------------------------------------
+                        #                                          |
+writer.add_image("Ant Image from PIL", img_array, 0, dataformats='HWC')
+```
+
+## writer.add_scalar()
+
+```python
+# y = 2x 
+for i in range(100):
+    writer.add_scalar("y=2x", 2*i, i)
+```
+
+```python
+writer.close()
+```
+
+---
+
+本地启动TensorBoard（ **logdir=事件文件所在文件夹名** ）
+
+```conda
+tensorboard --logdir=My_TensorBoard --port=6007
+```
+
