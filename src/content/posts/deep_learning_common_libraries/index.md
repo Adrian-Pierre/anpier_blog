@@ -225,9 +225,6 @@ for i in range(5):
     writer.add_image("Random Crop IMG", img_random_crop_tensor, i)
 ```
 
-
-
-
 | ![](../../assets/image/imageData%20(1)%201.png) | ![](../../assets/image/imageData.png)       |
 | ----------------------------------------------- | ------------------------------------------- |
 | ![](../../assets/image/imageData%20(2).png)     | ![](../../assets/image/imageData%20(3).png) |
