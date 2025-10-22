@@ -20,7 +20,16 @@ from torch.utils.tensorboard import SummaryWriter
 from PIL import Image
 ```
 
-# Dataset 
+# Data 
+
+```python
+import torch
+from torch.utils.data import Dataset 
+from torch.utils.data import DataLoader 
+import os
+```
+
+## Dataset
 
 ```python
 Dataset??       #查看Dataset类的官方介绍  
@@ -28,9 +37,7 @@ help(Dataset)   #查看Dataset类的官方介绍
 ```
 
 ```python
-import torch
-from torch.utils.data import Dataset  #torchvision
-import os
+from torch.utils.data import Dataset 
 ```
 
 ```python
@@ -57,6 +64,50 @@ class MyDataSet(Dataset):
 my_dataset = MyDataSet("root_dir", "label_dir")
 print(len(my_dataset))
 img, label = my_dataset[idx]
+```
+
+## Dataloader
+
+```python
+from torch.utils.data import DataLoader 
+```
+
+```python
+# 加载 CIFAR10 测试集，应用 ToTensor 转换
+test_dataset = torchvision.datasets.CIFAR10(
+    root        = "./dataset/CIFAR10", 
+    train       = False, 
+    download    = True, 
+    transform   = torchvision.transforms.ToTensor()
+)
+```
+
+```python
+# 创建测试集 DataLoader
+test_loader = DataLoader(
+    dataset     = test_dataset, 
+    batch_size  = 64, 
+    shuffle     = True, 
+    num_workers = 0, 
+    drop_last   = False
+)
+```
+
+```python
+# 测试 DataLoader
+writer = SummaryWriter("CIFAR10_DataLoader")
+
+for epoch in range(2):
+    step = 0
+    for data in test_loader:
+        imgs, targets = data
+        # print(imgs.shape)      # torch.Size([4, 3, 32, 32])
+        # print(targets)         # tensor([6, 9, 2, 4])
+        writer.add_images("Epoch:{}".format(epoch), imgs, step)
+        step += 1
+
+
+writer.close()
 ```
 
 ---
@@ -282,9 +333,20 @@ dataset_transform = torchvision.transforms.Compose([
 
 ```python
 # 官方数据集导入 & 使用
-train_set = torchvision.datasets.CIFAR10(root="./dataset/CIFAR10", train=True, download=True, transform=dataset_transform)
+train_set = torchvision.datasets.CIFAR10(
+    root        = "./dataset/CIFAR10", 
+    train       = True, 
+    download    = True, 
+    transform   = dataset_transform
+)
 
-test_set = torchvision.datasets.CIFAR10(root="./dataset/CIFAR10", train=False, download=True, transform=dataset_transform)
+
+test_set = torchvision.datasets.CIFAR10(
+    root        = "./dataset/CIFAR10", 
+    train       = False,
+    download    = True, 
+    transform   = dataset_transform
+)
 ```
 
 ```python

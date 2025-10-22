@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/LED_dianzhen/index.md",
+                "file": "posts/deep_learning_common_libraries/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -171,6 +171,8 @@
   },
   "active": "317464fae11b0aa2",
   "lastOpenFiles": [
+    "posts/deep_learning_common_libraries/cover.jpg",
+    "posts/LED_dianzhen/index.md",
     "posts/draft.md",
     "assets/image/20250228202854499.jpg",
     "assets/image/20250211204419128.png",
@@ -185,7 +187,6 @@
     "assets/image/imageData.png",
     "posts/Anaconda+Pytorch+d2l/index.md",
     "posts/deep_learning_common_libraries",
-    "posts/LED_dianzhen/index.md",
     "posts/LED_dianzhen",
     "posts/Anaconda+Pytorch+d2l - 副本/index.md",
     "posts/Anaconda+Pytorch+d2l - 副本",
