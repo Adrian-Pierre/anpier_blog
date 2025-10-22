@@ -10,14 +10,14 @@ draft: false
 # All Import
 	
 ```python
+import torchvision
 import torch
-import numpy as np
-from torch.utils.data import Dataset  #torchvision
-from torch.utils.tensorboard import SummaryWriter  #tensorboard("pip install tensorboard")
-from torchvision import transforms  #transforms
-from PIL import Image  #Pillow
-import cv2  #opencv-python("pip install opencv-python")  
+import cv2   
 import os
+import numpy as np
+from torch.utils.data import Dataset  
+from torch.utils.tensorboard import SummaryWriter
+from PIL import Image
 ```
 
 # Dataset 
@@ -265,3 +265,40 @@ writer.add_image("Tensor IMG (composed, for view)", img_composed_vis, 1)
 ```
 
 ![](../../assets/image/imageData%20(5).png)
+
+# torchvision
+
+## Download & Use Dataset
+
+数据集下载官网： [CIFAR10](https://docs.pytorch.org/vision/stable/generated/torchvision.datasets.CIFAR10.html?highlight=cifar#torchvision.datasets.CIFAR10)
+
+```python
+# transform 预处理
+dataset_transform = torchvision.transforms.Compose([
+    torchvision.transforms.Resize((32, 32)),
+    torchvision.transforms.ToTensor()
+])
+```
+
+```python
+# 官方数据集导入 & 使用
+train_set = torchvision.datasets.CIFAR10(root="./dataset/CIFAR10", train=True, download=True, transform=dataset_transform)
+
+test_set = torchvision.datasets.CIFAR10(root="./dataset/CIFAR10", train=False, download=True, transform=dataset_transform)
+```
+
+```python
+img, label = train_set[idx]
+print(train_set[idx])
+img.show()
+```
+
+```python
+print(f"类别名称: {train_set.classes}")
+print(f"类别名称与索引映射: {train_set.class_to_idx}")
+
+print(f"图像尺寸: {img.size}, 图像类型: {type(img)}, 标签: {label}", f"标签名称: {train_set.classes[label]}")
+
+print(f"训练集样本数: {len(train_set)}")
+print(f"测试集样本数: {len(test_set)}")
+```
