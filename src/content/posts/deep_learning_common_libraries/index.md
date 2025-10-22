@@ -14,6 +14,7 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset  #torchvision
 from torch.utils.tensorboard import SummaryWriter  #tensorboard("pip install tensorboard")
+from torchvision import transforms  #transforms
 from PIL import Image  #Pillow
 import cv2  #opencv-python("pip install opencv-python")  
 import os
@@ -161,7 +162,7 @@ for i in range(100):
 writer.close()
 ```
 
----
+## 启动
 
 本地启动TensorBoard（ **logdir=事件文件所在文件夹名** ）
 
@@ -169,3 +170,101 @@ writer.close()
 tensorboard --logdir=My_TensorBoard --port=6007
 ```
 
+---
+
+# Transform
+
+```python
+from torchvision import transforms
+```
+
+```python
+writer = SummaryWriter("My_TensorBoard")
+
+# 跨平台路径 + 确保RGB
+img_path = os.path.join("dataset", "hymenoptera_data", "train", "ants", "0013035.jpg")
+img_PIL = Image.open(img_path).convert("RGB")
+```
+
+![](../../assets/image/0013035.jpg)
+
+## transforms.ToTensor
+
+```python
+#img PIL -> tensor
+img_tensor = transforms.ToTensor()(img_PIL)
+```
+
+```python
+writer.add_image("PIL IMG", img_tensor, 0)
+```
+
+![](../../assets/image/imageData%20(1).png)
+
+## transforms.Resize
+
+```python
+#img PIL -> Resize -> tensor
+img_resize_PIL = transforms.Resize((256, 256))(img_PIL)
+img_resize_tensor = transforms.ToTensor()(img_resize_PIL)
+```
+
+```python
+writer.add_image("Resize IMG", img_resize_tensor, 0)
+```
+
+![](../../assets/image/1%201.png)
+
+## transforms.RandomCrop
+
+```python
+# Random Crop（若不确定原图尺寸，考虑换 RandomResizedCrop(256)）
+for i in range(5):
+    img_random_crop_PIL = transforms.RandomCrop((256, 256))(img_PIL)
+    img_random_crop_tensor = transforms.ToTensor()(img_random_crop_PIL)
+    writer.add_image("Random Crop IMG", img_random_crop_tensor, i)
+```
+
+
+
+
+| ![](../../assets/image/imageData%20(1)%201.png) | ![](../../assets/image/imageData.png)       |
+| ----------------------------------------------- | ------------------------------------------- |
+| ![](../../assets/image/imageData%20(2).png)     | ![](../../assets/image/imageData%20(3).png) |
+
+## transforms.Normalize
+
+```python
+# Tensor -> Normalize（训练用）；可视化时要反归一化
+img_norm = transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])(img_tensor)
+img_norm_vis = img_norm * 0.5 + 0.5        # 仅用于可视化
+```
+
+```python
+writer.add_image("Normalize IMG (for view)", img_norm, 0)
+writer.add_image("Normalize IMG (for view)", img_norm_vis, 1)
+```
+
+![](../../assets/image/imageData%20(4).png)
+
+## transforms.Compose
+
+```python
+# Compose: resize -> tensor -> normalize
+transform = transforms.Compose([
+    transforms.Resize((256, 256)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])
+])
+img_composed = transform(img_PIL)
+
+# 可视化时反归一化
+img_composed_vis = img_composed * 0.5 + 0.5
+```
+
+```python
+writer.add_image("Tensor IMG (composed, for view)", img_composed, 0)
+writer.add_image("Tensor IMG (composed, for view)", img_composed_vis, 1)
+```
+
+![](../../assets/image/imageData%20(5).png)
