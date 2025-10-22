@@ -1,5 +1,5 @@
 ---
-title: VScode 配置 ESP32 环境 ( ESP-IDF )
+title: 配置 VScode + ESP-IDF 环境
 published: 2025-10-23
 description: 在Window11上配置ESP32开发环境
 image: ./cover.jpg
