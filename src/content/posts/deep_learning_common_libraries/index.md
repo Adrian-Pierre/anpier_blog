@@ -15,7 +15,8 @@ import torch
 import cv2   
 import os
 import numpy as np
-from torch.utils.data import Dataset  
+from torch.utils.data import Dataset 
+from torch.utils.data import DataLoader  
 from torch.utils.tensorboard import SummaryWriter
 from PIL import Image
 ```
@@ -317,7 +318,7 @@ writer.add_image("Tensor IMG (composed, for view)", img_composed_vis, 1)
 
 ![](../../assets/image/imageData%20(5).png)
 
-# torchvision
+# Torchvision
 
 ## Download & Use Dataset
 
