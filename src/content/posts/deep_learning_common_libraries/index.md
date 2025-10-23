@@ -10,15 +10,17 @@ draft: false
 # All Import
 	
 ```python
-import torchvision
-import torch
-import cv2   
 import os
+import cv2
+import torch
+import torchvision
 import numpy as np
+from PIL import Image
+from torch import nn
 from torch.utils.data import Dataset 
 from torch.utils.data import DataLoader  
 from torch.utils.tensorboard import SummaryWriter
-from PIL import Image
+from torch.nn import functional as F
 ```
 
 # Data 
@@ -318,6 +320,8 @@ writer.add_image("Tensor IMG (composed, for view)", img_composed_vis, 1)
 
 ![](../../assets/image/imageData%20(5).png)
 
+---
+
 # Torchvision
 
 ## Download & Use Dataset
@@ -365,3 +369,285 @@ print(f"图像尺寸: {img.size}, 图像类型: {type(img)}, 标签: {label}", f
 print(f"训练集样本数: {len(train_set)}")
 print(f"测试集样本数: {len(test_set)}")
 ```
+
+---
+
+# NN
+
+官网介绍：[NN](https://docs.pytorch.org/docs/stable/nn.html)
+
+```python
+# 加载 CIFAR10 测试集，应用 ToTensor 转换
+test_dataset = torchvision.datasets.CIFAR10(
+    root        = "./dataset/CIFAR10",
+    train       = False,
+    download    = True,
+    transform   = torchvision.transforms.ToTensor()
+)
+
+# 创建测试集 DataLoader
+test_loader = DataLoader(
+    dataset     = test_dataset,
+    batch_size  = 64,
+    shuffle     = True,
+    num_workers = 0,
+    drop_last   = False
+)
+```
+
+## Class
+
+```python
+class Model(nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+        self.conv1 = nn.Conv2d(1, 20, 5)
+        self.conv2 = nn.Conv2d(20, 20, 5)
+
+    def forward(self, x):
+        x = F.relu(self.conv1(x))
+        return F.relu(self.conv2(x))
+```
+
+```python
+My_model = Model()
+X = torch.tensor([1.0, 2.0, 3.0])
+output = My_model(X)
+```
+
+## Convolution Layers
+
+```python
+from torch import nn
+import torch.nn.functional as F
+```
+
+### Conv2d ()
+
+官方介绍：[Conv2d()](https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d)
+
+动图解释：[Click!](https://github.com/vdumoulin/conv_arithmetic/blob/master/README.md)
+
+#### 函数式调用
+
+```python
+torch.nn.functional.conv2d( input, 
+							weight, 
+							bias     = None, 
+							stride   = 1, 
+							padding  = 0, 
+							dilation = 1, 
+							groups   = 1)
+
+```
+
+
+```python
+input = torch.tensor([[1, 2, 0, 3, 1],
+                      [0, 1, 2, 3, 1],
+                      [1, 2, 1, 0, 0],
+                      [5, 2, 3, 1, 1],
+                      [2, 1, 0, 1, 1]])
+
+kernel = torch.tensor([[1, 2, 1],
+                       [0, 1, 0],
+                       [2, 1, 0]])
+```
+
+```python
+input = torch.reshape(input, (1, 1, 5, 5))  # (N, C, H, W)
+kernel = torch.reshape(kernel, (1, 1, 3, 3))  # (out_C, in_C, kH, kW)
+
+print("input shape:", input.shape)    
+print("kernel shape:", kernel.shape)
+```
+
+```python
+output = F.conv2d(input, kernel, stride=1, padding=0)
+
+print("output shape:", output.shape) # (1, 1, 3, 3)
+print(output)
+```
+
+```python
+output = F.conv2d(input, kernel, stride=2, padding=0)
+
+print("output shape:", output.shape) # (1, 1, 2, 2)
+print(output)
+```
+
+```python
+output = F.conv2d(input, kernel, stride=1, padding=1)
+
+print("output shape:", output.shape) # (1, 1, 5, 5)
+print(output)
+```
+
+#### 模块化层（推荐）
+
+```python
+class My_Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(
+            in_channels     = 3,
+            out_channels    = 16,
+            kernel_size     = 3,
+            stride          = 1,
+            padding         = 1
+        )
+
+    def forward(self, x):
+        x = self.conv1(x)
+        return x
+```
+
+```python
+wrtiter = SummaryWriter("CIFAR10_Conv2d")
+
+step = 0
+
+My_model = My_Model()
+
+for epoch in range(2):
+    step = 0
+    for data in test_loader:
+        imgs, targets = data
+        output = My_model(imgs)
+
+        # print("input shape:", imgs.shape)
+        # print("output shape:", output.shape)
+
+        wrtiter.add_images("Input:{}".format(epoch), imgs, step)
+
+        output = output[:, :3, :, :]  # 只取前3个通道，方便可视化
+        wrtiter.add_images("Onput:{}".format(epoch), output, step)
+
+        step += 1
+
+print("Done.")
+```
+
+---
+
+## MaxPool Layers
+
+官方介绍：[MaxPool2d()](https://docs.pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html#torch.nn.MaxPool2d)
+
+```python
+class My_Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.maxpool1 = torch.nn.MaxPool2d(
+            kernel_size     = 3, 
+            ceil_mode       = True,
+            stride          = 2,
+            padding         = 1
+        )
+
+    def forward(self, x):
+        x = self.maxpool1(x)
+        return x
+```
+
+```python
+wtriter = SummaryWriter("CIFAR10_NN_MaxPool2d")
+
+My_model = My_Model()
+step = 0
+for epoch in range(2):
+    step = 0
+    for data in test_loader:
+        imgs, targets = data
+        output = My_model(imgs)
+
+        # print("input shape:", imgs.shape)
+        # print("output shape:", output.shape)
+
+        wtriter.add_images("Input:{}".format(epoch), imgs, step)
+        wtriter.add_images("Output:{}".format(epoch), output, step)
+
+        step += 1
+
+print("Done.")
+```
+
+---
+
+## Non Linear Layers
+
+```python
+class My_Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.ReLU1 = torch.nn.ReLU()
+        self.sigmoid1 = torch.nn.Sigmoid()
+
+    def forward(self, x):
+        # x = self.ReLU1(x)
+        x = self.sigmoid1(x)
+        return x
+```
+
+```python
+wtriter = SummaryWriter("CIFAR10_NN_Non_Linear_Act")
+
+My_model = My_Model()
+step = 0
+for epoch in range(2):
+    step = 0
+    for data in test_loader:
+        imgs, targets = data
+        output = My_model(imgs)
+
+        # print("input shape:", imgs.shape)
+        # print("output shape:", output.shape)
+
+        wtriter.add_images("Input:{}".format(epoch), imgs, step)
+        wtriter.add_images("Output:{}".format(epoch), output, step)
+
+        step += 1
+
+print("Done.")
+```
+
+---
+
+## Linear Layers
+
+```python
+class My_Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(
+            in_features    = 3 * 32 * 32, 
+            out_features   = 10
+        )
+
+    def forward(self, input):
+        output = self.linear1(input) 
+        return output
+```
+
+```python
+My_model = My_Model()
+step = 0
+for epoch in range(1):
+    step = 0
+    for data in test_loader:
+        imgs, targets = data
+        print("imgs shape before flatten:", imgs.shape)
+
+        #imgs = imgs.view(imgs.size(0), -1)  # 展平操作
+        imgs = torch.flatten(imgs, start_dim=1)  # 另一种展平操作
+        print("imgs shape after flatten:", imgs.shape)
+
+        output = My_model(imgs)
+        print("output shape:", output.shape)
+
+        step += 1
+
+print("Done.")
+```
+
+---
