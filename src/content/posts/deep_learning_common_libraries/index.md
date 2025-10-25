@@ -652,5 +652,140 @@ for epoch in range(1):
 print("Done.")
 ```
 
----1
 ---
+
+## Sequential
+
+```python
+class My_Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(
+            in_channels     = 3, 
+            out_channels    = 32, 
+            kernel_size     = 5, 
+            padding         = 2
+        )
+
+        self.maxpool1 = nn.MaxPool2d(
+            kernel_size = 2,
+        )
+
+        self.conv2 = nn.Conv2d(
+            in_channels     = 32, 
+            out_channels    = 32, 
+            kernel_size     = 5, 
+            padding         = 2
+        )
+
+        self.maxpool2 = nn.MaxPool2d(
+            kernel_size = 2,
+        )
+
+        self.conv3 = nn.Conv2d(
+            in_channels     = 32, 
+            out_channels    = 64, 
+            kernel_size     = 5, 
+            padding         = 2
+        )
+
+        self.maxpool3 = nn.MaxPool2d(
+            kernel_size = 2,
+        )
+
+        self.flatten = nn.Flatten()
+
+        self.linear1 = nn.Linear(
+            in_features    = 64 * 4 * 4,    
+            out_features   = 64
+        )
+
+        self.linear2 = nn.Linear(
+            in_features    = 64,
+            out_features   = 10
+        )
+
+        self.seq = nn.Sequential(
+            self.conv1,
+            self.maxpool1,
+            self.conv2,
+            self.maxpool2,
+            self.conv3,
+            self.maxpool3,
+            self.flatten,
+            self.linear1,
+            self.linear2
+        )
+    
+    def forward(self, input):
+        output = self.seq(input)
+        return output
+```
+
+```python
+my_model = My_Model()
+print(my_model)
+
+input = torch.randn(64, 3, 32, 32)
+print("input shape:", input.shape)
+print("input:", input)
+
+output = my_model(input)
+print("output shape:", output.shape)
+print("output:", output)
+```
+
+---
+
+## Loss Function
+
+官方文档：[Click !](https://docs.pytorch.org/docs/stable/nn.html#loss-functions)
+
+```python
+ # 定义损失函数
+criterion = nn.CrossEntropyLoss()
+        
+# 计算损失
+loss = criterion(outputs, targets)
+
+#具体其他的损失函数及其参数可翻阅文档查看
+```
+
+---
+
+## Backward & Optimizer
+
+官方文档：[Backward](https://docs.pytorch.org/docs/stable/autograd.html#module-torch.autograd)
+
+官方文档：[Optim](https://docs.pytorch.org/docs/stable/optim.html#module-torch.optim)
+
+```python
+optim = torch.optim.SGD(
+    params      = my_model.parameters(),
+    lr          = 0.01,
+)
+```
+
+```python
+for epoch in range(20):
+    running_loss = 0.0
+
+    for data in train_loader:
+        imgs, targets = data
+        outputs = my_model(imgs)
+        
+        # 定义损失函数
+        criterion = nn.CrossEntropyLoss()
+        
+        # 计算损失
+        loss = criterion(outputs, targets)
+      
+        optim.zero_grad()  # 清零梯度
+        loss.backward()
+        optim.step()       # 更新参数
+
+        running_loss += loss.item()
+
+    print(f"epoch {epoch} finished!")    
+    print("loss:", running_loss)
+```
