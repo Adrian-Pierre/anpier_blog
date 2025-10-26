@@ -789,3 +789,94 @@ for epoch in range(20):
     print(f"epoch {epoch} finished!")    
     print("loss:", running_loss)
 ```
+
+---
+# 模型保存与使用
+
+以VGG16为例，这个模型数据集150G，就别下载了···
+
+## 载入模型
+
+```python
+from torchvision.models import VGG16_Weights
+```
+
+```python
+# 模型文件保存路径
+os.environ['TORCH_HOME'] = r'E:\Deep_Learning\project\dataset\ImageNet'
+```
+
+ ```python
+# 不加载权重
+VGG16_MODEL_False = torchvision.models.vgg16(weights = None)
+
+# 加载 ImageNet 预训练权重
+VGG16_MODEL_True = torchvision.models.vgg16(weights=VGG16_Weights.IMAGENET1K_V1)
+ ```
+
+## 修改模型
+
+### 例：CIFAR-10（10类）
+
+只需替换最后的全连接层：
+
+```python
+import torch.nn as nn
+import torchvision
+
+# 不加载预训练权重（如果你想从头训练）
+model1 = torchvision.models.vgg16(weights=None)
+
+# 修改分类器最后一层
+model1.classifier[6] = nn.Linear(in_features=4096, out_features=10)
+
+```
+
+### 例：迁移学习（加载预训练参数）
+
+如果想用 **ImageNet 预训练权重** 来提升收敛速度和准确率，可以改为：
+
+```python
+from torchvision.models import VGG16_Weights
+
+model1 = torchvision.models.vgg16(weights=VGG16_Weights.IMAGENET1K_V1)
+# 冻结特征层参数
+for param in model1.features.parameters():
+    param.requires_grad = False
+
+# 修改最后一层分类器
+model1.classifier[6] = nn.Linear(4096, 10)
+
+```
+
+:::note
+这样，模型只会训练最后几层，全卷积层保持 ImageNet 学到的通用特征，适合小数据集。
+:::
+
+## 保存模型
+
+```python
+VGG16_MODEL = torchvision.models.vgg16(weights = None)
+```
+
+```python
+# 保存整个模型（不推荐做法）
+torch.save(VGG16_MODEL, "./My_Model/VGG16_no_weights_All_Model.pth")
+
+# 仅保存模型参数（推荐做法）
+torch.save(VGG16_MODEL.state_dict(), "./My_Model/VGG16_no_weights_state_dict.pth")
+```
+
+## 使用模型
+
+```python
+# 直接加载整个模型（不推荐做法）
+model = torch.load("./My_Model/VGG16_no_weights_All_Model.pth", weights_only = False)
+print(model)
+  
+# 仅加载模型参数（推荐做法）
+model = torchvision.models.vgg16(weights = False)  
+model.load_state_dict(torch.load("./My_Model/VGG16_no_weights_state_dict.pth"))
+print(model)
+```
+
