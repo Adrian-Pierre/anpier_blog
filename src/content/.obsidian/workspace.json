@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/STM32H743XIH6_mode/index.md",
+                "file": "posts/FLYSKY_I6+IA6B+STM32/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -171,6 +171,13 @@
   },
   "active": "317464fae11b0aa2",
   "lastOpenFiles": [
+    "assets/image/index-37.png",
+    "assets/image/index-36.png",
+    "assets/image/index-35.png",
+    "posts/STM32H743XIH6_mode/index.md",
+    "posts/FLYSKY_I6+IA6B+STM32/cover.png",
+    "posts/FLYSKY_I6+IA6B+STM32/index.md",
+    "posts/FLYSKY_I6+IA6B+STM32",
     "assets/image/index-34.png",
     "assets/image/index-33.png",
     "assets/image/index-32.png",
@@ -178,13 +185,8 @@
     "assets/image/index-30.png",
     "assets/image/index-29.png",
     "assets/image/index-28.png",
-    "assets/image/index-27.png",
-    "assets/image/index-26.png",
-    "assets/image/index-25.png",
-    "assets/image/index-24.png",
     "posts/LED_dianzhen/index.md",
     "posts/deep_learning_demo_project/index.md",
-    "posts/STM32H743XIH6_mode/index.md",
     "posts/STM32H743XIH6_mode",
     "posts/deep_learning_common_libraries/index.md",
     "posts/deep_learning_demo_project",
