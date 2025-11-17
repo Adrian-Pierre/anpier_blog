@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/FLYSKY_I6+IA6B+STM32/index.md",
+                "file": "posts/mmdetection+environment/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": " ",
+                "query": "tag:project",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "书签"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -171,20 +172,22 @@
   },
   "active": "317464fae11b0aa2",
   "lastOpenFiles": [
+    "assets/image/SnowShot_2025-11-17_11-31-26.png",
+    "assets/image/SnowShot_2025-11-17_09-22-54.png",
+    "posts/mmdetection+environment/cover.jpg",
+    "posts/FLYSKY_I6+IA6B+STM32/index.md",
+    "posts/mmdetection+environment/index.md",
+    "posts/mmdetection+environment",
     "assets/image/index-37.png",
     "assets/image/index-36.png",
     "assets/image/index-35.png",
     "posts/STM32H743XIH6_mode/index.md",
     "posts/FLYSKY_I6+IA6B+STM32/cover.png",
-    "posts/FLYSKY_I6+IA6B+STM32/index.md",
     "posts/FLYSKY_I6+IA6B+STM32",
     "assets/image/index-34.png",
     "assets/image/index-33.png",
     "assets/image/index-32.png",
     "assets/image/index-31.png",
-    "assets/image/index-30.png",
-    "assets/image/index-29.png",
-    "assets/image/index-28.png",
     "posts/LED_dianzhen/index.md",
     "posts/deep_learning_demo_project/index.md",
     "posts/STM32H743XIH6_mode",
