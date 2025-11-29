@@ -62,19 +62,19 @@ nvcc -V
 
 1. 打开Anaconda Prompt，创建环境：
 
-```conda
-conda create -n 虚拟环境名 python=3.9
+```shell
+conda create -n ENV_NAME python=3.9
 ```
 
 2. 激活环境：
 
-```conda
-conda activate 虚拟环境名
+```shell
+conda activate ENV_NAME
 ```
 
 3. 查看环境是否创建成功：
 
-```conda
+```shell
 conda env list
 ```
 
@@ -99,6 +99,17 @@ import torch
 print(torch.__version__)
 print(torch.cuda.is_available())
 ```
+
+7. 退出环境：
+```shell
+conda deactivate
+```
+
+8. 删除环境：
+```shell
+conda remove --name ENV_NAME --all
+```
+
 
 ---
 

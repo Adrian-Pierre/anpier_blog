@@ -20,8 +20,19 @@
               "icon": "lucide-file",
               "title": "index"
             }
+          },
+          {
+            "id": "22491d995426394f",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "关系图谱"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -74,8 +85,7 @@
               "title": "书签"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -170,13 +180,15 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "317464fae11b0aa2",
+  "active": "22491d995426394f",
   "lastOpenFiles": [
+    "posts/Anaconda+Pytorch+d2l/index.md",
+    "2025-10-05.md",
+    "posts/mmdetection+environment/index.md",
     "assets/image/SnowShot_2025-11-17_11-31-26.png",
     "assets/image/SnowShot_2025-11-17_09-22-54.png",
     "posts/mmdetection+environment/cover.jpg",
     "posts/FLYSKY_I6+IA6B+STM32/index.md",
-    "posts/mmdetection+environment/index.md",
     "posts/mmdetection+environment",
     "assets/image/index-37.png",
     "assets/image/index-36.png",
@@ -187,14 +199,12 @@
     "assets/image/index-34.png",
     "assets/image/index-33.png",
     "assets/image/index-32.png",
-    "assets/image/index-31.png",
     "posts/LED_dianzhen/index.md",
     "posts/deep_learning_demo_project/index.md",
     "posts/STM32H743XIH6_mode",
     "posts/deep_learning_common_libraries/index.md",
     "posts/deep_learning_demo_project",
     "posts/ESP32+VScode/index.md",
-    "posts/Anaconda+Pytorch+d2l/index.md",
     "posts/ESP32+VScode",
     "posts/draft.md",
     "posts/deep_learning_common_libraries",
@@ -204,7 +214,6 @@
     "posts/expressive-code.md",
     "posts/markdown-extended.md",
     "posts/markdown.md",
-    "2025-10-05.md",
     "assets/image",
     "assets"
   ]
