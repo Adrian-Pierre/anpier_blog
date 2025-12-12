@@ -1,3 +1,3 @@
 # About Me
 
-::github{repo="Adrian-Pierre/anpier_blog"}
+::github{repo="Adrian-Pierre"}
