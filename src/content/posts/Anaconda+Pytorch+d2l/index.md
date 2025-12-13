@@ -119,25 +119,25 @@ conda remove --name ENV_NAME --all
 
 1. 打开Anaconda Prompt，激活环境后，执行：
 
-```conda
+```shell
 pip install jupyter
 ```
 
 2. 下载完后，执行，查看Jupyter的配置路径，只需看到路径，终端中输入 "N" 即可：
 
-```conda
+```shell
 jupyter notebook --generate-config
 ```
 
 3. 进入路径，打开 "jupyter_notebook_config" 文件，搜索：
 
-```conda
+```shell
 The directory to use
 ```
 
 >修改如下：
 
-```diff lang="conda"
+```diff lang="shell"
     ## The directory to use for notebooks and kernels.
     #  Default: ''
 -   # c.ServerApp.root_dir = ''
@@ -147,13 +147,13 @@ The directory to use
 
 4. 打开Anaconda Prompt，激活环境后，执行：
 
-```conda
+```shell
 conda install ipykernel
 ```
 
 5. 将环境写入内核：
 
-```conda
+```shell
 python -m ipykernel --user --name 你创建环境的名字 --display-name "你创建环境的名字"
 ```
 
@@ -161,7 +161,7 @@ python -m ipykernel --user --name 你创建环境的名字 --display-name "你�
 
 1. 打开Anaconda Prompt，激活环境后，执行：
 
-```conda
+```shell
 pip install d2l
 ```
 

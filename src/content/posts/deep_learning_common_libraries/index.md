@@ -143,7 +143,7 @@ img.save("out.png")
 
 ## CV2
 
-```conda
+```shell
 pip install opencv-python
 ```
 
@@ -175,7 +175,7 @@ cv2.imwrite("edges.jpg", edges)
 
 # TensorBoard
 
-```conda
+```shell
 pip install tensorboard
 ```
 
@@ -222,7 +222,7 @@ writer.close()
 
 本地启动TensorBoard（ **logdir=事件文件所在文件夹名** ）
 
-```conda
+```shell
 tensorboard --logdir=My_TensorBoard --port=6007
 ```
 
