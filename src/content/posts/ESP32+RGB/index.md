@@ -49,6 +49,8 @@ draft: false
 
 ![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251213152749474.png)
 
+---
+
 # 在 main.c 中使用
 
 可看到板载 **RGB** 以红光闪烁

@@ -12,6 +12,8 @@ draft: false
 
 ![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251213150148976.png)
 
+---
+
 # 创建 Token
 
 **进入账号 Settings**
@@ -33,6 +35,8 @@ draft: false
 :::note
 务必记住 **Token** 的内容,只会出现一次
 :::
+
+---
 
 # 编辑 Picgo
 
