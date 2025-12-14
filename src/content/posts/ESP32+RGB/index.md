@@ -4,6 +4,7 @@ published: 2025-12-13
 description: 网上类似资料信息比较少, 记录一下, 防止忘记
 tags:
   - project
+  - ESP32
 category: Embedded System
 draft: false
 ---
@@ -25,18 +26,19 @@ draft: false
 # 修改工程 CMakeLists.txt
 
 :::note
-注意, 是整个工程最外面的 **CMakeLists.txt**
+注意, 是 `main\CMakeLists.txt`
 :::
 
-![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251213152147350.png)
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215000617007.png)
 
 修改如下, 将名为 components 的目录添加到额外的组件搜索路径中
 
-```diff lang="c"
-    cmake_minimum_required(VERSION 3.5)
-    include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-+   set(EXTRA_COMPONENT_DIRS components)
-    project(ESP32_S3_Test)
+```diff
+idf_component_register(
+    SRCS "main.c"
+    INCLUDE_DIRS "."
++   REQUIRES board_rgb
+)
 ```
 
 ---

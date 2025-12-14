@@ -27,7 +27,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/fuwari+friendlink/index.md",
+                "file": "posts/ESP32+RGB/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -186,8 +186,8 @@
   },
   "active": "22491d995426394f",
   "lastOpenFiles": [
-    "posts/Github+imagebed/index.md",
     "posts/fuwari+friendlink/index.md",
+    "posts/Github+imagebed/index.md",
     "posts/Hello_World/index.md",
     "posts/FLYSKY_I6+IA6B+STM32/index.md",
     "posts/Tencent-COS+PicGo/index.md",
