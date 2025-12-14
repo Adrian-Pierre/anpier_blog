@@ -27,7 +27,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/Tencent-COS+PicGo/index.md",
+                "file": "posts/fuwari+friendlink/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -186,6 +186,11 @@
   },
   "active": "22491d995426394f",
   "lastOpenFiles": [
+    "posts/Github+imagebed/index.md",
+    "posts/fuwari+friendlink/index.md",
+    "posts/Hello_World/index.md",
+    "posts/FLYSKY_I6+IA6B+STM32/index.md",
+    "posts/Tencent-COS+PicGo/index.md",
     "assets/image/index-49.png",
     "assets/image/index-48.png",
     "assets/image/index-47.png",
@@ -196,14 +201,11 @@
     "assets/image/index-42.png",
     "assets/image/index-41.png",
     "assets/image/index-40.png",
-    "assets/image/index-39.png",
     "spec/about.md",
-    "posts/Tencent-COS+PicGo/index.md",
     "posts/Tencent-COS+PicGo",
     "posts/Anaconda+Pytorch+d2l/index.md",
     "2025-10-05.md",
     "posts/mmdetection+environment/index.md",
-    "posts/FLYSKY_I6+IA6B+STM32/index.md",
     "posts/mmdetection+environment",
     "posts/STM32H743XIH6_mode/index.md",
     "posts/FLYSKY_I6+IA6B+STM32",
