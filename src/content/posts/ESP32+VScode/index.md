@@ -4,6 +4,7 @@ published: 2025-10-23
 description: 在Window11上配置ESP32开发环境
 tags:
   - Environment
+  - ESP32
 category: Embedded System
 draft: false
 ---

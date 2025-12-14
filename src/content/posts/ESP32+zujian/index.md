@@ -29,7 +29,7 @@ draft: false
 
 ## 添加组件
 
-见 [ ESP32S3 + 组件添加教程 ]()
+见 [ ESP32S3 + 组件添加教程 ](https://blog.anpier.xyz/posts/esp32addzujian/)
 
 ## 在 main.c 中使用
 
@@ -100,6 +100,58 @@ void app_main(void)
         vTaskDelay(pdMS_TO_TICKS(20)); // 越小越顺
     }
 
+}
+```
+
+---
+
+# GPIO 初始化重写
+
+## gpio_setup
+
+点击下载 : [ Click! ](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/gpio_setup.zip)
+
+## 添加组件
+
+见 [ ESP32S3 + 组件添加教程 ](https://blog.anpier.xyz/posts/esp32addzujian/)
+
+## 在 main.c 中使用
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/gpio.h"
+#include "esp_log.h"
+#include "esp_err.h"
+#include "gpio_setup.h"
+
+void app_main(void)
+{
+    static const gpio_config_item_t gpio_init_table[] = {
+        {
+            .gpio_num = GPIO_NUM_48,
+            .mode = GPIO_MODE_OUTPUT,
+            .pull_up_en = false,
+            .pull_down_en = false,
+            .level = 0,
+            .intr_type = GPIO_INTR_DISABLE,
+        },
+        {
+            .gpio_num = GPIO_NUM_0,
+            .mode = GPIO_MODE_INPUT,
+            .pull_up_en = true,
+            .pull_down_en = false,
+            .level = 0,
+            .intr_type = GPIO_INTR_DISABLE,
+        },
+    };
+
+    gpio_setup_init(
+        gpio_init_table,
+        sizeof(gpio_init_table) / sizeof(gpio_init_table[0])
+    );
 }
 ```
 

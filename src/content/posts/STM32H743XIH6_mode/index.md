@@ -4,6 +4,7 @@ published: 2025-10-29
 description: 记录一下遇到的问题和解决办法，省的自己过段时间全忘了
 tags:
   - Environment
+  - Stm32
 category: Embedded System
 draft: false
 ---

@@ -4,6 +4,7 @@ published: 2025-11-01
 description: 挺好玩的，比赛也有需要
 tags:
   - project
+  - Stm32
 category: Embedded System
 draft: false
 ---
