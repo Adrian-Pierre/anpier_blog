@@ -27,7 +27,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/ESP32+zujian/index.md",
+                "file": "posts/Blog+fuwari+refine/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -93,7 +93,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 304.5
   },
   "right": {
     "id": "222a3323ac4c7608",
@@ -184,19 +184,20 @@
       "bases:创建新数据库": false
     }
   },
-  "active": "417836d914f71d76",
+  "active": "22491d995426394f",
   "lastOpenFiles": [
+    "posts/expressive-code.md",
+    "posts/Blog+Github+imagebed/index.md",
+    "posts/Blog+fuwari+refine/index.md",
+    "posts/ESP32+zujian/index.md",
     "posts/LED_dianzhen/index.md",
     "posts/STM32H743XIH6_mode/index.md",
     "posts/FLYSKY_I6+IA6B+STM32/index.md",
-    "posts/ESP32+zujian/index.md",
     "posts/ESP32+VScode/index.md",
     "posts/ESP32+addzujian/index.md",
     "posts/ESP32+addzujian",
-    "posts/fuwari+friendlink/index.md",
-    "posts/Github+imagebed/index.md",
     "posts/Hello_World/index.md",
-    "posts/Tencent-COS+PicGo/index.md",
+    "posts/Blog+Tencent-COS+PicGo/index.md",
     "assets/image/index-49.png",
     "assets/image/index-48.png",
     "assets/image/index-47.png",
@@ -208,7 +209,7 @@
     "assets/image/index-41.png",
     "assets/image/index-40.png",
     "spec/about.md",
-    "posts/Tencent-COS+PicGo",
+    "posts/Blog+Tencent-COS+PicGo",
     "posts/Anaconda+Pytorch+d2l/index.md",
     "2025-10-05.md",
     "posts/mmdetection+environment/index.md",
@@ -224,7 +225,6 @@
     "posts/LED_dianzhen",
     "posts/Anaconda+Pytorch+d2l - 副本/index.md",
     "posts/Anaconda+Pytorch+d2l - 副本",
-    "posts/expressive-code.md",
     "posts/markdown-extended.md",
     "posts/markdown.md"
   ]

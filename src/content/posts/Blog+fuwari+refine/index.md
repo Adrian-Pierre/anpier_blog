@@ -139,3 +139,31 @@ export const navBarConfig: NavBarConfig = {
 +   LinkPreset.Friends,
     {
 ```
+
+---
+# 新窗口/新标签页打开
+
+## 安装/更新 `rehype-external-links`
+
+```bash
+pnpm add rehype-external-links
+```
+
+## 修改 `astro.config.mjs`
+
+```diff
+rehypePlugins: [
+  rehypeKatex,
+  rehypeSlug,
+  [
++   rehypeExternalLinks,
++   {
++     target: "_blank",
++     rel: ["noopener", "noreferrer"],
++   },
++ ],
+  // 后面的 rehypeComponents / rehypeAutolinkHeadings 保持不动
+  ...
+]
+
+```
