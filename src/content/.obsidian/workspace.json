@@ -27,7 +27,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "posts/ESP32+RGB/index.md",
+                "file": "posts/ESP32+zujian/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -186,6 +186,10 @@
   },
   "active": "22491d995426394f",
   "lastOpenFiles": [
+    "posts/ESP32+addzujian/index.md",
+    "posts/ESP32+zujian/index.md",
+    "posts/ESP32+VScode/index.md",
+    "posts/ESP32+addzujian",
     "posts/fuwari+friendlink/index.md",
     "posts/Github+imagebed/index.md",
     "posts/Hello_World/index.md",
@@ -214,7 +218,6 @@
     "posts/STM32H743XIH6_mode",
     "posts/deep_learning_common_libraries/index.md",
     "posts/deep_learning_demo_project",
-    "posts/ESP32+VScode/index.md",
     "posts/ESP32+VScode",
     "posts/draft.md",
     "posts/deep_learning_common_libraries",
@@ -223,7 +226,6 @@
     "posts/Anaconda+Pytorch+d2l - 副本",
     "posts/expressive-code.md",
     "posts/markdown-extended.md",
-    "posts/markdown.md",
-    "assets/image"
+    "posts/markdown.md"
   ]
 }
