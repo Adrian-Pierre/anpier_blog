@@ -155,3 +155,86 @@ void app_main(void)
 }
 ```
 
+---
+
+# u8g2库 点亮 OLED
+
+## 修改 `main\idf_component.yml`
+
+:::note
+不能用 `tab` 来缩进, 不然会报错
+:::
+
+```diff
+dependencies:
+  ## Required IDF version
+  idf:
+    version: '>=4.1.0'
++ u8g2:
++   git: https://github.com/olikraus/u8g2.git
++ u8g2-hal-esp-idf:
++   git: https://github.com/mkfrey/u8g2-hal-esp-idf.git
+```
+
+编译结束后可在 `managed_components` 中看到下载好的组件
+
+## 在 main.c 中使用
+
+```c
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
+#include "driver/gpio.h"
+#include "esp_log.h"
+#include "esp_err.h"
+#include "u8g2.h"
+#include "u8g2_esp32_hal.h"
+
+#define PIN_SDA   GPIO_NUM_4 
+#define PIN_SCL   GPIO_NUM_5 
+#define OLED_I2C_ADDRESS 0x3C
+
+u8g2_t u8g2;
+
+void init_display(void)
+{
+    u8g2_esp32_hal_t u8g2_esp32_hal = U8G2_ESP32_HAL_DEFAULT;
+    u8g2_esp32_hal.bus.i2c.sda = PIN_SDA;
+    u8g2_esp32_hal.bus.i2c.scl = PIN_SCL;
+    u8g2_esp32_hal_init(u8g2_esp32_hal);
+    
+    u8g2_Setup_ssd1306_i2c_128x64_noname_f(
+        &u8g2, U8G2_R0,
+        u8g2_esp32_i2c_byte_cb,
+        u8g2_esp32_gpio_and_delay_cb); // init u8g2 structure
+
+    u8x8_SetI2CAddress(&u8g2.u8x8, OLED_I2C_ADDRESS * 2);
+    
+    u8g2_InitDisplay(&u8g2);
+    u8g2_SetPowerSave(&u8g2, 0);
+    u8g2_ClearBuffer(&u8g2);
+    
+    u8g2_SetFont(&u8g2, u8g2_font_ncenB10_tr);
+}
+
+// 绘制函数示例
+void draw_content(void) {
+    u8g2_FirstPage(&u8g2);
+    do {
+        u8g2_DrawStr(&u8g2, 0, 15, "S3 OLED Demo!");
+        u8g2_DrawStr(&u8g2, 0, 30, "Adrian!");
+    } while (u8g2_NextPage(&u8g2));
+}
+
+void app_main(void)
+{
+    init_display();
+    
+    while(1) {
+       draw_content();
+       vTaskDelay(pdMS_TO_TICKS(5));
+    }
+}
+```

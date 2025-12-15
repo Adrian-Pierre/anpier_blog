@@ -88,3 +88,20 @@ IDF离线下载网址：[https://dl.espressif.cn/dl/esp-idf/](https://dl.espress
 ![](../../assets/image/index-15.png)
 
 即环境安装成功
+
+# 配置参数
+
+:::note
+这个每一个 `ESP32` 都不一样, 请根据自己买的型号修改
+我买的是`S3 N16R8`
+:::
+
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215135031073.png)
+
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215135307489.png)
+
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215135350130.png)
+
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215135445153.png)
+
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215135428216.png)
