@@ -66,3 +66,9 @@ git config --global https.proxy http://127.0.0.1:10809
 ```
 
 即可设置代理，提高连接速度
+
+# Push 至 Github
+
+如果不经过配置，会出现如下报错：
+
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20260111173213322.png)
