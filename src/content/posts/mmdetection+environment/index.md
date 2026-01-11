@@ -5,7 +5,7 @@ description: 环境配置流程与问题解决
 tags:
   - Environment
 category: Deep Learning
-draft: false
+draft: true
 ---
 # MiniConda + Pytorch
 
