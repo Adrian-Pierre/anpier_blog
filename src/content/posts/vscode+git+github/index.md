@@ -72,3 +72,18 @@ git config --global https.proxy http://127.0.0.1:10809
 如果不经过配置，会出现如下报错：
 
 ![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20260111173213322.png)
+
+经检查发现，当开启了“保持邮箱私有（Keep my email addresses private）”选项时，如果本地 Git 使用的是真实邮箱地址进行提交，GitHub 为了保护你的隐私会拦截这次推送
+
+故输入如下代码：
+
+```console 
+git config --global user.email "你的ID+用户名@users.noreply.github.com"
+git commit --amend --reset-author --no-edit
+```
+
+邮箱可在 **Github** 主页找到：
+
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20260111174234427.png)
+
+即可成功解决
