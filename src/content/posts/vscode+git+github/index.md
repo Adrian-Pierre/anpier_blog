@@ -19,7 +19,7 @@ draft: false
 
 ![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20260111172954454.png)
 
-## 下载 & 安装 Git
+# 下载 & 安装 Git
 
 下载网站：[Click!](https://git-scm.com/install/windows)
 
