@@ -47,6 +47,8 @@ IDF离线下载网址：[https://dl.espressif.cn/dl/esp-idf/](https://dl.espress
 
 ![](../../assets/image/index-3.png)
 
+![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/f4ac58b041f0b3c9c893ffd92de50862.png)
+
 ![](../../assets/image/index-4.png)
 
 ![](../../assets/image/index-5.png)
@@ -105,3 +107,7 @@ IDF离线下载网址：[https://dl.espressif.cn/dl/esp-idf/](https://dl.espress
 ![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215135445153.png)
 
 ![](https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20251215135428216.png)
+
+:::note
+如需要转移环境使用工程，请删除 `build` 文件夹后再尝试编译
+:::
