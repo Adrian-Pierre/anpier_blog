@@ -3,8 +3,11 @@ title: 配置 ESP32 + VScode + ESP-IDF 环境
 published: 2025-10-23
 description: 在Window11上配置ESP32开发环境
 tags:
-  - Environment
   - ESP32
+  - Embedded
+  - ESP-IDF
+  - VS Code
+  - Environment Setup
 category: Embedded System
 draft: false
 ---

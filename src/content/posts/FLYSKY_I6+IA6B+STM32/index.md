@@ -3,8 +3,11 @@ title: STM32解析富斯i6遥控器和FS-iA6B接收机的ibus通信
 published: 2025-11-01
 description: 挺好玩的，比赛也有需要
 tags:
-  - project
-  - Stm32
+  - STM32
+  - Embedded
+  - UART
+  - iBus
+  - Protocol
 category: Embedded System
 draft: false
 ---

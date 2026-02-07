@@ -3,9 +3,9 @@ title: 威联通 NAS + ROG 八爪鱼 + Nextcloud：家庭私有网盘
 published: 2026-02-07
 description: 家里的 NAS 放了很久，官方软件的界面太难用了，正好家里有公网ip，统一搞一下
 tags:
+  - HomeLab
   - NAS
   - Nextcloud
-  - QNAP
   - Docker
   - WireGuard
 category: HomeLab

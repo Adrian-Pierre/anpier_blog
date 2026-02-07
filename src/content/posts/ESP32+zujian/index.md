@@ -3,8 +3,11 @@ title: ESP32 + 自己编写的组件陈列
 published: 2025-12-15
 description: 都是自己写的组件
 tags:
-  - project
   - ESP32
+  - Embedded
+  - Components
+  - Driver
+  - Project
 category: Embedded System
 draft: false
 ---

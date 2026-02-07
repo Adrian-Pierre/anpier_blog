@@ -3,7 +3,11 @@ title: Astro 和 Fuwari 的部署优化指南
 published: 2025-12-14
 description: Fuwari框架的使用指南
 tags:
-  - Environment
+  - Blog
+  - Astro
+  - Fuwari
+  - Static Site
+  - Deployment
 category: Blog
 draft: false
 ---

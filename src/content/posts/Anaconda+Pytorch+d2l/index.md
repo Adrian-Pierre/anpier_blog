@@ -4,7 +4,11 @@ published: 2025-10-05
 description: 在Window11上配置李沐深度学习相关环境
 image: "./cover.jpg"
 tags:
-  - Environment
+  - Deep Learning
+  - PyTorch
+  - Conda
+  - CUDA
+  - d2l
 category: Deep Learning
 draft: false
 ---

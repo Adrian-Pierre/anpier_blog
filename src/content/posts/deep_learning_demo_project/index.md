@@ -3,7 +3,11 @@ title: 深度学习工程模板
 published: 2025-10-26
 description: Deep learning Demo Project
 tags:
-  - project
+  - Deep Learning
+  - PyTorch
+  - Project
+  - Training
+  - CUDA
 category: Deep Learning
 draft: false
 ---

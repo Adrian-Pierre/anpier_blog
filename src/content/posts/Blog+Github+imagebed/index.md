@@ -3,7 +3,11 @@ title: Github + PicGo 搭建图床教程
 published: 2025-12-13
 description: 24年1月1日后腾讯云的URL只能下载, 没有备案的域名不能预览了 QAQ
 tags:
-  - Environment
+  - Blog
+  - Image Hosting
+  - GitHub
+  - PicGo
+  - Configuration
 category: Blog
 draft: false
 ---

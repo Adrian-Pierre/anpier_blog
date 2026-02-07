@@ -3,8 +3,11 @@ title: ESP32S3 + 组件添加教程
 published: 2025-12-13
 description: 网上类似资料信息比较少, 记录一下, 防止忘记
 tags:
-  - project
   - ESP32
+  - Embedded
+  - ESP-IDF
+  - Components
+  - Configuration
 category: Embedded System
 draft: false
 ---

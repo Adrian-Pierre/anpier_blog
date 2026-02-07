@@ -3,7 +3,11 @@ title: 深度学习常用库
 published: 2025-10-21
 description: Deep learning used libraries
 tags:
-  - library
+  - Deep Learning
+  - PyTorch
+  - Torchvision
+  - Dataset
+  - TensorBoard
 category: Deep Learning
 draft: false
 ---

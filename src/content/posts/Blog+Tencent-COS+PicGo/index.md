@@ -3,7 +3,11 @@ title: 腾讯云COS对象存储 + PicGo 搭建图床教程
 published: 2025-12-01
 description: 记录一下图床搭建的过程, 以供之后参考
 tags:
-  - Environment
+  - Blog
+  - Image Hosting
+  - PicGo
+  - Tencent Cloud
+  - Configuration
 category: Blog
 draft: false
 ---

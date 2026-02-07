@@ -3,7 +3,11 @@ title: 配置 mmdetection 环境
 published: 2025-11-17
 description: 环境配置流程与问题解决
 tags:
-  - Environment
+  - Deep Learning
+  - PyTorch
+  - MMDetection
+  - CUDA
+  - Environment Setup
 category: Deep Learning
 draft: true
 ---

@@ -3,7 +3,11 @@ title: 配置 Vscode + Git + Github
 published: 2026-01-11
 description: 我原来的电脑被我格式化了，环境都需要从头开始配，顺便记录一下
 tags:
-  - Environment
+  - Blog
+  - Git
+  - GitHub
+  - VS Code
+  - Configuration
 category: Blog
 draft: false
 ---
