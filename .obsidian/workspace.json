@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/LED_dianzhen/index.md",
+                "file": "src/content/posts/qnapnas+nextcloud+rog/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -174,28 +174,34 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:新建数据库": false,
       "switcher:打开快速切换": false,
       "graph:查看关系图谱": false,
       "canvas:新建白板": false,
       "daily-notes:打开/创建今天的日记": false,
       "templates:插入模板": false,
-      "command-palette:打开命令面板": false,
-      "bases:创建新数据库": false
+      "command-palette:打开命令面板": false
     }
   },
   "active": "f611d821a7786aac",
   "lastOpenFiles": [
+    "Pasted image 20260207155758.png",
+    "Pasted image 20260207154709.png",
+    "Pasted image 20260207154703.png",
+    "src/content/posts/LED_dianzhen/index.md",
+    "未命名.canvas",
+    "未命名 1.base",
+    "未命名.base",
+    "README.md",
     "src/content/posts/LED_dianzhen/cover.png",
     "src/content/posts/STM32H743XIH6_mode/index.md",
     "src/content/posts/vscode+git+github/index.md",
     "Pasted image 20260111173201.png",
     "src/content/posts/ESP32+zujian/index.md",
-    "src/content/posts/LED_dianzhen/index.md",
     "src/content/posts/mmdetection+environment/index.md",
     "src/content/posts/Anaconda+Pytorch+d2l/index.md",
     "src/content/posts/vscode+git+github",
     "src/content/posts/STM32H743XIH6_mode/cover.png",
-    "README.md",
     "CONTRIBUTING.md"
   ]
 }
