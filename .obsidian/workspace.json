@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/qnapnas+nextcloud+rog/index.md",
+                "file": "src/content/posts/Blog+fuwari+cloudflare-turnstile/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -74,11 +74,12 @@
               "title": "书签"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 234.5
+    "width": 374.5
   },
   "right": {
     "id": "59b5eec54cc0dd0e",
@@ -185,6 +186,19 @@
   },
   "active": "f611d821a7786aac",
   "lastOpenFiles": [
+    "functions/_middleware.ts",
+    "functions/api/turnstile-verify.ts",
+    "functions/api",
+    "functions",
+    "src/pages/gate.astro",
+    "src/pages/gate",
+    "src/content/posts/deep_learning_SAMWISE_Environment/index.md",
+    "src/content/posts/Blog+fuwari+cloudflare-turnstile/index.md",
+    "src/content/posts/Blog+fuwari+cloudflare-turnstile",
+    "src/content/posts/deep_learning_hybridgl/index.md",
+    "src/content/posts/deep_learning_hybridgl",
+    "src/content/posts/qnapnas+nextcloud+rog/index.md",
+    "src/content/posts/deep_learning_SAMWISE_Environment",
     "Pasted image 20260207155758.png",
     "Pasted image 20260207154709.png",
     "Pasted image 20260207154703.png",
@@ -200,7 +214,6 @@
     "src/content/posts/ESP32+zujian/index.md",
     "src/content/posts/mmdetection+environment/index.md",
     "src/content/posts/Anaconda+Pytorch+d2l/index.md",
-    "src/content/posts/vscode+git+github",
     "src/content/posts/STM32H743XIH6_mode/cover.png",
     "CONTRIBUTING.md"
   ]

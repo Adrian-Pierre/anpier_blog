@@ -1,0 +1,54 @@
+---
+const siteKey = "0x4AAAAAACZlhb6gyAukDyMx";
+const next = Astro.url.searchParams.get("next") ?? "/";
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Human verification</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  </head>
+
+  <body style="max-width:520px;margin:48px auto;padding:0 16px;font-family:system-ui;">
+    <h2>请确认你是真人</h2>
+    <p style="color:#666;font-size:14px">
+      正常用户会自动通过，异常访问才需要手动验证。
+    </p>
+
+    <div class="cf-turnstile" data-sitekey={siteKey}></div>
+
+    <button id="btn" style="margin-top:16px;padding:10px 14px;">
+      继续访问
+    </button>
+
+    <script define:vars={{ next }}>
+      document.getElementById("btn")?.addEventListener("click", async () => {
+        const tokenEl = document.querySelector(
+          'input[name="cf-turnstile-response"]'
+        );
+        const token = tokenEl?.value;
+
+        if (!token) {
+          alert("请先完成验证");
+          return;
+        }
+
+        const res = await fetch("/api/turnstile-verify", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ token, next }),
+        });
+
+        if (!res.ok) {
+          alert("验证失败，请刷新重试");
+          return;
+        }
+
+        const data = await res.json();
+        location.href = data.redirect || "/";
+      });
+    </script>
+  </body>
+</html>
