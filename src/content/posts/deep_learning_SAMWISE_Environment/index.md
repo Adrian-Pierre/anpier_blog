@@ -1,7 +1,7 @@
 ---
 title: SAMWISE 环境搭建与实验复现（RTX 5090）
 published: 2026-02-10
-description: 
+description: 记录一下环境搭建的过程
 tags:
   - Deep Learning
   - PyTorch
