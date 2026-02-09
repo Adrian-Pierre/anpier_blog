@@ -4,9 +4,9 @@ published: 2026-02-09
 description: 给自己的网站加一个人机验证
 tags:
   - Blog
+  - Fuwari
   - Cloudflare
   - Turnstile
-  - Security
   - Middleware
 category: Blog
 draft: false
