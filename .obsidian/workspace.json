@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/Blog+fuwari+cloudflare-turnstile/index.md",
+                "file": "src/content/posts/deep_learning_SAMWISE_Environment/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -74,12 +74,11 @@
               "title": "书签"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
-    "width": 374.5
+    "width": 255.5
   },
   "right": {
     "id": "59b5eec54cc0dd0e",
@@ -186,26 +185,25 @@
   },
   "active": "f611d821a7786aac",
   "lastOpenFiles": [
+    "src/content/posts/Blog+fuwari+cloudflare-turnstile/index.md",
+    "src/content/posts/deep_learning_SAMWISE_Environment/index.md",
+    "未命名 1.base",
+    "src/content/posts/deep_learning_SAMWISE_Environment",
+    "未命名.base",
     "functions/_middleware.ts",
     "functions/api/turnstile-verify.ts",
     "functions/api",
     "functions",
     "src/pages/gate.astro",
     "src/pages/gate",
-    "src/content/posts/deep_learning_SAMWISE_Environment/index.md",
-    "src/content/posts/Blog+fuwari+cloudflare-turnstile/index.md",
     "src/content/posts/Blog+fuwari+cloudflare-turnstile",
     "src/content/posts/deep_learning_hybridgl/index.md",
-    "src/content/posts/deep_learning_hybridgl",
     "src/content/posts/qnapnas+nextcloud+rog/index.md",
-    "src/content/posts/deep_learning_SAMWISE_Environment",
     "Pasted image 20260207155758.png",
     "Pasted image 20260207154709.png",
     "Pasted image 20260207154703.png",
     "src/content/posts/LED_dianzhen/index.md",
     "未命名.canvas",
-    "未命名 1.base",
-    "未命名.base",
     "README.md",
     "src/content/posts/LED_dianzhen/cover.png",
     "src/content/posts/STM32H743XIH6_mode/index.md",
