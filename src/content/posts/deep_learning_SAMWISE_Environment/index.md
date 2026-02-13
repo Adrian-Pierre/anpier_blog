@@ -19,6 +19,10 @@ draft: false
 # 下载并安装 Miniconda
 
 ```bash
+sudo apt update
+```
+
+```bash
 cd ~
 ```
 
