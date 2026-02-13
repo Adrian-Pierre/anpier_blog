@@ -160,17 +160,6 @@ huggingface-cli download \
 ```
 
 ```bash
-RSRefSeg2/datasets/rrsis_d
-├── rrsisd
-│   ├── refs(unc).p
-│   └── instances.json
-├── images
-    └── rrsisd
-        ├── JPEGImages/
-        └── ann_split/
-```
-
-```bash
 unzip JPEGImages.zip -d /home/ubuntu/RSRefSeg2/datasets/rrsis_d/images
 ```
 
@@ -182,22 +171,39 @@ ann_split 自行下载
 unzip ann_split.zip -d /home/ubuntu/RSRefSeg2/datasets/rrsis_d/images
 ```
 
+```text
+RSRefSeg2/datasets/rrsis_d
+├── rrsisd
+│   ├── refs(unc).p
+│   └── instances.json
+├── images
+    └── rrsisd
+        ├── JPEGImages/
+        └── ann_split/
+```
+
 ---
 
 # 下载官方 checkpoint 
 
-```bash 
-huggingface-cli download KyanChen/RSRefSeg2 \
-  --local-dir /home/ubuntu/RSRefSeg2/checkpoints \
-  --local-dir-use-symlinks False \
-  --include "rrsisd.pth"
-```
+自己创建文件夹 `/home/ubuntu/RSRefSeg2/checkpoints` 
+
+## Refsegrs
 
 ```bash 
 huggingface-cli download KyanChen/RSRefSeg2 \
   --local-dir /home/ubuntu/RSRefSeg2/checkpoints \
   --local-dir-use-symlinks False \
   --include "refsegrs.pth"
+```
+
+## RRSIS-D
+
+```bash 
+huggingface-cli download KyanChen/RSRefSeg2 \
+  --local-dir /home/ubuntu/RSRefSeg2/checkpoints \
+  --local-dir-use-symlinks False \
+  --include "rrsisd.pth"
 ```
 
 ---
