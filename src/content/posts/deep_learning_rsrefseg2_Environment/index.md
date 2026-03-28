@@ -24,6 +24,9 @@ sudo apt update
 
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+
+# 非代理服务器用下面这个
+wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 
 ```bash
@@ -39,23 +42,20 @@ Do you wish the installer to initialize Miniconda3? yes
 # 创建干净环境（Python 3.10）
 
 ```bash
-conda create -n rsrefseg2 python=3.11 -y
+conda create -n rsrefseg2 python=3.11
 ```
 
 ```bash
 conda activate rsrefseg2
 ```
 
-```bash
-pip uninstall -y openxlab opendatalab
-```
 
 ---
 
 # 安装 A800 的 PyTorch
 
 ```bash
-pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu121
+pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 -f https://mirrors.aliyun.com/pytorch-wheels/cu121/
 ```
 
 ---
@@ -70,20 +70,16 @@ pip install -U openmim
 mim install mmcv==2.2.0
 ```
 
-```bash
-python -c "import mmcv; print(mmcv.__version__)"
-```
-
 ---
 
 # 安装其他依赖项
 
 ```bash
-pip install deepspeed==0.17.2  # Windows系统不支持DeepSpeed训练，不需要安装，使用AMP混合精度训练
+pip install deepspeed==0.17.2  
 ```
 
 ```bash
-pip install transformers==4.53.1 datasets
+pip install transformers==4.53.1 datasets==2.16.1
 ```
 
 ```bash
