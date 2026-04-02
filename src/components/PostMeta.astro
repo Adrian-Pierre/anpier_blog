@@ -1,7 +1,5 @@
 ---
 import { Icon } from "astro-icon/components";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
 import { formatDateToYYYYMMDD } from "../utils/date-utils";
 import { getCategoryUrl, getTagUrl } from "../utils/url-utils";
 
@@ -23,11 +21,24 @@ const {
 	hideUpdateDate = false,
 } = Astro.props;
 const className = Astro.props.class;
+
+const normalizedCategory = category?.trim().toLocaleLowerCase();
+const displayTags = (tags ?? []).reduce<string[]>((acc, tag) => {
+	const trimmedTag = tag.trim();
+	if (!trimmedTag) return acc;
+
+	const normalizedTag = trimmedTag.toLocaleLowerCase();
+	if (normalizedTag === normalizedCategory) return acc;
+	if (acc.some((existingTag) => existingTag.toLocaleLowerCase() === normalizedTag)) return acc;
+
+	acc.push(trimmedTag);
+	return acc;
+}, []);
 ---
 
-<div class:list={["flex flex-wrap text-neutral-500 dark:text-neutral-400 items-center gap-4 gap-x-4 gap-y-2", className]}>
+<div class:list={["flex flex-wrap items-center gap-3 gap-y-3 text-neutral-500 dark:text-neutral-400", className]}>
     <!-- publish date -->
-    <div class="flex items-center">
+    <div class="meta-pill">
         <div class="meta-icon"
         >
             <Icon name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
@@ -47,7 +58,7 @@ const className = Astro.props.class;
     )}
 
     <!-- categories -->
-    <div class="flex items-center">
+    <div class="meta-pill">
         <div class="meta-icon"
         >
             <Icon name="material-symbols:book-2-outline-rounded" class="text-xl"></Icon>
@@ -56,27 +67,30 @@ const className = Astro.props.class;
             <a href={getCategoryUrl(category)} aria-label={`View all posts in the ${category} category`}
                class="link-lg transition text-50 text-sm font-medium
                             hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
-                {category || i18n(I18nKey.uncategorized)}
+                {category || <span data-lang-zh="未分类" data-lang-en="Uncategorized">未分类</span>}
             </a>
         </div>
     </div>
 
     <!-- tags -->
-    <div class:list={["items-center", {"flex": !hideTagsForMobile, "hidden md:flex": hideTagsForMobile}]}>
-        <div class="meta-icon"
-        >
-            <Icon name="material-symbols:tag-rounded" class="text-xl"></Icon>
-        </div>
-        <div class="flex flex-row flex-nowrap items-center">
-            {(tags && tags.length > 0) && tags.map((tag, i) => (
-                <div class:list={[{"hidden": i == 0}, "mx-1.5 text-[var(--meta-divider)] text-sm"]}>/</div>
+    <div class:list={["items-center gap-2", {"flex flex-wrap": !hideTagsForMobile, "hidden md:flex md:flex-wrap": hideTagsForMobile}]}>
+        {displayTags.length > 0 && (
+            <div class="meta-pill">
+                <div class="meta-icon"
+                >
+                    <Icon name="material-symbols:tag-rounded" class="text-xl"></Icon>
+                </div>
+                <span class="text-50 text-sm font-medium" data-lang-zh="标签" data-lang-en="Tags">标签</span>
+            </div>
+        )}
+        <div class="flex flex-row flex-wrap items-center gap-2">
+            {displayTags.length > 0 && displayTags.map((tag) => (
                 <a href={getTagUrl(tag)} aria-label={`View all posts with the ${tag.trim()} tag`}
-                   class="link-lg transition text-50 text-sm font-medium
-                                hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+                   class="tag-chip whitespace-nowrap">
                     {tag.trim()}
                 </a>
             ))}
-            {!(tags && tags.length > 0) && <div class="transition text-50 text-sm font-medium">{i18n(I18nKey.noTags)}</div>}
+            {displayTags.length === 0 && <div class="transition text-50 text-sm font-medium" data-lang-zh="无标签" data-lang-en="No Tags">无标签</div>}
         </div>
     </div>
 </div>

@@ -28,27 +28,30 @@ export function setHue(hue: number): void {
 }
 
 export function applyThemeToDocument(theme: LIGHT_DARK_MODE) {
+	let codeTheme = expressiveCodeConfig.theme.light;
+
 	switch (theme) {
 		case LIGHT_MODE:
 			document.documentElement.classList.remove("dark");
+			codeTheme = expressiveCodeConfig.theme.light;
 			break;
 		case DARK_MODE:
 			document.documentElement.classList.add("dark");
+			codeTheme = expressiveCodeConfig.theme.dark;
 			break;
 		case AUTO_MODE:
 			if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
 				document.documentElement.classList.add("dark");
+				codeTheme = expressiveCodeConfig.theme.dark;
 			} else {
 				document.documentElement.classList.remove("dark");
+				codeTheme = expressiveCodeConfig.theme.light;
 			}
 			break;
 	}
 
 	// Set the theme for Expressive Code
-	document.documentElement.setAttribute(
-		"data-theme",
-		expressiveCodeConfig.theme,
-	);
+	document.documentElement.setAttribute("data-theme", codeTheme);
 }
 
 export function setTheme(theme: LIGHT_DARK_MODE): void {

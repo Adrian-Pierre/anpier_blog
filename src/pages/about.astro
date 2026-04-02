@@ -1,10 +1,11 @@
 ---
-
 import { getEntry, render } from "astro:content";
+import { Icon } from "astro-icon/components";
+import ImageWrapper from "@components/misc/ImageWrapper.astro";
 import Markdown from "@components/misc/Markdown.astro";
-import I18nKey from "../i18n/i18nKey";
-import { i18n } from "../i18n/translation";
+import { profileConfig } from "../config";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { url } from "../utils/url-utils";
 
 const aboutPost = await getEntry("spec", "about");
 
@@ -13,13 +14,1278 @@ if (!aboutPost) {
 }
 
 const { Content } = await render(aboutPost);
+
+const quickLinks = [
+	{
+		titleZh: "归档",
+		titleEn: "Archive",
+		descriptionZh: "查看最近的文章、笔记和项目记录。",
+		descriptionEn: "Browse recent posts, notes, and project logs.",
+		href: url("/archive/"),
+		icon: "material-symbols:library-books-outline-rounded",
+		tint: "255 217 227",
+	},
+	{
+		titleZh: "相册",
+		titleEn: "Gallery",
+		descriptionZh: "收藏一些喜欢的画面和日常片段。",
+		descriptionEn: "A small collection of favorite frames and moments.",
+		href: url("/pictures/"),
+		icon: "material-symbols:imagesmode-outline-rounded",
+		tint: "199 233 255",
+	},
+	{
+		titleZh: "友链",
+		titleEn: "Friends",
+		descriptionZh: "去看看别人的小站和有趣角落。",
+		descriptionEn: "Visit other lovely corners of the web.",
+		href: url("/friends/"),
+		icon: "material-symbols:handshake-outline-rounded",
+		tint: "205 239 219",
+	},
+];
+
+const paletteSwatches = [
+	{ nameZh: "薄荷", nameEn: "Mint", value: "rgba(170, 230, 219, 0.9)", accent: "170 230 219" },
+	{ nameZh: "蜜桃", nameEn: "Peach", value: "rgba(255, 211, 193, 0.88)", accent: "255 211 193" },
+	{ nameZh: "晴空", nameEn: "Sky", value: "rgba(194, 225, 255, 0.92)", accent: "194 225 255" },
+	{ nameZh: "紫雾", nameEn: "Lilac", value: "rgba(223, 212, 255, 0.9)", accent: "223 212 255" },
+];
+
+const defaultSwatch = paletteSwatches[0];
+const featuredProject = {
+	owner: "Adrian-Pierre",
+	repo: "anpier_blog",
+	href: "https://github.com/Adrian-Pierre/anpier_blog",
+	descriptionZh: "一个基于 Astro 和 Fuwari 重新整理的个人博客，围绕笔记、图片和日常细节慢慢打磨。",
+	descriptionEn: "A personal blog rebuilt on Astro and Fuwari, shaped around notes, visuals, and daily refinements.",
+	meta: ["Astro", "Fuwari"],
+};
 ---
-<MainGridLayout title={i18n(I18nKey.about)} description={i18n(I18nKey.about)}>
-    <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">
-        <div class="card-base z-10 px-9 py-6 relative w-full ">
-            <Markdown class="mt-2">
-                <Content />
-            </Markdown>
-        </div>
-    </div>
+<MainGridLayout title="关于" description="关于" hideSidebar={true}>
+	<about-interactive class="about-page" style={`--about-active-rgb:${defaultSwatch.accent};`}>
+		<div
+			hidden
+			data-lang-document-title-zh={`关于 - ${profileConfig.name}`}
+			data-lang-document-title-en={`About - ${profileConfig.name}`}
+		></div>
+		<section class="about-hero card-base relative overflow-hidden px-6 py-6 md:px-8 md:py-8" data-tilt-surface>
+			<div class="about-orb is-pink"></div>
+			<div class="about-orb is-mint"></div>
+			<div class="about-orb is-blue"></div>
+
+			<div class="about-hero-grid relative z-10">
+				<div class="about-portrait-wrap">
+					<div class="about-portrait-glow"></div>
+					<div class="about-portrait-shell">
+						<ImageWrapper
+							src={profileConfig.avatar || ""}
+							alt={`${profileConfig.name} avatar`}
+							class="h-full w-full"
+							fit="cover"
+							overlay={false}
+						/>
+					</div>
+
+					<div class="about-chip-row">
+						<span class="about-chip is-mint" data-lang-zh="笔记" data-lang-en="Notes">Notes</span>
+						<span class="about-chip is-peach" data-lang-zh="图片" data-lang-en="Photos">Photos</span>
+						<span class="about-chip is-blue" data-lang-zh="日常" data-lang-en="Daily">Daily</span>
+					</div>
+				</div>
+
+				<div class="about-copy">
+					<p class="about-kicker" data-lang-zh="关于" data-lang-en="About">About</p>
+					<h1 class="about-name">{profileConfig.name}</h1>
+					<p class="about-bio">{profileConfig.bio || "A small corner for notes and feelings."}</p>
+					<p
+						class="about-lead"
+						data-lang-zh="这里放着我的技术学习笔记、项目实验记录、日常图片，还有一路上零零散散记下来的想法。"
+						data-lang-en="This page gathers my technical study notes, project experiments, daily photos, and a few scattered thoughts along the way."
+					>
+						This page gathers my technical study notes, project experiments, daily photos, and a few scattered thoughts along the way.
+					</p>
+
+					{profileConfig.links.length > 0 && (
+						<div class="about-socials">
+							{profileConfig.links.map((item) => (
+								<a
+									rel="me"
+									aria-label={item.name}
+									href={item.url}
+									target="_blank"
+									class="about-social-link"
+								>
+									<Icon name={item.icon} class="text-[1.2rem]" />
+									<span>{item.name}</span>
+								</a>
+							))}
+						</div>
+					)}
+
+					<div class="about-widget-grid">
+						<section class="about-widget-card">
+							<p class="about-widget-label" data-lang-zh="本地时间" data-lang-en="Local Time">Local Time</p>
+							<div class="about-widget-time" data-about-time>--:--</div>
+							<p class="about-widget-note" data-about-date>Loading</p>
+						</section>
+
+						<section class="about-widget-card">
+							<p class="about-widget-label" data-lang-zh="动态" data-lang-en="Motion">Motion</p>
+							<button
+								type="button"
+								class="about-motion-toggle"
+								data-about-motion-toggle
+								aria-pressed="true"
+							>
+								<span class="about-motion-indicator"></span>
+								<span data-about-motion-label>Motion On</span>
+							</button>
+							<p
+								class="about-widget-note"
+								data-lang-zh="关闭后会停止卡片的悬停倾斜反馈。"
+								data-lang-en="Disable to stop the hover tilt response."
+							>
+								Disable to stop the hover tilt response.
+							</p>
+						</section>
+
+						<section class="about-widget-card">
+							<p class="about-widget-label" data-lang-zh="色板" data-lang-en="Palette">Palette</p>
+							<div class="about-tone-list">
+								{paletteSwatches.map((item) => (
+									<button
+										type="button"
+										class="about-tone-button"
+										data-about-swatch
+										data-accent={item.accent}
+										data-swatch-name={item.nameEn}
+										data-swatch-name-zh={item.nameZh}
+										data-swatch-name-en={item.nameEn}
+										aria-pressed={item.nameEn === defaultSwatch.nameEn ? "true" : "false"}
+										title={`切换到${item.nameZh}`}
+										data-lang-title-zh={`切换到${item.nameZh}`}
+										data-lang-title-en={`Switch to ${item.nameEn}`}
+									>
+										<span class="about-tone-dot" style={`--about-swatch:${item.value};`}></span>
+										<span class="sr-only" data-lang-zh={item.nameZh} data-lang-en={item.nameEn}>{item.nameZh}</span>
+									</button>
+								))}
+							</div>
+							<p class="about-widget-note" data-about-swatch-name>{defaultSwatch.nameEn} Accent</p>
+						</section>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<div class="about-lower-grid">
+			<section class="card-base about-content-panel relative overflow-hidden px-6 py-6 md:px-7 md:py-7" data-tilt-surface>
+				<div class="about-panel-glow is-content"></div>
+				<div class="relative z-10">
+					<div class="about-section-head">
+						<span class="about-section-dot"></span>
+						<h2 data-lang-zh="这个小站" data-lang-en="This Corner">This Corner</h2>
+					</div>
+
+					<a
+						href={featuredProject.href}
+						target="_blank"
+						rel="noreferrer"
+						class="about-project-card"
+					>
+						<div class="about-project-titlebar">
+							<div class="about-project-titlegroup">
+								<div class="about-project-avatar">
+									<ImageWrapper
+										src={profileConfig.avatar || ""}
+										alt={`${featuredProject.owner} avatar`}
+										class="h-full w-full"
+										fit="cover"
+										overlay={false}
+									/>
+								</div>
+								<div class="about-project-heading">
+									<p>{featuredProject.owner}</p>
+									<h3>{featuredProject.repo}</h3>
+								</div>
+							</div>
+
+							<div class="about-project-github">
+								<Icon name="fa6-brands:github" class="text-[1.7rem]" />
+							</div>
+						</div>
+
+						<p
+							class="about-project-description"
+							data-lang-zh={featuredProject.descriptionZh}
+							data-lang-en={featuredProject.descriptionEn}
+						>
+							{featuredProject.descriptionEn}
+						</p>
+
+						<div class="about-project-meta">
+							{featuredProject.meta.map((item) => (
+								<span class="about-project-pill">{item}</span>
+							))}
+						</div>
+					</a>
+
+					<Markdown class="about-markdown about-markdown-compact mt-5">
+						<Content />
+					</Markdown>
+				</div>
+			</section>
+
+			<aside class="about-side-grid">
+				<section class="card-base about-side-card relative overflow-hidden px-6 py-6 md:px-7 md:py-7" data-tilt-surface>
+					<div class="about-panel-glow is-links"></div>
+					<div class="relative z-10">
+						<div class="about-section-head">
+							<span class="about-section-dot"></span>
+							<h2 data-lang-zh="继续逛逛" data-lang-en="Explore">Explore</h2>
+						</div>
+
+						<div class="about-link-list">
+							{quickLinks.map((item) => (
+								<a
+									href={item.href}
+									class="about-link-card"
+									style={`--about-link-tint: ${item.tint};`}
+								>
+									<div class="about-link-icon">
+										<Icon name={item.icon} class="text-[1.35rem]" />
+									</div>
+									<div>
+										<h3 data-lang-zh={item.titleZh} data-lang-en={item.titleEn}>{item.titleEn}</h3>
+										<p data-lang-zh={item.descriptionZh} data-lang-en={item.descriptionEn}>{item.descriptionEn}</p>
+									</div>
+								</a>
+							))}
+						</div>
+
+					</div>
+				</section>
+			</aside>
+		</div>
+	</about-interactive>
 </MainGridLayout>
+
+<style>
+	about-interactive {
+		display: block;
+	}
+
+	.about-page {
+		display: grid;
+		gap: 1.6rem;
+	}
+
+	about-interactive[data-motion="off"] .about-hero,
+	about-interactive[data-motion="off"] .about-content-panel,
+	about-interactive[data-motion="off"] .about-side-card {
+		transform: none !important;
+	}
+
+	about-interactive[data-motion="off"] .about-hero::after,
+	about-interactive[data-motion="off"] .about-content-panel::after,
+	about-interactive[data-motion="off"] .about-side-card::after {
+		opacity: 0 !important;
+	}
+
+	.about-hero,
+	.about-content-panel,
+	.about-side-card {
+		position: relative;
+		isolation: isolate;
+		transform:
+			perspective(1600px)
+			rotateX(var(--about-tilt-x, 0deg))
+			rotateY(var(--about-tilt-y, 0deg));
+		transform-style: preserve-3d;
+		will-change: transform;
+		transition:
+			transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+			box-shadow 260ms ease;
+	}
+
+	.about-hero::after,
+	.about-content-panel::after,
+	.about-side-card::after {
+		content: "";
+		position: absolute;
+		inset: -35%;
+		background:
+			radial-gradient(
+				circle at var(--about-pointer-x, 50%) var(--about-pointer-y, 50%),
+				rgba(var(--about-active-rgb, 170 230 219), 0.18),
+				rgba(255, 255, 255, 0) 24rem
+			);
+		opacity: var(--about-surface-glow, 0);
+		pointer-events: none;
+		transition: opacity 220ms ease;
+		z-index: 0;
+	}
+
+	.about-hero[data-hovered="true"],
+	.about-content-panel[data-hovered="true"],
+	.about-side-card[data-hovered="true"] {
+		--about-surface-glow: 1;
+		box-shadow: 0 34px 78px -48px rgba(24, 51, 56, 0.28);
+	}
+
+	.about-hero {
+		background:
+			radial-gradient(circle at 78% 18%, rgba(var(--about-active-rgb, 170 230 219), 0.28), transparent 16rem),
+			linear-gradient(140deg, rgba(255, 255, 255, 0.9), rgba(251, 245, 255, 0.82) 34%, rgba(241, 252, 248, 0.82) 68%, rgba(239, 247, 255, 0.88)),
+			rgba(255, 255, 255, 0.72);
+		box-shadow: 0 36px 76px -50px rgba(24, 51, 56, 0.28);
+	}
+
+	.about-hero-grid {
+		display: grid;
+		gap: 1.75rem;
+		align-items: center;
+		grid-template-columns: minmax(0, 17rem) minmax(0, 1fr);
+	}
+
+	.about-orb {
+		position: absolute;
+		border-radius: 999px;
+		filter: blur(10px);
+		opacity: 0.8;
+		pointer-events: none;
+	}
+
+	.about-orb.is-pink {
+		top: -2.5rem;
+		left: -1rem;
+		width: 12rem;
+		height: 12rem;
+		background: radial-gradient(circle, rgba(255, 207, 223, 0.75), rgba(255, 207, 223, 0));
+	}
+
+	.about-orb.is-mint {
+		right: 10%;
+		top: 2rem;
+		width: 10rem;
+		height: 10rem;
+		background: radial-gradient(circle, rgba(179, 237, 226, 0.68), rgba(179, 237, 226, 0));
+	}
+
+	.about-orb.is-blue {
+		right: -1.5rem;
+		bottom: -2rem;
+		width: 12rem;
+		height: 12rem;
+		background: radial-gradient(circle, rgba(198, 227, 255, 0.75), rgba(198, 227, 255, 0));
+	}
+
+	.about-portrait-wrap {
+		position: relative;
+	}
+
+	.about-portrait-glow {
+		position: absolute;
+		inset: 1.2rem;
+		border-radius: 2rem;
+		background: linear-gradient(145deg, rgba(255, 214, 228, 0.58), rgba(183, 230, 221, 0.42));
+		filter: blur(16px);
+		opacity: 0.9;
+	}
+
+	.about-portrait-shell {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 1 / 1.12;
+		border-radius: 2rem;
+		padding: 0.75rem;
+		border: 1px solid rgba(255, 255, 255, 0.92);
+		background:
+			linear-gradient(160deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.28)),
+			linear-gradient(135deg, rgba(255, 211, 223, 0.4), rgba(194, 230, 255, 0.32));
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.9),
+			0 28px 56px -42px rgba(24, 51, 56, 0.34);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+	}
+
+	.about-portrait-shell :global(img) {
+		border-radius: 1.45rem;
+	}
+
+	.about-chip-row {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.65rem;
+		margin-top: 1rem;
+	}
+
+	.about-chip {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 0.9rem;
+		border-radius: 999px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		border: 1px solid rgba(255, 255, 255, 0.76);
+		box-shadow: 0 18px 36px -28px rgba(24, 51, 56, 0.2);
+	}
+
+	.about-chip.is-mint {
+		background: rgba(221, 247, 240, 0.92);
+		color: #4e857e;
+	}
+
+	.about-chip.is-peach {
+		background: rgba(255, 233, 223, 0.94);
+		color: #a86f5e;
+	}
+
+	.about-chip.is-blue {
+		background: rgba(225, 239, 255, 0.94);
+		color: #5c7d9b;
+	}
+
+	.about-copy {
+		position: relative;
+		z-index: 1;
+	}
+
+	.about-kicker {
+		margin: 0;
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.28em;
+		text-transform: uppercase;
+		color: rgba(var(--about-active-rgb, 170 230 219), 0.88);
+	}
+
+	.about-name {
+		margin: 0.9rem 0 0;
+		font-size: clamp(2.2rem, 4vw, 3.7rem);
+		line-height: 1.02;
+		font-weight: 700;
+		letter-spacing: -0.04em;
+		color: var(--deep-text);
+		text-wrap: balance;
+	}
+
+	.about-bio {
+		margin: 0.9rem 0 0;
+		font-size: 1.02rem;
+		line-height: 1.9;
+		color: rgba(51, 79, 82, 0.72);
+	}
+
+	.about-lead {
+		margin: 1rem 0 0;
+		max-width: 38rem;
+		font-size: 0.98rem;
+		line-height: 1.95;
+		color: rgba(51, 79, 82, 0.74);
+	}
+
+	.about-socials {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.85rem;
+		margin-top: 1.4rem;
+	}
+
+	.about-social-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.75rem 1rem;
+		border-radius: 1rem;
+		border: 1px solid rgba(255, 255, 255, 0.84);
+		background: rgba(255, 255, 255, 0.68);
+		color: var(--deep-text);
+		font-size: 0.95rem;
+		font-weight: 600;
+		box-shadow: 0 18px 40px -32px rgba(24, 51, 56, 0.24);
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
+		transition:
+			transform 0.22s ease,
+			background-color 0.22s ease,
+			border-color 0.22s ease,
+			box-shadow 0.22s ease;
+	}
+
+	.about-social-link:hover {
+		transform: translateY(-2px);
+		background: rgba(255, 255, 255, 0.88);
+		box-shadow: 0 24px 48px -34px rgba(24, 51, 56, 0.28);
+	}
+
+	.about-widget-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 0.9rem;
+		margin-top: 1.5rem;
+	}
+
+	.about-widget-card {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		min-height: 9rem;
+		padding: 1rem 1.05rem;
+		border-radius: 1.25rem;
+		border: 1px solid rgba(255, 255, 255, 0.84);
+		background:
+			linear-gradient(145deg, rgba(var(--about-active-rgb, 170 230 219), 0.16), rgba(255, 255, 255, 0.26) 52%, rgba(255, 255, 255, 0) 100%),
+			linear-gradient(160deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.42)),
+			rgba(255, 255, 255, 0.5);
+		box-shadow: 0 24px 48px -38px rgba(24, 51, 56, 0.24);
+	}
+
+	.about-widget-label {
+		margin: 0;
+		font-size: 0.74rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: rgba(51, 79, 82, 0.45);
+	}
+
+	.about-widget-time {
+		margin-top: 0.8rem;
+		font-size: clamp(1.5rem, 2.8vw, 2rem);
+		line-height: 1;
+		font-weight: 800;
+		letter-spacing: -0.05em;
+		color: var(--deep-text);
+	}
+
+	.about-widget-note {
+		margin: 0.8rem 0 0;
+		font-size: 0.88rem;
+		line-height: 1.6;
+		color: rgba(51, 79, 82, 0.6);
+	}
+
+	.about-motion-toggle {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.55rem;
+		width: fit-content;
+		margin-top: 0.85rem;
+		padding: 0.7rem 0.95rem;
+		border-radius: 999px;
+		border: 1px solid rgba(255, 255, 255, 0.82);
+		background: rgba(255, 255, 255, 0.76);
+		box-shadow: 0 14px 30px -24px rgba(24, 51, 56, 0.2);
+		color: var(--deep-text);
+		font: inherit;
+		font-size: 0.88rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			background-color 0.2s ease;
+	}
+
+	.about-motion-toggle:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 18px 34px -24px rgba(24, 51, 56, 0.24);
+	}
+
+	.about-motion-toggle[aria-pressed="false"] {
+		background: rgba(255, 255, 255, 0.56);
+		color: rgba(51, 79, 82, 0.72);
+	}
+
+	.about-motion-indicator {
+		width: 0.6rem;
+		height: 0.6rem;
+		border-radius: 999px;
+		background: rgba(var(--about-active-rgb, 170 230 219), 0.9);
+		box-shadow: 0 0 0 0.24rem rgba(var(--about-active-rgb, 170 230 219), 0.16);
+		flex: none;
+	}
+
+	.about-motion-toggle[aria-pressed="false"] .about-motion-indicator {
+		background: rgba(148, 163, 184, 0.84);
+		box-shadow: none;
+	}
+
+	.about-tone-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.55rem;
+		margin-top: 0.85rem;
+	}
+
+	.about-tone-button {
+		appearance: none;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.3rem;
+		height: 2.3rem;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.82);
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.72);
+		box-shadow: 0 14px 30px -24px rgba(24, 51, 56, 0.16);
+		cursor: pointer;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			border-color 0.2s ease;
+	}
+
+	.about-tone-button:hover {
+		transform: translateY(-1px) scale(1.04);
+	}
+
+	.about-tone-button[aria-pressed="true"] {
+		border-color: rgba(var(--about-active-rgb, 170 230 219), 0.54);
+		box-shadow:
+			0 16px 34px -24px rgba(24, 51, 56, 0.2),
+			0 0 0 0.22rem rgba(var(--about-active-rgb, 170 230 219), 0.14);
+	}
+
+	.about-tone-dot {
+		display: block;
+		width: 1.5rem;
+		height: 1.5rem;
+		border-radius: 999px;
+		background:
+			linear-gradient(160deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0)),
+			var(--about-swatch);
+	}
+
+	.about-lower-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.35fr) minmax(19.5rem, 1fr);
+		gap: 1.6rem;
+		align-items: start;
+	}
+
+	.about-side-grid {
+		display: grid;
+		gap: 1.6rem;
+		align-content: start;
+	}
+
+	.about-content-panel,
+	.about-side-card {
+		box-shadow: 0 30px 68px -48px rgba(24, 51, 56, 0.22);
+	}
+
+	.about-panel-glow {
+		position: absolute;
+		inset: auto;
+		width: 12rem;
+		height: 12rem;
+		border-radius: 999px;
+		filter: blur(14px);
+		opacity: 0.88;
+		pointer-events: none;
+	}
+
+	.about-panel-glow.is-content {
+		top: -3.5rem;
+		right: -3rem;
+		background: radial-gradient(circle, rgba(213, 231, 255, 0.6), rgba(213, 231, 255, 0));
+	}
+
+	.about-panel-glow.is-links {
+		top: -4rem;
+		right: -2rem;
+		background: radial-gradient(circle, rgba(255, 214, 228, 0.66), rgba(255, 214, 228, 0));
+	}
+
+	.about-section-head {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.about-section-head h2 {
+		margin: 0;
+		font-size: 1.15rem;
+		font-weight: 700;
+		color: var(--deep-text);
+	}
+
+	.about-section-dot {
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: 999px;
+		background:
+			linear-gradient(
+				135deg,
+				rgba(255, 210, 221, 0.96),
+				rgba(var(--about-active-rgb, 170 230 219), 0.96)
+			);
+		box-shadow: 0 0 0 0.35rem rgba(var(--about-active-rgb, 170 230 219), 0.12);
+	}
+
+	.about-markdown {
+		position: relative;
+	}
+
+	.about-project-card {
+		display: block;
+		margin-top: 1.3rem;
+		padding: 1.35rem 1.4rem;
+		border-radius: 1.6rem;
+		border: 1px solid rgba(255, 255, 255, 0.86);
+		background:
+			linear-gradient(140deg, rgba(var(--about-active-rgb, 170 230 219), 0.18), rgba(255, 255, 255, 0.02) 48%),
+			linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(246, 250, 255, 0.62)),
+			rgba(255, 255, 255, 0.7);
+		box-shadow: 0 24px 56px -40px rgba(24, 51, 56, 0.2);
+		transition:
+			transform 0.22s ease,
+			box-shadow 0.22s ease,
+			border-color 0.22s ease;
+	}
+
+	.about-project-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 28px 62px -40px rgba(24, 51, 56, 0.24);
+		border-color: rgba(var(--about-active-rgb, 170 230 219), 0.34);
+	}
+
+	.about-project-titlebar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.about-project-titlegroup {
+		display: flex;
+		align-items: center;
+		gap: 0.95rem;
+		min-width: 0;
+	}
+
+	.about-project-avatar {
+		flex: none;
+		width: 3.15rem;
+		height: 3.15rem;
+		overflow: hidden;
+		border-radius: 999px;
+		border: 1px solid rgba(255, 255, 255, 0.88);
+		background: rgba(255, 255, 255, 0.9);
+		box-shadow: 0 14px 28px -22px rgba(24, 51, 56, 0.2);
+	}
+
+	.about-project-avatar :global(img) {
+		border-radius: 999px;
+	}
+
+	.about-project-heading {
+		min-width: 0;
+	}
+
+	.about-project-heading p {
+		margin: 0;
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: rgba(51, 79, 82, 0.72);
+	}
+
+	.about-project-heading h3 {
+		margin: 0.15rem 0 0;
+		font-size: clamp(1.45rem, 3vw, 2.05rem);
+		line-height: 1.08;
+		font-weight: 800;
+		letter-spacing: -0.03em;
+		color: var(--deep-text);
+		word-break: break-word;
+	}
+
+	.about-project-github {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 3.4rem;
+		height: 3.4rem;
+		flex: none;
+		border-radius: 1.2rem;
+		background: rgba(255, 255, 255, 0.74);
+		box-shadow: 0 16px 34px -26px rgba(24, 51, 56, 0.2);
+		color: var(--deep-text);
+	}
+
+	.about-project-description {
+		margin: 1rem 0 0;
+		font-size: 0.95rem;
+		line-height: 1.8;
+		color: rgba(51, 79, 82, 0.66);
+	}
+
+	.about-project-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.65rem;
+		margin-top: 1rem;
+	}
+
+	.about-project-pill {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.42rem 0.78rem;
+		border-radius: 999px;
+		background: rgba(var(--about-active-rgb, 170 230 219), 0.2);
+		color: rgba(51, 79, 82, 0.82);
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.03em;
+	}
+
+	.about-markdown :global(h1:first-child) {
+		display: none;
+	}
+
+	.about-markdown :global(.github-card) {
+		margin-top: 0.2rem;
+	}
+
+	.about-markdown-compact {
+		margin-top: 1rem;
+	}
+
+	.about-markdown-compact :global(p) {
+		margin: 0;
+		font-size: 0.95rem;
+		line-height: 1.85;
+		color: rgba(51, 79, 82, 0.64);
+	}
+
+	.about-link-list {
+		display: grid;
+		gap: 0.9rem;
+		margin-top: 1.25rem;
+	}
+
+	.about-link-card {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 0.95rem;
+		align-items: center;
+		min-height: 6.8rem;
+		padding: 1rem 1.05rem;
+		border-radius: 1.2rem;
+		border: 1px solid rgba(255, 255, 255, 0.84);
+		background:
+			linear-gradient(135deg, rgba(var(--about-link-tint), 0.24), rgba(255, 255, 255, 0.7)),
+			rgba(255, 255, 255, 0.62);
+		box-shadow: 0 20px 44px -34px rgba(24, 51, 56, 0.22);
+		transition:
+			transform 0.22s ease,
+			box-shadow 0.22s ease,
+			background-color 0.22s ease;
+	}
+
+	.about-link-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 24px 50px -34px rgba(24, 51, 56, 0.28);
+	}
+
+	.about-link-card:hover .about-link-icon {
+		transform: scale(1.05);
+	}
+
+	.about-link-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 3rem;
+		height: 3rem;
+		border-radius: 1rem;
+		background: rgba(255, 255, 255, 0.72);
+		color: var(--btn-content);
+		transition: transform 0.22s ease;
+	}
+
+	.about-link-card h3 {
+		margin: 0;
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--deep-text);
+	}
+
+	.about-link-card p {
+		margin: 0.25rem 0 0;
+		font-size: 0.88rem;
+		line-height: 1.65;
+		color: rgba(51, 79, 82, 0.6);
+	}
+
+	:global(:root.dark) .about-hero {
+		background:
+			radial-gradient(circle at 78% 18%, rgba(var(--about-active-rgb, 170 230 219), 0.16), transparent 17rem),
+			radial-gradient(circle at 12% 0%, rgba(237, 185, 204, 0.08), transparent 18rem),
+			linear-gradient(145deg, rgba(25, 30, 37, 0.96), rgba(29, 36, 43, 0.92) 42%, rgba(19, 25, 32, 0.95));
+		box-shadow: 0 38px 84px -56px rgba(5, 10, 18, 0.62);
+	}
+
+	:global(:root.dark) .about-portrait-glow {
+		background: linear-gradient(145deg, rgba(231, 175, 196, 0.16), rgba(var(--about-active-rgb, 170 230 219), 0.18));
+		opacity: 0.82;
+		filter: blur(20px);
+	}
+
+	:global(:root.dark) .about-orb {
+		opacity: 0.48;
+		filter: blur(16px);
+	}
+
+	:global(:root.dark) .about-orb.is-pink {
+		background: radial-gradient(circle, rgba(213, 157, 179, 0.34), rgba(213, 157, 179, 0));
+	}
+
+	:global(:root.dark) .about-orb.is-mint {
+		background: radial-gradient(circle, rgba(148, 201, 188, 0.28), rgba(148, 201, 188, 0));
+	}
+
+	:global(:root.dark) .about-orb.is-blue {
+		background: radial-gradient(circle, rgba(158, 188, 220, 0.3), rgba(158, 188, 220, 0));
+	}
+
+	:global(:root.dark) .about-portrait-shell,
+	:global(:root.dark) .about-widget-card,
+	:global(:root.dark) .about-social-link,
+	:global(:root.dark) .about-link-card,
+	:global(:root.dark) .about-motion-toggle,
+	:global(:root.dark) .about-tone-button {
+		border-color: rgba(216, 229, 237, 0.11);
+	}
+
+	:global(:root.dark) .about-portrait-shell,
+	:global(:root.dark) .about-widget-card,
+	:global(:root.dark) .about-social-link,
+	:global(:root.dark) .about-motion-toggle,
+	:global(:root.dark) .about-tone-button {
+		background:
+			linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+			linear-gradient(145deg, rgba(var(--about-active-rgb, 170 230 219), 0.06), rgba(255, 226, 234, 0.02)),
+			rgba(23, 29, 35, 0.74);
+		box-shadow: 0 24px 56px -42px rgba(5, 10, 18, 0.44);
+	}
+
+	:global(:root.dark) .about-social-link:hover,
+	:global(:root.dark) .about-link-card:hover {
+		background:
+			linear-gradient(160deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02)),
+			linear-gradient(145deg, rgba(var(--about-active-rgb, 170 230 219), 0.08), rgba(255, 226, 234, 0.03)),
+			rgba(29, 36, 43, 0.84);
+	}
+
+	:global(:root.dark) .about-chip.is-mint {
+		background: rgba(91, 133, 122, 0.42);
+		color: #cae6df;
+	}
+
+	:global(:root.dark) .about-chip.is-peach {
+		background: rgba(122, 91, 81, 0.42);
+		color: #f3d8cc;
+	}
+
+	:global(:root.dark) .about-chip.is-blue {
+		background: rgba(78, 102, 129, 0.44);
+		color: #d2e5f8;
+	}
+
+	:global(:root.dark) .about-bio,
+	:global(:root.dark) .about-lead,
+	:global(:root.dark) .about-widget-note,
+	:global(:root.dark) .about-project-description,
+	:global(:root.dark) .about-link-card p {
+		color: rgba(234, 241, 245, 0.72);
+	}
+
+	:global(:root.dark) .about-project-card {
+		border-color: rgba(216, 229, 237, 0.11);
+		background:
+			linear-gradient(145deg, rgba(var(--about-active-rgb, 170 230 219), 0.08), rgba(255, 255, 255, 0.02) 48%, rgba(255, 255, 255, 0)),
+			linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+			rgba(23, 29, 35, 0.78);
+		box-shadow: 0 26px 60px -44px rgba(5, 10, 18, 0.48);
+	}
+
+	:global(:root.dark) .about-project-card:hover {
+		border-color: rgba(var(--about-active-rgb, 170 230 219), 0.22);
+		box-shadow: 0 30px 66px -44px rgba(5, 10, 18, 0.56);
+	}
+
+	:global(:root.dark) .about-project-avatar,
+	:global(:root.dark) .about-project-github {
+		border-color: rgba(216, 229, 237, 0.11);
+		background: rgba(223, 233, 239, 0.08);
+	}
+
+	:global(:root.dark) .about-project-heading p,
+	:global(:root.dark) .about-markdown-compact :global(p) {
+		color: rgba(234, 241, 245, 0.68);
+	}
+
+	:global(:root.dark) .about-project-pill {
+		background: rgba(var(--about-active-rgb, 170 230 219), 0.16);
+		color: rgba(238, 244, 247, 0.88);
+	}
+
+	:global(:root.dark) .about-widget-label {
+		color: rgba(234, 241, 245, 0.46);
+	}
+
+	:global(:root.dark) .about-link-card {
+		background:
+			linear-gradient(135deg, rgba(var(--about-link-tint), 0.12), rgba(255, 255, 255, 0.03)),
+			linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+			rgba(23, 29, 35, 0.76);
+	}
+
+	:global(:root.dark) .about-link-icon {
+		background: rgba(223, 233, 239, 0.08);
+	}
+
+	:global(:root.dark) .about-motion-toggle[aria-pressed="false"] {
+		color: rgba(234, 241, 245, 0.62);
+		background:
+			linear-gradient(160deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01)),
+			rgba(23, 29, 35, 0.62);
+	}
+
+	:global(:root.dark) .about-panel-glow {
+		opacity: 0.44;
+		filter: blur(18px);
+	}
+
+	:global(:root.dark) .about-panel-glow.is-content {
+		background: radial-gradient(circle, rgba(150, 184, 212, 0.28), rgba(150, 184, 212, 0));
+	}
+
+	:global(:root.dark) .about-panel-glow.is-links {
+		background: radial-gradient(circle, rgba(221, 176, 194, 0.3), rgba(221, 176, 194, 0));
+	}
+
+	@media (max-width: 1100px) {
+		.about-hero-grid,
+		.about-lower-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.about-portrait-wrap {
+			max-width: 19rem;
+			margin: 0 auto;
+		}
+	}
+
+	@media (max-width: 720px) {
+		.about-hero {
+			padding: 1.35rem;
+		}
+
+		.about-widget-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.about-name {
+			font-size: 2.45rem;
+		}
+
+		.about-socials {
+			gap: 0.7rem;
+		}
+
+		.about-social-link {
+			width: 100%;
+			justify-content: center;
+		}
+
+		.about-project-titlebar {
+			align-items: flex-start;
+		}
+
+		.about-project-github {
+			width: 3rem;
+			height: 3rem;
+			border-radius: 1rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.about-hero,
+		.about-content-panel,
+		.about-side-card,
+		.about-link-card,
+		.about-social-link,
+		.about-motion-toggle,
+		.about-tone-button {
+			transition: none !important;
+			transform: none !important;
+		}
+	}
+</style>
+
+<script>
+	class AboutInteractive extends HTMLElement {
+		private cleanupFns: Array<() => void> = [];
+		private clockTimer: number | null = null;
+
+		connectedCallback() {
+			this.dataset.motion = "on";
+			this.setupClock();
+			this.setupMotionToggle();
+
+			if (!window.matchMedia("(pointer: fine)").matches) {
+				this.setupSwatches();
+				return;
+			}
+
+			this.setupTiltSurfaces();
+			this.setupSwatches();
+		}
+
+		disconnectedCallback() {
+			this.cleanupFns.forEach((cleanup) => cleanup());
+			this.cleanupFns = [];
+			if (this.clockTimer !== null) {
+				window.clearInterval(this.clockTimer);
+				this.clockTimer = null;
+			}
+		}
+
+		private setupTiltSurfaces() {
+			const surfaces = Array.from(this.querySelectorAll<HTMLElement>("[data-tilt-surface]"));
+
+			for (const surface of surfaces) {
+				const onMove = (event: PointerEvent) => {
+					if (this.dataset.motion === "off") return;
+
+					const rect = surface.getBoundingClientRect();
+					const x = ((event.clientX - rect.left) / rect.width) * 100;
+					const y = ((event.clientY - rect.top) / rect.height) * 100;
+					const rotateY = ((x - 50) / 50) * 2.4;
+					const rotateX = ((50 - y) / 50) * 2.1;
+
+					surface.style.setProperty("--about-pointer-x", `${x}%`);
+					surface.style.setProperty("--about-pointer-y", `${y}%`);
+					surface.style.setProperty("--about-tilt-x", `${rotateX}deg`);
+					surface.style.setProperty("--about-tilt-y", `${rotateY}deg`);
+					surface.dataset.hovered = "true";
+				};
+
+				const reset = () => {
+					surface.style.setProperty("--about-tilt-x", "0deg");
+					surface.style.setProperty("--about-tilt-y", "0deg");
+					surface.dataset.hovered = "false";
+				};
+
+				surface.addEventListener("pointermove", onMove);
+				surface.addEventListener("pointerleave", reset);
+
+				this.cleanupFns.push(() => {
+					surface.removeEventListener("pointermove", onMove);
+					surface.removeEventListener("pointerleave", reset);
+				});
+			}
+		}
+
+		private setupClock() {
+			const timeElement = this.querySelector<HTMLElement>("[data-about-time]");
+			const dateElement = this.querySelector<HTMLElement>("[data-about-date]");
+			if (!timeElement || !dateElement) return;
+
+			this.updateClock = () => {
+				const now = new Date();
+				timeElement.textContent = new Intl.DateTimeFormat("en-US", {
+					hour: "2-digit",
+					minute: "2-digit",
+					hour12: false,
+				}).format(now);
+				dateElement.textContent = new Intl.DateTimeFormat("en-US", {
+					month: "short",
+					day: "numeric",
+					weekday: "short",
+				}).format(now);
+			};
+
+			this.updateClock();
+			this.clockTimer = window.setInterval(() => this.updateClock(), 30_000);
+		}
+
+		private updateClock = () => {};
+
+		private setupMotionToggle() {
+			const toggle = this.querySelector<HTMLElement>("[data-about-motion-toggle]");
+			const label = this.querySelector<HTMLElement>("[data-about-motion-label]");
+			if (!toggle || !label) return;
+
+			const updateToggle = (enabled: boolean) => {
+				this.dataset.motion = enabled ? "on" : "off";
+				toggle.setAttribute("aria-pressed", enabled ? "true" : "false");
+				label.textContent = enabled ? "Motion On" : "Motion Off";
+				if (!enabled) {
+					this.resetTiltSurfaces();
+				}
+			};
+
+			const onClick = () => {
+				updateToggle(this.dataset.motion !== "on");
+			};
+
+			updateToggle(true);
+			toggle.addEventListener("click", onClick);
+			this.cleanupFns.push(() => {
+				toggle.removeEventListener("click", onClick);
+			});
+		}
+
+		private resetTiltSurfaces() {
+			const surfaces = Array.from(this.querySelectorAll<HTMLElement>("[data-tilt-surface]"));
+			for (const surface of surfaces) {
+				surface.style.setProperty("--about-tilt-x", "0deg");
+				surface.style.setProperty("--about-tilt-y", "0deg");
+				surface.dataset.hovered = "false";
+			}
+		}
+
+		private setupSwatches() {
+			const swatches = Array.from(this.querySelectorAll<HTMLElement>("[data-about-swatch]"));
+			const swatchName = this.querySelector<HTMLElement>("[data-about-swatch-name]");
+
+			for (const swatch of swatches) {
+				const selectSwatch = () => {
+					const accent = swatch.dataset.accent;
+					if (!accent) return;
+
+					this.style.setProperty("--about-active-rgb", accent);
+					for (const item of swatches) {
+						item.setAttribute("aria-pressed", item === swatch ? "true" : "false");
+					}
+					if (swatchName) {
+						swatchName.textContent = `${swatch.dataset.swatchName || "Current"} Accent`;
+					}
+				};
+
+				swatch.addEventListener("click", selectSwatch);
+				this.cleanupFns.push(() => {
+					swatch.removeEventListener("click", selectSwatch);
+				});
+			}
+		}
+	}
+
+	if (!customElements.get("about-interactive")) {
+		customElements.define("about-interactive", AboutInteractive);
+	}
+</script>

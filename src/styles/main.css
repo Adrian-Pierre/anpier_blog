@@ -1,8 +1,39 @@
 @tailwind components;
 
+html {
+    color: var(--deep-text);
+    font-family: "Avenir Next", "PingFang SC", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(236, 202, 213, 0.16), transparent 27rem),
+        radial-gradient(circle at 100% 0%, rgba(200, 224, 242, 0.14), transparent 22rem),
+        radial-gradient(circle at 50% 100%, rgba(206, 232, 223, 0.12), transparent 30rem),
+        linear-gradient(180deg, #fcfbfa 0%, var(--page-bg) 44%, #f6f2f1 100%);
+    background-attachment: fixed;
+}
+
+html.dark {
+    background:
+        radial-gradient(circle at 8% -4%, rgba(196, 157, 173, 0.1), transparent 23rem),
+        radial-gradient(circle at 92% 0%, rgba(141, 170, 188, 0.11), transparent 21rem),
+        radial-gradient(circle at 50% 100%, rgba(132, 170, 156, 0.08), transparent 30rem),
+        linear-gradient(180deg, #171c22 0%, var(--page-bg) 46%, #11161c 100%);
+}
+
+body {
+    background: transparent;
+    color: var(--deep-text);
+}
+
 @layer components {
     .card-base {
-        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
+        @apply rounded-[var(--radius-large)] overflow-hidden border bg-[var(--card-bg)] transition;
+        border-color: var(--card-border);
+        box-shadow: 0 32px 64px -44px rgba(73, 83, 96, 0.22);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+    }
+    html.dark .card-base {
+        box-shadow: 0 34px 72px -52px rgba(5, 10, 18, 0.56);
     }
     h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, blockquote, code, pre, table, th, td, strong {
         @apply transition;
@@ -15,13 +46,18 @@
         before:absolute before:rounded-[inherit] before:inset-0 before:scale-[0.85] hover:before:scale-100 before:-z-10
     }
     .link {
-        @apply transition rounded-md p-1 -m-1 expand-animation;
+        @apply transition rounded-xl p-1 -m-1 expand-animation;
     }
     .link-lg {
-        @apply transition rounded-md p-1.5 -m-1.5 expand-animation;
+        @apply transition rounded-xl p-1.5 -m-1.5 expand-animation;
     }
     .float-panel {
-        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none
+        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none border
+    }
+    .float-panel {
+        border-color: var(--card-border);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
     }
     .float-panel-closed {
         @apply -translate-y-1 opacity-0 pointer-events-none
@@ -31,8 +67,15 @@
     }
 
     .btn-card {
-        @apply transition flex items-center justify-center bg-[var(--card-bg)] hover:bg-[var(--btn-card-bg-hover)]
+        @apply transition flex items-center justify-center border bg-[var(--card-bg)] hover:bg-[var(--btn-card-bg-hover)]
         active:bg-[var(--btn-card-bg-active)]
+    }
+    .btn-card {
+        border-color: var(--card-border);
+        box-shadow: 0 24px 48px -40px rgba(73, 83, 96, 0.22);
+    }
+    html.dark .btn-card {
+        box-shadow: 0 24px 48px -38px rgba(5, 10, 18, 0.48);
     }
     .btn-card.disabled {
         @apply pointer-events-none text-black/10 dark:text-white/10
@@ -51,8 +94,11 @@
         }
     }
     .btn-regular {
-        @apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
+        @apply transition flex items-center justify-center border bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
         text-[var(--btn-content)] dark:text-white/75
+    }
+    .btn-regular {
+        border-color: var(--card-border);
     }
 
     .link-underline {
@@ -94,8 +140,19 @@
     }
 
     .meta-icon {
-        @apply w-8 h-8 transition rounded-md flex items-center justify-center bg-[var(--btn-regular-bg)]
+        @apply w-7 h-7 transition rounded-full flex items-center justify-center bg-[var(--btn-plain-bg-hover)]
         text-[var(--btn-content)] mr-2
+    }
+    .meta-pill {
+        @apply flex items-center rounded-full border px-1.5 pr-3 py-1;
+        border-color: var(--line-divider);
+        background: var(--btn-regular-bg);
+    }
+    .tag-chip {
+        @apply inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium transition;
+        border-color: var(--line-divider);
+        background: var(--btn-regular-bg);
+        color: var(--deep-text);
     }
     .with-divider {
         @apply before:content-['/'] before:ml-1.5 before:mr-1.5 before:text-[var(--meta-divider)] before:text-sm
@@ -110,6 +167,15 @@
     .btn-regular-dark.success {
         @apply bg-[oklch(0.75_0.14_var(--hue))] dark:bg-[oklch(0.75_0.14_var(--hue))]
     }
+}
+
+.btn-card:hover {
+    transform: translateY(-1px);
+}
+
+.tag-chip:hover {
+    background: var(--btn-regular-bg-hover);
+    color: var(--primary);
 }
 
 .custom-md img, #post-cover img {

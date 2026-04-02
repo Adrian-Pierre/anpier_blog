@@ -5,6 +5,7 @@ export const ko: Translation = {
 	[Key.home]: "홈",
 	[Key.about]: "소개",
 	[Key.archive]: "아카이브",
+	[Key.friends]: "친구",
 	[Key.search]: "검색",
 
 	[Key.tags]: "태그",
@@ -31,6 +32,7 @@ export const ko: Translation = {
 	[Key.systemMode]: "시스템 모드",
 
 	[Key.more]: "더 보기",
+	[Key.collapse]: "접기",
 
 	[Key.author]: "저자",
 	[Key.publishedAt]: "게시일",

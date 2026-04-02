@@ -1,6 +1,6 @@
 ---
 const siteKey = "0x4AAAAAACZlhb6gyAukDyMx";
-const next = Astro.url.searchParams.get("next") ?? "/";
+const next = Astro.url.searchParams.get("next") ?? "/about/";
 ---
 
 <!doctype html>
@@ -53,7 +53,7 @@ const next = Astro.url.searchParams.get("next") ?? "/";
           if (!res.ok) throw new Error("verify failed");
 
           const data = await res.json();
-          location.replace(data.redirect || "/");
+          location.replace(data.redirect || "/about/");
         } catch (e) {
           alert("验证失败，请刷新页面重试");
         }
@@ -98,4 +98,3 @@ const next = Astro.url.searchParams.get("next") ?? "/";
     </style>
   </body>
 </html>
-

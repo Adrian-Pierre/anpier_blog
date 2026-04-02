@@ -1,0 +1,26 @@
+---
+import Footer from "@components/Footer.astro";
+import Navbar from "@components/Navbar.astro";
+import PicturesBoard from "@components/PicturesBoard.astro";
+import Layout from "@layouts/Layout.astro";
+import { pictures } from "@/data/pictures";
+---
+
+<Layout title="相册" description="可自由拖拽、点击放大并查看简介的独立相册页面。">
+	<div class="relative z-20 mx-auto max-w-[var(--page-width)] px-4 md:px-5">
+		<div hidden data-lang-document-title-zh="相册 - Anpier" data-lang-document-title-en="Gallery - Anpier"></div>
+		<div class="pt-4">
+			<div id="navbar-wrapper" class="sticky top-4 z-40">
+				<Navbar />
+			</div>
+		</div>
+
+		<main class="pb-10 pt-4">
+			<PicturesBoard entries={pictures} />
+		</main>
+
+		<div class="onload-animation">
+			<Footer />
+		</div>
+	</div>
+</Layout>

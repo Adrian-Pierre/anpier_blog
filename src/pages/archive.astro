@@ -9,6 +9,6 @@ const sortedPostsList = await getSortedPostsList();
 ---
 
 <MainGridLayout title={i18n(I18nKey.archive)}>
+    <div hidden data-lang-document-title-zh="归档 - Anpier" data-lang-document-title-en="Archive - Anpier"></div>
     <ArchivePanel sortedPosts={sortedPostsList} client:only="svelte"></ArchivePanel>
 </MainGridLayout>
-

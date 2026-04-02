@@ -1,7 +1,4 @@
 ---
-
-import I18nKey from "../../i18n/i18nKey";
-import { i18n } from "../../i18n/translation";
 import { getTagList } from "../../utils/content-utils";
 import { getTagUrl } from "../../utils/url-utils";
 import ButtonTag from "../control/ButtonTag.astro";
@@ -20,8 +17,17 @@ interface Props {
 const className = Astro.props.class;
 const style = Astro.props.style;
 ---
-<WidgetLayout name={i18n(I18nKey.tags)} id="tags" isCollapsed={isCollapsed} collapsedHeight={COLLAPSED_HEIGHT} class={className} style={style}>
-    <div class="flex gap-2 flex-wrap">
+<WidgetLayout
+    name="标签"
+    nameZh="标签"
+    nameEn="Tags"
+    id="tags"
+    isCollapsed={isCollapsed}
+    collapsedHeight={COLLAPSED_HEIGHT}
+    class={className}
+    style={style}
+>
+    <div class="tag-scroll-area flex gap-2 flex-wrap pr-1">
         {tags.map(t => (
             <ButtonTag href={getTagUrl(t.name)} label={`View all posts with the ${t.name.trim()} tag`}>
                 {t.name.trim()}
@@ -29,3 +35,24 @@ const style = Astro.props.style;
         ))}
     </div>
 </WidgetLayout>
+
+<style>
+    .tag-scroll-area {
+        max-height: min(26rem, calc(100vh - 18rem));
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .tag-scroll-area::-webkit-scrollbar {
+        display: none;
+    }
+
+    @media (max-width: 1023px) {
+        .tag-scroll-area {
+            max-height: min(22rem, calc(100vh - 14rem));
+        }
+    }
+</style>

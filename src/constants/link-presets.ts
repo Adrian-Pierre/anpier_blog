@@ -1,22 +1,20 @@
-import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
 import { LinkPreset, type NavBarLink } from "@/types/config";
 
 export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 	[LinkPreset.Home]: {
-		name: i18n(I18nKey.home),
-		url: "/",
+		name: "主页",
+		url: "/home/",
 	},
 	[LinkPreset.About]: {
-		name: i18n(I18nKey.about),
+		name: "关于",
 		url: "/about/",
 	},
 	[LinkPreset.Archive]: {
-		name: i18n(I18nKey.archive),
+		name: "归档",
 		url: "/archive/",
 	},
 	[LinkPreset.Friends]: {
-    	name: i18n(I18nKey.friends),
-    	url: '/friends/',
-    },
+		name: "友链",
+		url: "/friends/",
+	},
 };

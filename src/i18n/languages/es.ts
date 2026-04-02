@@ -5,6 +5,7 @@ export const es: Translation = {
 	[Key.home]: "Inicio",
 	[Key.about]: "Sobre mí",
 	[Key.archive]: "Archivo",
+	[Key.friends]: "Amigos",
 	[Key.search]: "Buscar",
 
 	[Key.tags]: "Etiquetas",
@@ -31,6 +32,7 @@ export const es: Translation = {
 	[Key.systemMode]: "Sistema",
 
 	[Key.more]: "Más",
+	[Key.collapse]: "Ocultar",
 
 	[Key.author]: "Autor",
 	[Key.publishedAt]: "Publicado el",
