@@ -15,7 +15,7 @@ draft: false
 
 ## 组件结构
 
-```objectivec
+```objc
 your_project/
 ├─ CMakeLists.txt          ← 根 CMake，不用改
 ├─ main/

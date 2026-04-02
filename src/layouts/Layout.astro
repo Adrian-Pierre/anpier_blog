@@ -276,24 +276,47 @@ function disableAnimation() {
 */
 
 const bannerEnabled = !!document.getElementById('banner-wrapper')
+const PAGE_TRANSITION_DURATION = 260;
 
-function setClickOutsideToClose(panel: string, ignores: string[]) {
+type LayoutRuntimeState = {
+	bodyScrollbarInitialized?: boolean;
+	clickOutsideBound?: boolean;
+	swupEnableListenerBound?: boolean;
+	swupHooksBound?: boolean;
+	visitEndTimer?: number;
+};
+
+const layoutRuntime = (
+	window as Window & typeof globalThis & { __anpierLayoutRuntime?: LayoutRuntimeState }
+).__anpierLayoutRuntime ??= {};
+
+const clickOutsidePanels = [
+	{ panel: "display-setting", ignores: ["display-setting", "display-settings-switch"] },
+	{ panel: "nav-menu-panel", ignores: ["nav-menu-panel", "nav-menu-switch"] },
+	{ panel: "search-panel", ignores: ["search-panel", "search-bar", "search-switch"] },
+] as const;
+
+function bindClickOutsideToClose() {
+	if (layoutRuntime.clickOutsideBound) return;
+
 	document.addEventListener("click", event => {
-		let panelDom = document.getElementById(panel);
-		let tDom = event.target;
-		if (!(tDom instanceof Node)) return;		// Ensure the event target is an HTML Node
-		for (let ig of ignores) {
-			let ie = document.getElementById(ig)
-			if (ie == tDom || (ie?.contains(tDom))) {
-				return;
-			}
+		const target = event.target;
+		if (!(target instanceof Node)) return;
+
+		for (const { panel, ignores } of clickOutsidePanels) {
+			const shouldIgnore = ignores.some(ignoreId => {
+				const ignoreElement = document.getElementById(ignoreId);
+				return ignoreElement == target || ignoreElement?.contains(target);
+			});
+
+			if (shouldIgnore) continue;
+			document.getElementById(panel)?.classList.add("float-panel-closed");
 		}
-		panelDom!.classList.add("float-panel-closed");
 	});
+
+	layoutRuntime.clickOutsideBound = true;
 }
-setClickOutsideToClose("display-setting", ["display-setting", "display-settings-switch"])
-setClickOutsideToClose("nav-menu-panel", ["nav-menu-panel", "nav-menu-switch"])
-setClickOutsideToClose("search-panel", ["search-panel", "search-bar", "search-switch"])
+bindClickOutsideToClose();
 
 
 function loadTheme() {
@@ -307,23 +330,26 @@ function loadHue() {
 
 function initCustomScrollbar() {
 	const bodyElement = document.querySelector('body');
-	if (!bodyElement) return;
-	OverlayScrollbars(
-		// docs say that a initialization to the body element would affect native functionality like window.scrollTo
-		// but just leave it here for now
-		{
-			target: bodyElement,
-			cancel: {
-				nativeScrollbarsOverlaid: true,    // don't initialize the overlay scrollbar if there is a native one
-			}
-		}, {
-		scrollbars: {
-			theme: 'scrollbar-base scrollbar-auto py-1',
-			autoHide: 'move',
-			autoHideDelay: 500,
-			autoHideSuspend: false,
-		},
-	});
+	if (bodyElement && !layoutRuntime.bodyScrollbarInitialized) {
+		OverlayScrollbars(
+			// docs say that a initialization to the body element would affect native functionality like window.scrollTo
+			// but just leave it here for now
+			{
+				target: bodyElement,
+				cancel: {
+					nativeScrollbarsOverlaid: true,    // don't initialize the overlay scrollbar if there is a native one
+				}
+			}, {
+			scrollbars: {
+				theme: 'scrollbar-base scrollbar-auto py-1',
+				autoHide: 'move',
+				autoHideDelay: 500,
+				autoHideSuspend: false,
+			},
+		});
+
+		layoutRuntime.bodyScrollbarInitialized = true;
+	}
 
 	const katexElements = document.querySelectorAll('.katex-display') as NodeListOf<HTMLElement>;
 
@@ -431,6 +457,9 @@ init();
 let pendingLayoutUrl: string | undefined;
 
 const setup = () => {
+	if (layoutRuntime.swupHooksBound || !window.swup?.hooks) return;
+	layoutRuntime.swupHooksBound = true;
+
 	// TODO: temp solution to change the height of the banner
 /*
 	window.swup.hooks.on('animation:out:start', () => {
@@ -500,7 +529,11 @@ const setup = () => {
 		}
 	});
 	window.swup.hooks.on('visit:end', (_visit: {to: {url: string}}) => {
-		setTimeout(() => {
+		if (layoutRuntime.visitEndTimer) {
+			window.clearTimeout(layoutRuntime.visitEndTimer);
+		}
+
+		layoutRuntime.visitEndTimer = window.setTimeout(() => {
 			const heightExtend = document.getElementById('page-height-extend')
 			if (heightExtend) {
 				heightExtend.classList.add('hidden')
@@ -511,13 +544,15 @@ const setup = () => {
             if (toc) {
                 toc.classList.remove('toc-not-ready')
             }
-        }, 200)
+			layoutRuntime.visitEndTimer = undefined;
+        }, PAGE_TRANSITION_DURATION)
 	});
 }
 if (window?.swup?.hooks) {
 	setup()
-} else {
-	document.addEventListener('swup:enable', setup)
+} else if (!layoutRuntime.swupEnableListenerBound) {
+	document.addEventListener('swup:enable', setup, { once: true })
+	layoutRuntime.swupEnableListenerBound = true;
 }
 
 let backToTopBtn = document.getElementById('back-to-top-btn');
@@ -576,8 +611,17 @@ import "photoswipe/style.css"
 
 let lightbox: PhotoSwipeLightbox
 let pswp = import("photoswipe")
+type PhotoSwipeRuntimeState = {
+	enableListenerBound?: boolean;
+	hooksBound?: boolean;
+};
+const photoSwipeRuntime = (
+	window as Window & typeof globalThis & { __anpierPhotoSwipeRuntime?: PhotoSwipeRuntimeState }
+).__anpierPhotoSwipeRuntime ??= {};
 
 function createPhotoSwipe() {
+	lightbox?.destroy?.()
+
 	lightbox = new PhotoSwipeLightbox({
 		gallery: ".custom-md img, #post-cover img",
 		pswpModule: () => pswp,
@@ -609,9 +653,10 @@ function createPhotoSwipe() {
 }
 
 const setup = () => {
-	if (!lightbox) {
-		createPhotoSwipe()
-	}
+	if (photoSwipeRuntime.hooksBound || !window.swup?.hooks) return;
+	photoSwipeRuntime.hooksBound = true;
+
+	createPhotoSwipe()
 	window.swup.hooks.on("page:view", () => {
 		createPhotoSwipe()
 	})
@@ -627,7 +672,8 @@ const setup = () => {
 
 if (window.swup) {
 	setup()
-} else {
-	document.addEventListener("swup:enable", setup)
+} else if (!photoSwipeRuntime.enableListenerBound) {
+	document.addEventListener("swup:enable", setup, { once: true })
+	photoSwipeRuntime.enableListenerBound = true;
 }
 </script>

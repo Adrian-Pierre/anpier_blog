@@ -56,19 +56,19 @@ const pictures = entries.map((entry, index) => {
 		<div class="board-stage relative h-[34rem] overflow-hidden rounded-[1.3rem] md:h-[40rem]" data-stage>
 			{pictures.map((picture) => (
 				<article
-					class="picture-card absolute overflow-hidden rounded-[1.45rem] border border-black/5 bg-[rgba(255,255,255,0.92)] shadow-[0_24px_50px_-30px_rgba(24,51,56,0.38)] outline-none transition-[box-shadow,border-color,transform] duration-300 ease-out dark:border-white/10 dark:bg-[rgba(18,28,30,0.82)]"
+					class="picture-card absolute overflow-hidden border border-black/5 bg-[rgba(255,255,255,0.92)] shadow-[0_24px_50px_-30px_rgba(24,51,56,0.38)] outline-none transition-[box-shadow,border-color,transform] duration-300 ease-out dark:border-white/20 dark:bg-[rgba(226,236,234,0.26)]"
 					data-picture-card
 					data-index={String(picture.index)}
 					data-x={String(picture.x)}
 					data-y={String(picture.y)}
 					draggable="false"
-					style={`--picture-width:${picture.width}px; --picture-rotate:${picture.rotate}deg; animation-delay: calc(var(--content-delay) + ${picture.index * 65}ms);`}
+					style={`--picture-width:${picture.width}px; --picture-rotate:${picture.rotate}deg; animation-delay: calc(var(--content-delay) + ${picture.index * 45}ms);`}
 				>
-					<div class="picture-card-frame h-full w-full rounded-[1.1rem] bg-[linear-gradient(145deg,rgba(255,255,255,0.98),rgba(244,248,247,0.9))] p-3 dark:bg-[linear-gradient(145deg,rgba(31,42,43,0.96),rgba(21,31,32,0.88))] md:p-4">
+					<div class="picture-card-frame h-full w-full">
 						<ImageWrapper
 							src={picture.image}
 							alt={picture.title}
-							class="h-full w-full pointer-events-none select-none"
+							class="picture-media h-full w-full pointer-events-none select-none"
 							fit={picture.fit}
 							overlay={false}
 						/>
@@ -88,15 +88,15 @@ const pictures = entries.map((entry, index) => {
 		background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(243, 248, 247, 0.78));
 		box-shadow: 0 34px 76px -48px rgba(24, 51, 56, 0.3);
 		transition:
-			opacity 150ms ease,
-			transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+			opacity var(--page-transition-duration-fast) var(--page-transition-easing),
+			transform var(--page-transition-duration) var(--page-transition-easing);
 	}
 
 	pictures-board[data-ready="false"] .board-shell {
 		opacity: 0;
 		visibility: hidden;
 		pointer-events: none;
-		transform: translateY(8px);
+		transform: translateY(var(--page-transition-distance));
 	}
 
 	pictures-board[data-ready="true"] .board-shell {
@@ -106,8 +106,10 @@ const pictures = entries.map((entry, index) => {
 	}
 
 	.picture-card {
+		--picture-corner: 1.08rem;
 		width: min(calc(var(--picture-width) * 0.82), 30vw);
 		aspect-ratio: var(--picture-ratio, 4 / 5);
+		border-radius: var(--picture-corner);
 		box-sizing: border-box;
 		cursor: grab;
 		touch-action: none;
@@ -119,8 +121,8 @@ const pictures = entries.map((entry, index) => {
 			rotate(var(--picture-rotate, 0deg))
 			scale(var(--picture-scale, 1));
 		transition:
-			opacity 180ms ease,
-			transform 420ms cubic-bezier(0.22, 1, 0.36, 1.08),
+			opacity var(--page-transition-duration-fast) var(--page-transition-easing),
+			transform var(--page-transition-duration-slow) var(--page-transition-easing),
 			box-shadow 240ms ease,
 			border-color 240ms ease;
 	}
@@ -128,7 +130,7 @@ const pictures = entries.map((entry, index) => {
 	pictures-board[data-ready="false"] .picture-card {
 		opacity: 0;
 		pointer-events: none;
-		--picture-entry-offset: 14px;
+		--picture-entry-offset: var(--page-transition-distance);
 	}
 
 	pictures-board[data-ready="true"] .picture-card {
@@ -147,7 +149,22 @@ const pictures = entries.map((entry, index) => {
 	}
 
 	.picture-card-frame {
-		box-shadow: inset 0 0 0 1px rgba(124, 155, 148, 0.12);
+		border-radius: inherit;
+		overflow: hidden;
+	}
+
+	.picture-media {
+		border-radius: inherit;
+	}
+
+	:global(:root.dark) .picture-card {
+		background: rgba(226, 236, 234, 0.26);
+		border-color: rgba(228, 239, 236, 0.24);
+		box-shadow: 0 20px 46px -30px rgba(5, 12, 18, 0.44);
+	}
+
+	:global(:root.dark) .picture-card-frame {
+		background: rgba(255, 255, 255, 0.02);
 	}
 
 	@media (max-width: 900px) {
@@ -169,12 +186,7 @@ const pictures = entries.map((entry, index) => {
 
 		.picture-card {
 			width: min(calc(var(--picture-width) * 0.68), 38vw);
-			border-radius: 1.1rem;
-		}
-
-		.picture-card-frame {
-			padding: 0.55rem;
-			border-radius: 0.85rem;
+			--picture-corner: 0.88rem;
 		}
 	}
 </style>

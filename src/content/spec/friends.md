@@ -1,8 +1,8 @@
-### 如果你也想交换友链，可以直接在评论区留下站点信息：
+### If you want to exchange links, leave your site details in the comments:
 
 ```yaml
 title: Anpier-Blog
 imgurl: https://image-bed-1326946071.cos.ap-shanghai.myqcloud.com/
-desc: 分裂的彗星在黄昏过后引渡生命和爱
+desc: A split comet carries life and love through the dusk.
 siteurl: https://blog.anpier.xyz/
 ```
