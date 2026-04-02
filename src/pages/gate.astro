@@ -10,8 +10,36 @@ const next = Astro.url.searchParams.get("next") ?? "/about/";
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Human verification</title>
 
+    <script is:inline define:vars={{ next }}>
+      const gateRuntime = (window.__anpierGateRuntime ??= {
+        pending: false,
+      });
+
+      window.handleTurnstileToken = async (token) => {
+        if (!token || gateRuntime.pending) return;
+        gateRuntime.pending = true;
+
+        try {
+          const res = await fetch("/api/turnstile-verify", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ token, next }),
+          });
+
+          if (!res.ok) throw new Error("verify failed");
+
+          const data = await res.json();
+          location.replace(data.redirect || "/about/");
+        } catch (_error) {
+          gateRuntime.pending = false;
+          alert("验证失败，请刷新页面重试");
+        }
+      };
+    </script>
+
     <!-- Cloudflare Turnstile -->
     <script
+      is:inline
       src="https://challenges.cloudflare.com/turnstile/v0/api.js"
       async
       defer
@@ -26,39 +54,8 @@ const next = Astro.url.searchParams.get("next") ?? "/about/";
       </p>
 
       <!-- Turnstile（Managed 模式：必要时才显示勾选） -->
-      <div class="cf-turnstile" data-sitekey={siteKey}></div>
+      <div class="cf-turnstile" data-sitekey={siteKey} data-callback="handleTurnstileToken"></div>
     </main>
-
-    <!-- 自动检测 token → 校验 → 跳转 -->
-    <script define:vars={{ next }}>
-      // 每 400ms 检查一次 Turnstile 是否已生成 token
-      const timer = setInterval(async () => {
-        const tokenEl = document.querySelector(
-          'input[name="cf-turnstile-response"]'
-        );
-
-        const token = tokenEl?.value;
-        if (!token) return;
-
-        // 拿到 token 后立刻停止轮询
-        clearInterval(timer);
-
-        try {
-          const res = await fetch("/api/turnstile-verify", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify({ token, next }),
-          });
-
-          if (!res.ok) throw new Error("verify failed");
-
-          const data = await res.json();
-          location.replace(data.redirect || "/about/");
-        } catch (e) {
-          alert("验证失败，请刷新页面重试");
-        }
-      }, 400);
-    </script>
 
     <!-- 样式：简单但不丑 -->
     <style>

@@ -24,13 +24,18 @@ const {
 } = Astro.props;
 ---
 
-<div id="giscus-container"></div>
+<div data-giscus-container></div>
 
-<script define:vars={{ repo, repoId, category, categoryId, mapping, reactionsEnabled, emitMetadata, inputPosition, lang }}>
+<script is:inline define:vars={{ repo, repoId, category, categoryId, mapping, reactionsEnabled, emitMetadata, inputPosition, lang }}>
+  const giscusRuntime = (window.__anpierGiscusRuntime ??= {
+    observer: null,
+  });
+  const container = document.currentScript?.previousElementSibling;
+
   function loadGiscus() {
-    const container = document.getElementById('giscus-container');
-    if (!container) return;
+    if (!(container instanceof HTMLElement)) return;
 
+    container.textContent = "";
     const isDark = document.documentElement.classList.contains('dark');
     const theme = isDark ? 'dark' : 'light';
 
@@ -54,9 +59,10 @@ const {
     container.appendChild(script);
   }
 
-  // 监听主题变化
   function updateGiscusTheme() {
-    const giscusFrame = document.querySelector('iframe[src*="giscus"]');
+    const giscusFrame =
+      (container instanceof HTMLElement && container.querySelector('iframe[src*="giscus"]')) ||
+      document.querySelector('iframe[src*="giscus"]');
     if (giscusFrame) {
       const isDark = document.documentElement.classList.contains('dark');
       const theme = isDark ? 'dark' : 'light';
@@ -71,25 +77,24 @@ const {
     }
   }
 
-  // 监听DOM变化来检测主题切换
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-        updateGiscusTheme();
-      }
-    });
-  });
-
-  // 页面加载时初始化
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadGiscus);
   } else {
     loadGiscus();
   }
 
-  // 开始观察主题变化
-  observer.observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['class']
-  });
+  if (!giscusRuntime.observer) {
+    giscusRuntime.observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          updateGiscusTheme();
+        }
+      });
+    });
+
+    giscusRuntime.observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
 </script>

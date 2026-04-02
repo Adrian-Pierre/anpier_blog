@@ -12,6 +12,10 @@ let pagefindLoaded = false;
 let initialized = false;
 let desktopInput: HTMLInputElement | null = null;
 let mobileInput: HTMLInputElement | null = null;
+let desktopSearchTimer: number | null = null;
+let mobileSearchTimer: number | null = null;
+let previousKeywordDesktop = "";
+let previousKeywordMobile = "";
 
 const fakeResult: SearchResult[] = [
 	{
@@ -47,6 +51,32 @@ const setPanelVisibility = (show: boolean, isDesktop: boolean): void => {
 		panel.classList.remove("float-panel-closed");
 	} else {
 		panel.classList.add("float-panel-closed");
+	}
+};
+
+const clearSearchTimer = (isDesktop: boolean) => {
+	const timer = isDesktop ? desktopSearchTimer : mobileSearchTimer;
+	if (timer !== null) {
+		window.clearTimeout(timer);
+	}
+
+	if (isDesktop) {
+		desktopSearchTimer = null;
+	} else {
+		mobileSearchTimer = null;
+	}
+};
+
+const queueSearch = (keyword: string, isDesktop: boolean) => {
+	clearSearchTimer(isDesktop);
+	const timer = window.setTimeout(() => {
+		void search(keyword, isDesktop);
+	}, 120);
+
+	if (isDesktop) {
+		desktopSearchTimer = timer;
+	} else {
+		mobileSearchTimer = timer;
 	}
 };
 
@@ -91,7 +121,6 @@ const search = async (keyword: string, isDesktop: boolean): Promise<void> => {
 
 onMount(() => {
 	const onPagefindReady = () => {
-		console.log("Pagefind ready event received.");
 		initializeSearch();
 	};
 
@@ -146,15 +175,11 @@ onMount(() => {
 			typeof window !== "undefined" &&
 			!!window.pagefind &&
 			typeof window.pagefind.search === "function";
-		console.log("Pagefind status on init:", pagefindLoaded);
-		if (keywordDesktop) search(keywordDesktop, true);
-		if (keywordMobile) search(keywordMobile, false);
+		if (keywordDesktop) void search(keywordDesktop, true);
+		if (keywordMobile) void search(keywordMobile, false);
 	};
 
 	if (import.meta.env.DEV) {
-		console.log(
-			"Pagefind is not available in development mode. Using mock data.",
-		);
 		initializeSearch();
 	} else {
 		document.addEventListener("pagefindready", onPagefindReady);
@@ -163,7 +188,6 @@ onMount(() => {
 		// Fallback in case events are not caught or pagefind is already loaded by the time this script runs
 		setTimeout(() => {
 			if (!initialized) {
-				console.log("Fallback: Initializing search after timeout.");
 				initializeSearch();
 			}
 		}, 2000); // Adjust timeout as needed
@@ -175,19 +199,19 @@ onMount(() => {
 		document.removeEventListener("pagefindready", onPagefindReady);
 		document.removeEventListener("pagefindloaderror", onPagefindError);
 		window.removeEventListener("keydown", handleKeyboardShortcut);
+		clearSearchTimer(true);
+		clearSearchTimer(false);
 	};
 });
 
-$: if (initialized && keywordDesktop) {
-	(async () => {
-		await search(keywordDesktop, true);
-	})();
+$: if (initialized && keywordDesktop !== previousKeywordDesktop) {
+	previousKeywordDesktop = keywordDesktop;
+	queueSearch(keywordDesktop, true);
 }
 
-$: if (initialized && keywordMobile) {
-	(async () => {
-		await search(keywordMobile, false);
-	})();
+$: if (initialized && keywordMobile !== previousKeywordMobile) {
+	previousKeywordMobile = keywordMobile;
+	queueSearch(keywordMobile, false);
 }
 </script>
 

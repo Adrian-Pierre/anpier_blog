@@ -28,7 +28,7 @@ import rehypeExternalLinks from "rehype-external-links";
 
 // https://astro.build/config
 export default defineConfig({
-	site: " https://blog.anpier.cn",
+	site: "https://blog.anpier.cn",
 	base: "",
 	trailingSlash: "always",
 	integrations: [

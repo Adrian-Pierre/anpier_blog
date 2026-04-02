@@ -1662,18 +1662,21 @@ const featuredProject = {
 				this.clockTimer = null;
 			}
 
+			const timeFormatter = new Intl.DateTimeFormat("en-US", {
+				hour: "2-digit",
+				minute: "2-digit",
+				hour12: false,
+			});
+			const dateFormatter = new Intl.DateTimeFormat("en-US", {
+				month: "short",
+				day: "numeric",
+				weekday: "short",
+			});
+
 			this.updateClock = () => {
 				const now = new Date();
-				timeElement.textContent = new Intl.DateTimeFormat("en-US", {
-					hour: "2-digit",
-					minute: "2-digit",
-					hour12: false,
-				}).format(now);
-				dateElement.textContent = new Intl.DateTimeFormat("en-US", {
-					month: "short",
-					day: "numeric",
-					weekday: "short",
-				}).format(now);
+				timeElement.textContent = timeFormatter.format(now);
+				dateElement.textContent = dateFormatter.format(now);
 			};
 
 			this.updateClock();

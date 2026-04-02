@@ -22,9 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content, headings } = await entry.render();
-
-const { remarkPluginFrontmatter } = await entry.render();
+const { Content, headings, remarkPluginFrontmatter } = await entry.render();
 const wordUnitZh = "字";
 const wordUnitEn = remarkPluginFrontmatter.words === 1 ? "word" : "words";
 
