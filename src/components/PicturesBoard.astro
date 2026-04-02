@@ -157,8 +157,24 @@ const pictures = entries.map((entry, index) => {
 	}
 
 	@media (max-width: 640px) {
+		.board-shell {
+			padding: 0.7rem;
+			border-radius: 1.3rem;
+		}
+
+		.board-stage {
+			height: 28rem;
+			border-radius: 1rem;
+		}
+
 		.picture-card {
-			width: min(calc(var(--picture-width) * 0.88), 46vw);
+			width: min(calc(var(--picture-width) * 0.68), 38vw);
+			border-radius: 1.1rem;
+		}
+
+		.picture-card-frame {
+			padding: 0.55rem;
+			border-radius: 0.85rem;
 		}
 	}
 </style>
