@@ -7,37 +7,23 @@ interface Props {
 const { badge, url, label } = Astro.props;
 ---
 <a href={url} aria-label={label}>
-    <button
-        class:list={`
-            w-full
-            h-10
-            rounded-lg
-            bg-none
-            hover:bg-[var(--btn-plain-bg-hover)]
-            active:bg-[var(--btn-plain-bg-active)]
-            transition-all
-            pl-2
-            hover:pl-3
-            
-            text-neutral-700
-            hover:text-[var(--primary)]
-            dark:text-neutral-300
-            dark:hover:text-[var(--primary)]
-        `
-        }
+    <div
+        class="group flex h-10 w-full items-center justify-between rounded-xl border border-transparent
+        bg-transparent px-3 text-[0.95rem] text-neutral-700 transition-all duration-200
+        hover:border-[var(--line-divider)] hover:bg-[var(--btn-plain-bg-hover)]
+        hover:text-[var(--primary)] active:translate-y-0 active:bg-[var(--btn-plain-bg-active)]
+        dark:text-neutral-300 dark:hover:text-[var(--primary)]"
     >
-        <div class="flex items-center justify-between relative mr-2">
-            <div class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis  ">
-                <slot></slot>
-            </div>
-            { badge !== undefined && badge !== null && badge !== '' &&
-                <div class="transition px-2 h-7 ml-4 min-w-[2rem] rounded-lg border border-[var(--line-divider)] text-sm font-bold
-                    text-[var(--btn-content)] dark:text-[var(--deep-text)]
-                    bg-[var(--btn-regular-bg)]
-                    flex items-center justify-center">
-                    { badge }
-                </div>
-            }
+        <div class="min-w-0 overflow-hidden text-left whitespace-nowrap text-ellipsis font-medium">
+            <slot></slot>
         </div>
-    </button>
+        { badge !== undefined && badge !== null && badge !== '' &&
+            <div class="ml-4 flex h-7 min-w-[2.15rem] items-center justify-center rounded-lg border border-[var(--line-divider)]
+                bg-white/[0.72] px-2 text-sm font-bold text-[var(--btn-content)] shadow-[0_12px_22px_-20px_rgba(24,51,56,0.32)]
+                transition group-hover:border-[color:var(--primary)]/20 group-hover:bg-white/[0.9]
+                dark:bg-white/[0.06] dark:text-[var(--deep-text)] dark:group-hover:bg-white/[0.09]">
+                { badge }
+            </div>
+        }
+    </div>
 </a>

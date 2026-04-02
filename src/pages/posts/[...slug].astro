@@ -2,6 +2,7 @@
 import path from "node:path";
 import License from "@components/misc/License.astro";
 import Markdown from "@components/misc/Markdown.astro";
+import Giscus from "@components/misc/Giscus.astro";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
 import { getDir, getPostUrlBySlug } from "@utils/url-utils";
@@ -101,23 +102,19 @@ const jsonLd = {
 
             {licenseConfig.enable && <License title={entry.data.title} slug={entry.slug} pubDate={entry.data.published} class="mb-6 rounded-[1.25rem] license-container onload-animation"></License>}
             
-            <div style="margin-top: 20px;"></div>
-            <script src="https://giscus.app/client.js"
-                    data-repo="Adrian-Pierre/anpier_blog_comments"
-                    data-repo-id="R_kgDOP_Yp_w"
-                    data-category="Announcements"
-                    data-category-id="DIC_kwDOP_Yp_84CwcM6"
-                    data-mapping="pathname"
-                    data-strict="0"
-                    data-reactions-enabled="1"
-                    data-emit-metadata="0"
-                    data-input-position="top"
-                    data-theme="preferred_color_scheme"
-                    data-lang="en"
-                    crossorigin="anonymous"
-                    async>
-            </script>
-            <br>
+            <div class="mt-5 overflow-hidden rounded-[1.4rem] border border-[var(--line-divider)] bg-white/60 p-3 shadow-[0_18px_38px_-34px_rgba(24,51,56,0.2)] dark:bg-white/[0.03]">
+                <Giscus
+                    repo="Adrian-Pierre/anpier_blog_comments"
+                    repoId="R_kgDOP_Yp_w"
+                    category="Announcements"
+                    categoryId="DIC_kwDOP_Yp_84CwcM6"
+                    mapping="pathname"
+                    reactionsEnabled={true}
+                    emitMetadata={false}
+                    inputPosition="top"
+                    lang="en"
+                />
+            </div>
         </div>
     </div>
 

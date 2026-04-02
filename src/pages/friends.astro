@@ -1,5 +1,6 @@
 ---
 import Markdown from "@components/misc/Markdown.astro";
+import Giscus from "@components/misc/Giscus.astro";
 import { getCollection } from "astro:content";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 
@@ -150,7 +151,7 @@ const friends = items.map((item, index) => {
 		</section>
 
 		<section class="friends-footer-panels">
-			<div class="card-base relative overflow-hidden px-6 py-6 md:px-7 md:py-7">
+			<div class="friends-footer-card card-base relative overflow-hidden px-6 py-6 md:px-7 md:py-7">
 				<div class="friends-panel-glow is-note"></div>
 				<div class="relative z-10">
 					<div class="mb-4 flex items-center gap-3">
@@ -164,7 +165,7 @@ const friends = items.map((item, index) => {
 				</div>
 			</div>
 
-			<div class="card-base relative overflow-hidden px-6 py-6 md:px-7 md:py-7">
+			<div class="friends-footer-card card-base relative overflow-hidden px-6 py-6 md:px-7 md:py-7">
 				<div class="friends-panel-glow is-comment"></div>
 				<div class="relative z-10">
 					<p class="friends-kicker">Leave A Note</p>
@@ -174,22 +175,17 @@ const friends = items.map((item, index) => {
 					</p>
 
 					<div class="giscus-shell mt-5 overflow-hidden rounded-[1.45rem] border border-[var(--line-divider)] bg-white/65 p-3 dark:bg-white/[0.03]">
-						<script
-							src="https://giscus.app/client.js"
-							data-repo="Adrian-Pierre/anpier_blog_comments"
-							data-repo-id="R_kgDOP_Yp_w"
-							data-category="Announcements"
-							data-category-id="DIC_kwDOP_Yp_84CwcM6"
-							data-mapping="pathname"
-							data-strict="0"
-							data-reactions-enabled="1"
-							data-emit-metadata="0"
-							data-input-position="top"
-							data-theme="preferred_color_scheme"
-							data-lang="en"
-							crossorigin="anonymous"
-							async
-						></script>
+						<Giscus
+							repo="Adrian-Pierre/anpier_blog_comments"
+							repoId="R_kgDOP_Yp_w"
+							category="Announcements"
+							categoryId="DIC_kwDOP_Yp_84CwcM6"
+							mapping="pathname"
+							reactionsEnabled={true}
+							emitMetadata={false}
+							inputPosition="top"
+							lang="en"
+						/>
 					</div>
 				</div>
 			</div>
@@ -296,6 +292,19 @@ const friends = items.map((item, index) => {
 	.friends-footer-panels {
 		display: grid;
 		gap: var(--friends-block-gap);
+	}
+
+	.friends-footer-card {
+		transition:
+			transform var(--page-transition-duration-fast) var(--page-transition-easing),
+			border-color var(--page-transition-duration-fast) ease,
+			box-shadow var(--page-transition-duration-fast) ease;
+	}
+
+	.friends-footer-card:hover {
+		transform: translateY(-3px);
+		border-color: rgba(163, 199, 187, 0.18);
+		box-shadow: 0 30px 56px -42px rgba(78, 90, 102, 0.22);
 	}
 
 	.friend-card-inner {

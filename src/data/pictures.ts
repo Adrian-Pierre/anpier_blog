@@ -66,7 +66,7 @@ export const pictures: PictureItem[] = [
 	},
 	{
 		title: "机协会标",
-		image: "https://raw.githubusercontent.com/Adrian-Pierre/anpier_blog_image/main/src/20260402022957629.png",
+		image: "https://image-bed-1326946071.cos.ap-shanghai.myqcloud.com/20251212213121568.jpg",
 		description: "机协的标志，设计得很棒！",
 		x: 8,
 		y: 12,

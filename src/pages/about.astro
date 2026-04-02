@@ -54,7 +54,6 @@ const paletteSwatches = [
 
 const defaultSwatch = paletteSwatches[0];
 const aboutDisplayName = profileConfig.name.replace(/\s+/g, " ").trim();
-const aboutControlLayout: "panel" | "strip" = "panel";
 const featuredProject = {
 	owner: "Adrian-Pierre",
 	repo: "anpier_blog",
@@ -232,7 +231,7 @@ const featuredProject = {
 			</aside>
 		</div>
 
-		<section class={`card-base about-bottom-controls ${aboutControlLayout === "strip" ? "is-strip" : "is-panel"}`}>
+		<section class="card-base about-bottom-controls is-panel">
 			<p class="about-bottom-kicker" data-lang-zh="快速设置" data-lang-en="Quick Controls">Quick Controls</p>
 			<div class="about-bottom-grid">
 				<div class="about-bottom-block is-motion" data-tilt-surface>

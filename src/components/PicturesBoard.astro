@@ -71,6 +71,7 @@ const pictures = entries.map((entry, index) => {
 							class="picture-media h-full w-full pointer-events-none select-none"
 							fit={picture.fit}
 							overlay={false}
+							proxyExternal={true}
 						/>
 					</div>
 				</article>
@@ -107,7 +108,7 @@ const pictures = entries.map((entry, index) => {
 
 	.picture-card {
 		--picture-corner: 1.08rem;
-		width: min(calc(var(--picture-width) * 0.82), 30vw);
+		width: min(calc(var(--picture-width) * 0.78), 28vw);
 		aspect-ratio: var(--picture-ratio, 4 / 5);
 		border-radius: var(--picture-corner);
 		box-sizing: border-box;
@@ -148,6 +149,13 @@ const pictures = entries.map((entry, index) => {
 		--picture-scale: 1.035;
 	}
 
+	.picture-card[data-dragging="true"] {
+		--picture-lift: -4px;
+		--picture-scale: 1.024;
+		box-shadow: 0 28px 52px -30px rgba(24, 51, 56, 0.34);
+		cursor: grabbing;
+	}
+
 	.picture-card-frame {
 		border-radius: inherit;
 		overflow: hidden;
@@ -169,7 +177,7 @@ const pictures = entries.map((entry, index) => {
 
 	@media (max-width: 900px) {
 		.picture-card {
-			width: min(calc(var(--picture-width) * 0.84), 38vw);
+			width: min(calc(var(--picture-width) * 0.72), 36vw);
 		}
 	}
 
@@ -185,7 +193,7 @@ const pictures = entries.map((entry, index) => {
 		}
 
 		.picture-card {
-			width: min(calc(var(--picture-width) * 0.68), 38vw);
+			width: min(calc(var(--picture-width) * 0.6), 34vw);
 			--picture-corner: 0.88rem;
 		}
 	}
@@ -229,6 +237,12 @@ const pictures = entries.map((entry, index) => {
 			}
 		}
 
+		private getEdgePadding() {
+			if (window.innerWidth <= 640) return 6;
+			if (window.innerWidth <= 900) return 10;
+			return 14;
+		}
+
 		private syncCardRatio(card: HTMLElement) {
 			const image = card.querySelector("img");
 			if (!(image instanceof HTMLImageElement)) return;
@@ -256,17 +270,18 @@ const pictures = entries.map((entry, index) => {
 
 			const stageWidth = this.stage.clientWidth;
 			const stageHeight = this.stage.clientHeight;
+			const edgePadding = this.getEdgePadding();
 
 			for (const card of this.cards) {
 				const x = Number(card.dataset.x || 0);
 				const y = Number(card.dataset.y || 0);
 				const width = card.offsetWidth;
 				const height = card.offsetHeight;
-				const maxLeft = Math.max(stageWidth - width, 0);
-				const maxTop = Math.max(stageHeight - height, 0);
+				const maxLeft = Math.max(stageWidth - width - edgePadding * 2, 0);
+				const maxTop = Math.max(stageHeight - height - edgePadding * 2, 0);
 
-				card.style.left = `${(maxLeft * x) / 100}px`;
-				card.style.top = `${(maxTop * y) / 100}px`;
+				card.style.left = `${edgePadding + (maxLeft * x) / 100}px`;
+				card.style.top = `${edgePadding + (maxTop * y) / 100}px`;
 				card.style.zIndex = String(this.nextZIndex++);
 			}
 		}
@@ -276,15 +291,16 @@ const pictures = entries.map((entry, index) => {
 
 			const stageWidth = this.stage.clientWidth;
 			const stageHeight = this.stage.clientHeight;
+			const edgePadding = this.getEdgePadding();
 
 			for (const card of this.cards) {
-				const maxLeft = Math.max(stageWidth - card.offsetWidth, 0);
-				const maxTop = Math.max(stageHeight - card.offsetHeight, 0);
+				const maxLeft = Math.max(stageWidth - card.offsetWidth - edgePadding * 2, 0);
+				const maxTop = Math.max(stageHeight - card.offsetHeight - edgePadding * 2, 0);
 				const left = Number.parseFloat(card.style.left || "0");
 				const top = Number.parseFloat(card.style.top || "0");
 
-				card.style.left = `${this.clamp(left, 0, maxLeft)}px`;
-				card.style.top = `${this.clamp(top, 0, maxTop)}px`;
+				card.style.left = `${this.clamp(left, edgePadding, edgePadding + maxLeft)}px`;
+				card.style.top = `${this.clamp(top, edgePadding, edgePadding + maxTop)}px`;
 			}
 		}
 
@@ -295,6 +311,7 @@ const pictures = entries.map((entry, index) => {
 			let initialLeft = 0;
 			let initialTop = 0;
 			let moved = false;
+			let settleTimer = 0;
 			const bringToFront = () => {
 				card.style.zIndex = String(this.nextZIndex++);
 			};
@@ -304,14 +321,29 @@ const pictures = entries.map((entry, index) => {
 
 				const deltaX = event.clientX - startX;
 				const deltaY = event.clientY - startY;
+				const edgePadding = this.getEdgePadding();
 
 				moved = moved || Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4;
 
-				const maxLeft = Math.max(this.stage.clientWidth - card.offsetWidth, 0);
-				const maxTop = Math.max(this.stage.clientHeight - card.offsetHeight, 0);
+				const maxLeft = Math.max(
+					this.stage.clientWidth - card.offsetWidth - edgePadding * 2,
+					0,
+				);
+				const maxTop = Math.max(
+					this.stage.clientHeight - card.offsetHeight - edgePadding * 2,
+					0,
+				);
 
-				card.style.left = `${this.clamp(initialLeft + deltaX, 0, maxLeft)}px`;
-				card.style.top = `${this.clamp(initialTop + deltaY, 0, maxTop)}px`;
+				card.style.left = `${this.clamp(
+					initialLeft + deltaX,
+					edgePadding,
+					edgePadding + maxLeft,
+				)}px`;
+				card.style.top = `${this.clamp(
+					initialTop + deltaY,
+					edgePadding,
+					edgePadding + maxTop,
+				)}px`;
 			};
 
 			const finishPointer = (event: PointerEvent) => {
@@ -323,6 +355,12 @@ const pictures = entries.map((entry, index) => {
 				card.removeEventListener("pointercancel", finishPointer);
 
 				pointerId = -1;
+				card.dataset.dragging = "false";
+				window.clearTimeout(settleTimer);
+				card.dataset.settling = "true";
+				settleTimer = window.setTimeout(() => {
+					delete card.dataset.settling;
+				}, 180);
 			};
 
 			card.addEventListener("pointerdown", (event: PointerEvent) => {
@@ -337,6 +375,8 @@ const pictures = entries.map((entry, index) => {
 				moved = false;
 
 				card.style.zIndex = String(this.nextZIndex++);
+				card.dataset.dragging = "true";
+				delete card.dataset.settling;
 				card.setPointerCapture(pointerId);
 				card.addEventListener("pointermove", onPointerMove);
 				card.addEventListener("pointerup", finishPointer);

@@ -3,6 +3,14 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
 
+function normalizeLabelKey(value: string) {
+	return value.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+}
+
+function getCleanLabel(value: string) {
+	return value.trim().replace(/\s+/g, " ");
+}
+
 // // Retrieve posts and sort them by publication date
 async function getRawSortedPosts() {
 	const allBlogPosts = await getCollection("posts", ({ data }) => {
@@ -56,20 +64,29 @@ export async function getTagList(): Promise<Tag[]> {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
-	const countMap: { [key: string]: number } = {};
+	const countMap = new Map<string, Tag>();
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
 		post.data.tags.forEach((tag: string) => {
-			if (!countMap[tag]) countMap[tag] = 0;
-			countMap[tag]++;
+			const cleanTag = getCleanLabel(tag);
+			if (!cleanTag) return;
+
+			const normalizedTag = normalizeLabelKey(cleanTag);
+			const existingTag = countMap.get(normalizedTag);
+			if (existingTag) {
+				existingTag.count++;
+				return;
+			}
+
+			countMap.set(normalizedTag, {
+				name: cleanTag,
+				count: 1,
+			});
 		});
 	});
 
-	// sort tags
-	const keys: string[] = Object.keys(countMap).sort((a, b) => {
-		return a.toLowerCase().localeCompare(b.toLowerCase());
-	});
-
-	return keys.map((key) => ({ name: key, count: countMap[key] }));
+	return [...countMap.values()].sort((a, b) =>
+		a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()),
+	);
 }
 
 export type Category = {
@@ -82,33 +99,47 @@ export async function getCategoryList(): Promise<Category[]> {
 	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
-	const count: { [key: string]: number } = {};
+	const count = new Map<string, Category>();
 	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {
 			const ucKey = i18n(I18nKey.uncategorized);
-			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
+			const normalizedUcKey = normalizeLabelKey(ucKey);
+			const existingUc = count.get(normalizedUcKey);
+			if (existingUc) {
+				existingUc.count++;
+				return;
+			}
+
+			count.set(normalizedUcKey, {
+				name: ucKey,
+				count: 1,
+				url: getCategoryUrl(ucKey),
+			});
 			return;
 		}
 
-		const categoryName =
+		const categoryName = getCleanLabel(
 			typeof post.data.category === "string"
-				? post.data.category.trim()
-				: String(post.data.category).trim();
+				? post.data.category
+				: String(post.data.category),
+		);
+		if (!categoryName) return;
 
-		count[categoryName] = count[categoryName] ? count[categoryName] + 1 : 1;
-	});
+		const normalizedCategoryName = normalizeLabelKey(categoryName);
+		const existingCategory = count.get(normalizedCategoryName);
+		if (existingCategory) {
+			existingCategory.count++;
+			return;
+		}
 
-	const lst = Object.keys(count).sort((a, b) => {
-		return a.toLowerCase().localeCompare(b.toLowerCase());
-	});
-
-	const ret: Category[] = [];
-	for (const c of lst) {
-		ret.push({
-			name: c,
-			count: count[c],
-			url: getCategoryUrl(c),
+		count.set(normalizedCategoryName, {
+			name: categoryName,
+			count: 1,
+			url: getCategoryUrl(categoryName),
 		});
-	}
-	return ret;
+	});
+
+	return [...count.values()].sort((a, b) =>
+		a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase()),
+	);
 }

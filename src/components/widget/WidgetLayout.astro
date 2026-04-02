@@ -1,7 +1,4 @@
 ---
-import I18nKey from "../../i18n/i18nKey";
-import { i18n } from "../../i18n/translation";
-
 interface Props {
 	id: string;
 	name?: string;
@@ -24,11 +21,11 @@ const collapseEn = "Collapse";
 ---
 <widget-layout data-id={id} data-is-collapsed={String(isCollapsed)} class={"pb-4 card-base " + className} style={style}>
     <div
-        class="px-5 pt-5 pb-2 text-[0.74rem] font-semibold uppercase tracking-[0.26em] text-[var(--primary)]/85"
+        class="px-5 pt-5 pb-3 text-[0.74rem] font-semibold uppercase tracking-[0.26em] text-[var(--primary)]/85"
         data-lang-zh={sectionNameZh}
         data-lang-en={sectionNameEn}
     >{sectionNameZh}</div>
-    <div id={id} class:list={["collapse-wrapper px-5 overflow-hidden", {"collapsed": isCollapsed}]}>
+    <div id={id} class:list={["collapse-wrapper px-5 pt-1 overflow-hidden", {"collapsed": isCollapsed}]}>
         <slot></slot>
     </div>
     {isCollapsed && <div class="expand-btn px-5 pt-3 -mb-1">
@@ -83,9 +80,9 @@ const collapseEn = "Collapse";
 </style>
 
 <script>
-    class WidgetLayout extends HTMLElement {
-        cleanupFns = [];
+    const cleanupFnsMap = new WeakMap();
 
+    class WidgetLayout extends HTMLElement {
         connectedCallback() {
             if (this.dataset.isCollapsed !== "true") {
                 return;
@@ -123,15 +120,23 @@ const collapseEn = "Collapse";
             toggleBtn.addEventListener('click', onToggle);
             window.addEventListener('ui-language:change', onLanguageChange);
 
-            this.cleanupFns.push(() => toggleBtn.removeEventListener('click', onToggle));
-            this.cleanupFns.push(() => window.removeEventListener('ui-language:change', onLanguageChange));
+            const cleanupFns = [
+                () => toggleBtn.removeEventListener('click', onToggle),
+                () => window.removeEventListener('ui-language:change', onLanguageChange),
+            ];
+            cleanupFnsMap.set(this, cleanupFns);
 
             syncState();
         }
 
         disconnectedCallback() {
-            this.cleanupFns.forEach((cleanup) => cleanup());
-            this.cleanupFns = [];
+            const cleanupFns = cleanupFnsMap.get(this) || [];
+            for (const cleanup of cleanupFns) {
+                if (typeof cleanup === 'function') {
+                    cleanup();
+                }
+            }
+            cleanupFnsMap.delete(this);
         }
     }
 
