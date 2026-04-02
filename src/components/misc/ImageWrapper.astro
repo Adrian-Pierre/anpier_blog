@@ -10,7 +10,6 @@ interface Props {
 	basePath?: string;
 	fit?: "cover" | "contain";
 	overlay?: boolean;
-	proxyExternal?: boolean;
 }
 
 import { Image } from "astro:assets";
@@ -24,7 +23,6 @@ const {
 	basePath = "/",
 	fit = "cover",
 	overlay = true,
-	proxyExternal = false,
 } = Astro.props;
 const className = Astro.props.class;
 
@@ -35,10 +33,6 @@ const isLocal = !(
 	src.startsWith("data:")
 );
 const isPublic = src.startsWith("/");
-const shouldProxyExternal =
-	proxyExternal &&
-	!import.meta.env.DEV &&
-	(src.startsWith("http://") || src.startsWith("https://"));
 
 // TODO temporary workaround for images dynamic import
 // https://github.com/withastro/astro/issues/3373
@@ -62,14 +56,9 @@ if (isLocal) {
 
 const imageClass = `w-full h-full ${fit === "contain" ? "object-contain" : "object-cover"}`;
 const imageStyle = `object-position: ${position}`;
-const remoteImageSrc = shouldProxyExternal
-	? `${url("/api/image-proxy/")}?url=${encodeURIComponent(src)}`
-	: isPublic
-		? url(src)
-		: src;
 ---
 <div id={id} class:list={[className, 'overflow-hidden relative']}>
     {overlay && <div class="transition absolute inset-0 dark:bg-black/10 bg-opacity-50 pointer-events-none"></div>}
     {isLocal && img && <Image src={img} alt={alt || ""} class={imageClass} style={imageStyle}/>}
-    {!isLocal && <img src={remoteImageSrc} alt={alt || ""} class={imageClass} style={imageStyle}/>}
+    {!isLocal && <img src={isPublic ? url(src) : src} alt={alt || ""} class={imageClass} style={imageStyle}/>}
 </div>

@@ -1562,6 +1562,7 @@ const featuredProject = {
 	class AboutInteractive extends HTMLElement {
 		private cleanupFns: Array<() => void> = [];
 		private clockTimer: number | null = null;
+		private clockRetryFrame: number | null = null;
 
 		connectedCallback() {
 			this.dataset.motion = "on";
@@ -1583,6 +1584,10 @@ const featuredProject = {
 			if (this.clockTimer !== null) {
 				window.clearInterval(this.clockTimer);
 				this.clockTimer = null;
+			}
+			if (this.clockRetryFrame !== null) {
+				window.cancelAnimationFrame(this.clockRetryFrame);
+				this.clockRetryFrame = null;
 			}
 		}
 
@@ -1625,7 +1630,23 @@ const featuredProject = {
 		private setupClock() {
 			const timeElement = this.querySelector<HTMLElement>("[data-about-time]");
 			const dateElement = this.querySelector<HTMLElement>("[data-about-date]");
-			if (!timeElement || !dateElement) return;
+			if (!timeElement || !dateElement) {
+				this.clockRetryFrame = window.requestAnimationFrame(() => {
+					this.clockRetryFrame = null;
+					this.setupClock();
+				});
+				return;
+			}
+
+			if (this.clockRetryFrame !== null) {
+				window.cancelAnimationFrame(this.clockRetryFrame);
+				this.clockRetryFrame = null;
+			}
+
+			if (this.clockTimer !== null) {
+				window.clearInterval(this.clockTimer);
+				this.clockTimer = null;
+			}
 
 			this.updateClock = () => {
 				const now = new Date();
