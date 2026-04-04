@@ -61,6 +61,11 @@ const pictures = entries.map((entry, index) => {
 					data-index={String(picture.index)}
 					data-x={String(picture.x)}
 					data-y={String(picture.y)}
+					data-description-visible="false"
+					tabindex="0"
+					role="button"
+					aria-pressed="false"
+					aria-label={`Toggle description for ${picture.title}`}
 					draggable="false"
 					style={`--picture-width:${picture.width}px; --picture-rotate:${picture.rotate}deg; animation-delay: calc(var(--content-delay) + ${picture.index * 45}ms);`}
 				>
@@ -72,6 +77,9 @@ const pictures = entries.map((entry, index) => {
 							fit={picture.fit}
 							overlay={false}
 						/>
+						<div class="picture-card-overlay">
+							<p class="picture-card-description">{picture.description}</p>
+						</div>
 					</div>
 				</article>
 			))}
@@ -156,12 +164,59 @@ const pictures = entries.map((entry, index) => {
 	}
 
 	.picture-card-frame {
+		position: relative;
 		border-radius: inherit;
 		overflow: hidden;
 	}
 
+	.picture-card-overlay {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1.15rem 1rem;
+		border-radius: inherit;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.68)),
+			radial-gradient(circle at top left, rgba(255, 214, 228, 0.16), rgba(255, 255, 255, 0) 38%),
+			radial-gradient(circle at bottom right, rgba(170, 230, 219, 0.16), rgba(255, 255, 255, 0) 42%);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		opacity: 0;
+		transform: translateY(10px);
+		pointer-events: none;
+		transition:
+			opacity 260ms ease,
+			transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+			background 260ms ease;
+	}
+
+	.picture-card[data-description-visible="true"] .picture-card-overlay {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.picture-card[data-description-visible="true"] .picture-media {
+		transform: scale(1.02);
+		filter: saturate(0.92) brightness(0.82);
+	}
+
+	.picture-card-description {
+		margin: 0;
+		text-align: center;
+		font-size: 0.94rem;
+		line-height: 1.8;
+		color: rgba(59, 75, 82, 0.92);
+		text-wrap: balance;
+		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+	}
+
 	.picture-media {
 		border-radius: inherit;
+		transition:
+			transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+			filter 260ms ease;
 	}
 
 	:global(:root.dark) .picture-card {
@@ -172,6 +227,18 @@ const pictures = entries.map((entry, index) => {
 
 	:global(:root.dark) .picture-card-frame {
 		background: rgba(255, 255, 255, 0.02);
+	}
+
+	:global(:root.dark) .picture-card-overlay {
+		background:
+			linear-gradient(180deg, rgba(19, 24, 30, 0.08), rgba(21, 27, 33, 0.72)),
+			radial-gradient(circle at top left, rgba(221, 171, 194, 0.12), rgba(255, 255, 255, 0) 38%),
+			radial-gradient(circle at bottom right, rgba(158, 214, 203, 0.12), rgba(255, 255, 255, 0) 42%);
+	}
+
+	:global(:root.dark) .picture-card-description {
+		color: rgba(238, 243, 246, 0.9);
+		text-shadow: 0 1px 10px rgba(0, 0, 0, 0.22);
 	}
 
 	@media (max-width: 900px) {
@@ -194,6 +261,23 @@ const pictures = entries.map((entry, index) => {
 		.picture-card {
 			width: min(calc(var(--picture-width) * 0.6), 34vw);
 			--picture-corner: 0.88rem;
+		}
+
+		.picture-card-overlay {
+			padding: 0.9rem 0.8rem;
+		}
+
+		.picture-card-description {
+			font-size: 0.8rem;
+			line-height: 1.65;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.picture-card,
+		.picture-media,
+		.picture-card-overlay {
+			transition: none !important;
 		}
 	}
 </style>
@@ -311,8 +395,15 @@ const pictures = entries.map((entry, index) => {
 			let initialTop = 0;
 			let moved = false;
 			let settleTimer = 0;
+			const dragThreshold = 10;
 			const bringToFront = () => {
 				card.style.zIndex = String(this.nextZIndex++);
+			};
+			const toggleDescription = () => {
+				const isVisible = card.dataset.descriptionVisible === "true";
+				card.dataset.descriptionVisible = isVisible ? "false" : "true";
+				card.setAttribute("aria-pressed", isVisible ? "false" : "true");
+				bringToFront();
 			};
 
 			const onPointerMove = (event: PointerEvent) => {
@@ -322,7 +413,11 @@ const pictures = entries.map((entry, index) => {
 				const deltaY = event.clientY - startY;
 				const edgePadding = this.getEdgePadding();
 
-				moved = moved || Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4;
+				const hasMoved = Math.abs(deltaX) > dragThreshold || Math.abs(deltaY) > dragThreshold;
+				if (hasMoved && !moved) {
+					card.dataset.dragging = "true";
+				}
+				moved = moved || hasMoved;
 
 				const maxLeft = Math.max(
 					this.stage.clientWidth - card.offsetWidth - edgePadding * 2,
@@ -348,10 +443,16 @@ const pictures = entries.map((entry, index) => {
 			const finishPointer = (event: PointerEvent) => {
 				if (event.pointerId !== pointerId) return;
 
-				card.releasePointerCapture(pointerId);
+				if (card.hasPointerCapture(pointerId)) {
+					card.releasePointerCapture(pointerId);
+				}
 				card.removeEventListener("pointermove", onPointerMove);
 				card.removeEventListener("pointerup", finishPointer);
 				card.removeEventListener("pointercancel", finishPointer);
+
+				if (event.type === "pointerup" && !moved) {
+					toggleDescription();
+				}
 
 				pointerId = -1;
 				card.dataset.dragging = "false";
@@ -364,8 +465,8 @@ const pictures = entries.map((entry, index) => {
 
 			card.addEventListener("pointerdown", (event: PointerEvent) => {
 				if (!(this.stage instanceof HTMLElement)) return;
+				if (!event.isPrimary || event.button !== 0) return;
 
-				event.preventDefault();
 				pointerId = event.pointerId;
 				startX = event.clientX;
 				startY = event.clientY;
@@ -374,7 +475,7 @@ const pictures = entries.map((entry, index) => {
 				moved = false;
 
 				card.style.zIndex = String(this.nextZIndex++);
-				card.dataset.dragging = "true";
+				card.dataset.dragging = "false";
 				delete card.dataset.settling;
 				card.setPointerCapture(pointerId);
 				card.addEventListener("pointermove", onPointerMove);
@@ -386,6 +487,11 @@ const pictures = entries.map((entry, index) => {
 				event.preventDefault();
 			});
 			card.addEventListener("pointerenter", bringToFront);
+			card.addEventListener("keydown", (event: KeyboardEvent) => {
+				if (event.key !== "Enter" && event.key !== " ") return;
+				event.preventDefault();
+				toggleDescription();
+			});
 		}
 
 		private clamp(value: number, min: number, max: number) {

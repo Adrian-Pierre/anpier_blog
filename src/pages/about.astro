@@ -122,12 +122,17 @@ const featuredProject = {
 
 						<aside class="about-copy-side">
 							<section class="about-hero-panel">
-								<section class="about-widget-card about-widget-card--hero">
-									<div class="about-widget-head">
-										<p class="about-widget-label" data-lang-zh="本地时间" data-lang-en="Local Time">Local Time</p>
+								<section class="about-widget-card about-widget-card--hero about-orbit-card">
+									<div
+										class="about-orbit-stage"
+										data-about-orbit-stage
+										data-active="false"
+										aria-label="Interactive orbit field"
+									>
+										<div class="about-orbit-glow is-one"></div>
+										<div class="about-orbit-glow is-two"></div>
+										<canvas class="about-orbit-canvas" data-about-orbit-canvas></canvas>
 									</div>
-									<div class="about-widget-time" data-about-time>--:--</div>
-									<p class="about-widget-note" data-about-date>Loading</p>
 								</section>
 							</section>
 						</aside>
@@ -427,7 +432,7 @@ const featuredProject = {
 		position: relative;
 		z-index: 1;
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(15rem, 17rem);
+		grid-template-columns: minmax(0, 1fr) minmax(16.5rem, 18.8rem);
 		gap: 1.35rem;
 		align-items: start;
 	}
@@ -443,18 +448,14 @@ const featuredProject = {
 
 	.about-hero-panel {
 		display: grid;
-		gap: 0.85rem;
-		padding: 1rem;
-		border-radius: 1.45rem;
-		border: 1px solid rgba(255, 255, 255, 0.86);
-		background:
-			linear-gradient(160deg, rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.4)),
-			rgba(255, 255, 255, 0.5);
-		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, 0.88),
-			0 24px 48px -38px rgba(24, 51, 56, 0.22);
-		backdrop-filter: blur(14px);
-		-webkit-backdrop-filter: blur(14px);
+		gap: 0;
+		padding: 0;
+		border: none;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	.about-chip-row {
@@ -625,7 +626,7 @@ const featuredProject = {
 
 	.about-widget-card--hero {
 		min-height: auto;
-		padding: 0.9rem 0.95rem;
+		padding: 0.72rem;
 		border-radius: 1.2rem;
 		border: 1px solid rgba(var(--about-active-rgb, 170 230 219), 0.22);
 		background:
@@ -638,11 +639,12 @@ const featuredProject = {
 			0 0 0 1px rgba(var(--about-active-rgb, 170 230 219), 0.08);
 	}
 
-	.about-widget-head {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
+	.about-widget-card--hero.about-orbit-card {
+		padding: 0;
+		border: none;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
 	}
 
 	.about-widget-label {
@@ -654,21 +656,84 @@ const featuredProject = {
 		color: rgba(51, 79, 82, 0.45);
 	}
 
-	.about-widget-time {
-		margin-top: 0.55rem;
-		font-size: clamp(1.8rem, 2.6vw, 2.2rem);
-		line-height: 1;
-		font-weight: 800;
-		letter-spacing: -0.05em;
-		color: var(--deep-text);
-		text-shadow: 0 8px 20px rgba(24, 51, 56, 0.08);
-	}
-
 	.about-widget-note {
 		margin: 0.55rem 0 0;
 		font-size: 0.84rem;
 		line-height: 1.5;
 		color: rgba(51, 79, 82, 0.6);
+	}
+
+	.about-orbit-card {
+		padding: 0;
+		border: none;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+		overflow: visible;
+	}
+
+	.about-orbit-stage {
+		position: relative;
+		overflow: hidden;
+		min-height: clamp(17.4rem, 36vw, 20.2rem);
+		border-radius: 0;
+		border: none;
+		background: transparent;
+		box-shadow: none;
+		isolation: isolate;
+		outline: none;
+		-webkit-tap-highlight-color: transparent;
+		transition:
+			opacity 0.28s ease,
+			filter 0.28s ease;
+	}
+
+	.about-orbit-stage::before {
+		content: none;
+	}
+
+	.about-orbit-stage::after {
+		content: none;
+	}
+
+	.about-orbit-stage[data-active="true"] {
+		opacity: 1;
+		filter: saturate(1.05);
+	}
+
+	.about-orbit-canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		z-index: 2;
+		outline: none;
+	}
+
+	.about-orbit-glow {
+		position: absolute;
+		border-radius: 999px;
+		filter: blur(28px);
+		opacity: 0.82;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.about-orbit-glow.is-one {
+		top: -2.2rem;
+		right: -1.8rem;
+		width: 9.6rem;
+		height: 9.6rem;
+		background: radial-gradient(circle, rgba(var(--about-active-rgb, 170 230 219), 0.34), rgba(255, 255, 255, 0));
+	}
+
+	.about-orbit-glow.is-two {
+		left: -1.8rem;
+		bottom: -2.3rem;
+		width: 8.4rem;
+		height: 8.4rem;
+		background: radial-gradient(circle, rgba(255, 214, 228, 0.38), rgba(255, 255, 255, 0));
 	}
 
 	.about-motion-toggle {
@@ -1374,6 +1439,40 @@ const featuredProject = {
 			0 0 0 1px rgba(var(--about-active-rgb, 170 230 219), 0.05);
 	}
 
+	:global(:root.dark) .about-widget-card--hero.about-orbit-card {
+		border: none;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	:global(:root.dark) .about-hero-panel {
+		background: transparent;
+		box-shadow: none;
+	}
+
+	:global(:root.dark) .about-orbit-card {
+		background: transparent;
+		box-shadow: none;
+	}
+
+	:global(:root.dark) .about-orbit-stage {
+		border: none;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	:global(:root.dark) .about-orbit-stage[data-active="true"] {
+		filter: saturate(1.08);
+	}
+
+	:global(:root.dark) .about-orbit-glow.is-one {
+		background: radial-gradient(circle, rgba(var(--about-active-rgb, 170 230 219), 0.28), rgba(255, 255, 255, 0));
+	}
+
+	:global(:root.dark) .about-orbit-glow.is-two {
+		background: radial-gradient(circle, rgba(221, 171, 194, 0.24), rgba(255, 255, 255, 0));
+	}
+
 	:global(:root.dark) .about-link-card {
 		background:
 			linear-gradient(135deg, rgba(var(--about-link-tint), 0.12), rgba(255, 255, 255, 0.03)),
@@ -1512,7 +1611,11 @@ const featuredProject = {
 		}
 
 		.about-hero-panel {
-			padding: 0.88rem;
+			padding: 0;
+		}
+
+		.about-orbit-stage {
+			min-height: 14.6rem;
 		}
 
 		.about-chip-row.is-panel {
@@ -1575,34 +1678,23 @@ const featuredProject = {
 <script>
 	class AboutInteractive extends HTMLElement {
 		private cleanupFns: Array<() => void> = [];
-		private clockTimer: number | null = null;
-		private clockRetryFrame: number | null = null;
 
 		connectedCallback() {
 			this.dataset.motion = "on";
-			this.setupClock();
+			this.setupOrbitField();
 			this.setupMotionToggle();
+			this.setupSwatches();
 
 			if (!window.matchMedia("(pointer: fine)").matches) {
-				this.setupSwatches();
 				return;
 			}
 
 			this.setupTiltSurfaces();
-			this.setupSwatches();
 		}
 
 		disconnectedCallback() {
 			this.cleanupFns.forEach((cleanup) => cleanup());
 			this.cleanupFns = [];
-			if (this.clockTimer !== null) {
-				window.clearInterval(this.clockTimer);
-				this.clockTimer = null;
-			}
-			if (this.clockRetryFrame !== null) {
-				window.cancelAnimationFrame(this.clockRetryFrame);
-				this.clockRetryFrame = null;
-			}
 		}
 
 		private setupTiltSurfaces() {
@@ -1641,49 +1733,318 @@ const featuredProject = {
 			}
 		}
 
-		private setupClock() {
-			const timeElement = this.querySelector<HTMLElement>("[data-about-time]");
-			const dateElement = this.querySelector<HTMLElement>("[data-about-date]");
-			if (!timeElement || !dateElement) {
-				this.clockRetryFrame = window.requestAnimationFrame(() => {
-					this.clockRetryFrame = null;
-					this.setupClock();
-				});
-				return;
-			}
+		private setupOrbitField() {
+			const stage = this.querySelector<HTMLElement>("[data-about-orbit-stage]");
+			const canvas = this.querySelector<HTMLCanvasElement>("[data-about-orbit-canvas]");
+			if (!stage || !canvas) return;
 
-			if (this.clockRetryFrame !== null) {
-				window.cancelAnimationFrame(this.clockRetryFrame);
-				this.clockRetryFrame = null;
-			}
+			const context = canvas.getContext("2d");
+			if (!context) return;
 
-			if (this.clockTimer !== null) {
-				window.clearInterval(this.clockTimer);
-				this.clockTimer = null;
-			}
-
-			const timeFormatter = new Intl.DateTimeFormat("en-US", {
-				hour: "2-digit",
-				minute: "2-digit",
-				hour12: false,
-			});
-			const dateFormatter = new Intl.DateTimeFormat("en-US", {
-				month: "short",
-				day: "numeric",
-				weekday: "short",
-			});
-
-			this.updateClock = () => {
-				const now = new Date();
-				timeElement.textContent = timeFormatter.format(now);
-				dateElement.textContent = dateFormatter.format(now);
+			type OrbitNodeSeed = {
+				x: number;
+				y: number;
+				driftX: number;
+				driftY: number;
+				speed: number;
+				phase: number;
+				size: number;
+				tone: "accent" | "rose" | "sky";
 			};
 
-			this.updateClock();
-			this.clockTimer = window.setInterval(() => this.updateClock(), 30_000);
+			const seeds: OrbitNodeSeed[] = [
+				{ x: 0.18, y: 0.22, driftX: 0.028, driftY: 0.038, speed: 0.0007, phase: 0.3, size: 3.6, tone: "rose" },
+				{ x: 0.34, y: 0.3, driftX: 0.025, driftY: 0.03, speed: 0.00092, phase: 1.2, size: 4.2, tone: "accent" },
+				{ x: 0.58, y: 0.18, driftX: 0.032, driftY: 0.028, speed: 0.00078, phase: 2.1, size: 3.5, tone: "sky" },
+				{ x: 0.78, y: 0.26, driftX: 0.026, driftY: 0.034, speed: 0.00082, phase: 3.1, size: 4.1, tone: "accent" },
+				{ x: 0.22, y: 0.58, driftX: 0.024, driftY: 0.03, speed: 0.00088, phase: 4.2, size: 3.4, tone: "sky" },
+				{ x: 0.46, y: 0.52, driftX: 0.03, driftY: 0.026, speed: 0.00095, phase: 5, size: 5.2, tone: "accent" },
+				{ x: 0.7, y: 0.56, driftX: 0.024, driftY: 0.036, speed: 0.00074, phase: 5.8, size: 3.9, tone: "rose" },
+				{ x: 0.84, y: 0.68, driftX: 0.02, driftY: 0.024, speed: 0.00068, phase: 0.8, size: 3.2, tone: "sky" },
+				{ x: 0.4, y: 0.8, driftX: 0.03, driftY: 0.02, speed: 0.00072, phase: 2.8, size: 3.7, tone: "rose" },
+				{ x: 0.62, y: 0.78, driftX: 0.022, driftY: 0.028, speed: 0.00084, phase: 1.7, size: 4.4, tone: "accent" },
+			];
+
+			let width = 0;
+			let height = 0;
+			let dpr = 1;
+			let animationFrame = 0;
+			let accent = this.readAccentRgb();
+			let frameCount = 0;
+
+			const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+			const pointer = {
+				x: 0,
+				y: 0,
+				targetX: 0,
+				targetY: 0,
+				influence: 0,
+				targetInfluence: 0,
+			};
+			const pulses: Array<{ x: number; y: number; startedAt: number }> = [];
+
+			const resize = () => {
+				const rect = stage.getBoundingClientRect();
+				width = Math.max(rect.width, 1);
+				height = Math.max(rect.height, 1);
+				dpr = Math.min(window.devicePixelRatio || 1, 2);
+				canvas.width = Math.round(width * dpr);
+				canvas.height = Math.round(height * dpr);
+				canvas.style.width = `${width}px`;
+				canvas.style.height = `${height}px`;
+
+				if (pointer.targetX === 0 && pointer.targetY === 0) {
+					pointer.x = width * 0.52;
+					pointer.y = height * 0.52;
+					pointer.targetX = pointer.x;
+					pointer.targetY = pointer.y;
+				}
+			};
+
+			const updatePointer = (event: PointerEvent) => {
+				const rect = stage.getBoundingClientRect();
+				pointer.targetX = event.clientX - rect.left;
+				pointer.targetY = event.clientY - rect.top;
+				pointer.targetInfluence = 1;
+				stage.dataset.active = "true";
+			};
+
+			const releasePointer = () => {
+				pointer.targetInfluence = 0;
+				stage.dataset.active = "false";
+			};
+
+			const pushPulse = (x: number, y: number, startedAt = performance.now()) => {
+				pulses.push({ x, y, startedAt });
+				if (pulses.length > 4) {
+					pulses.shift();
+				}
+			};
+
+			const addPulse = (event: PointerEvent) => {
+				updatePointer(event);
+				pushPulse(pointer.targetX, pointer.targetY);
+			};
+
+			const handlePointerEnter = (event: PointerEvent) => {
+				updatePointer(event);
+				if (event.pointerType === "mouse") {
+					pushPulse(pointer.targetX, pointer.targetY, performance.now() - 140);
+				}
+			};
+
+			const handlePointerEnd = (event: PointerEvent) => {
+				if (event.pointerType !== "mouse") {
+					releasePointer();
+				}
+			};
+
+			const toneColor = (tone: OrbitNodeSeed["tone"], alpha: number) => {
+				if (tone === "accent") return this.colorFromRgb(accent, alpha);
+				if (tone === "rose") return `rgba(255, 214, 228, ${alpha})`;
+				return `rgba(194, 225, 255, ${alpha})`;
+			};
+
+			const drawOrbitRing = (
+				now: number,
+				centerX: number,
+				centerY: number,
+				radiusX: number,
+				radiusY: number,
+				rotation: number,
+				lineAlpha: number,
+				lineWidth: number,
+				dashOffset: number,
+			) => {
+				context.save();
+				context.translate(centerX, centerY);
+				context.rotate(rotation);
+				context.beginPath();
+				context.setLineDash([7, 11]);
+				context.lineDashOffset = dashOffset - now * 0.012;
+				context.ellipse(0, 0, radiusX, radiusY, 0, 0, Math.PI * 2);
+				context.lineWidth = lineWidth;
+				context.strokeStyle = this.colorFromRgb(accent, lineAlpha);
+				context.stroke();
+				context.restore();
+				context.setLineDash([]);
+			};
+
+			const render = (now: number) => {
+				animationFrame = window.requestAnimationFrame(render);
+				if (!width || !height) return;
+
+				frameCount += 1;
+				if (frameCount % 18 === 0) {
+					accent = this.readAccentRgb();
+				}
+
+				const motionEnabled = this.dataset.motion !== "off" && !reducedMotionQuery.matches;
+				const easing = motionEnabled ? 0.18 : 0.1;
+				pointer.x += (pointer.targetX - pointer.x) * easing;
+				pointer.y += (pointer.targetY - pointer.y) * easing;
+				pointer.influence += (pointer.targetInfluence - pointer.influence) * (motionEnabled ? 0.14 : 0.18);
+
+				context.setTransform(dpr, 0, 0, dpr, 0, 0);
+				context.clearRect(0, 0, width, height);
+
+				const minSide = Math.min(width, height);
+				const driftScale = motionEnabled ? 1 : 0.42;
+				const focusX = width * 0.52 + Math.sin(now * 0.00024) * width * 0.024 * driftScale;
+				const focusY = height * 0.5 + Math.cos(now * 0.00018) * height * 0.024 * driftScale;
+				const lensX = focusX + (pointer.x - focusX) * pointer.influence * 0.36;
+				const lensY = focusY + (pointer.y - focusY) * pointer.influence * 0.36;
+
+				const halo = context.createRadialGradient(lensX, lensY, 0, lensX, lensY, minSide * 0.72);
+				halo.addColorStop(0, this.colorFromRgb(accent, 0.26 + pointer.influence * 0.16));
+				halo.addColorStop(0.3, "rgba(255, 214, 228, 0.11)");
+				halo.addColorStop(1, "rgba(255, 255, 255, 0)");
+				context.fillStyle = halo;
+				context.fillRect(0, 0, width, height);
+
+				drawOrbitRing(now, focusX, focusY, width * 0.24, height * 0.16, now * 0.00018, 0.24 + pointer.influence * 0.08, 1.25, 0);
+				drawOrbitRing(now, focusX, focusY, width * 0.34, height * 0.24, -0.92 + now * 0.00012, 0.16 + pointer.influence * 0.05, 1.05, -32);
+				drawOrbitRing(now, focusX, focusY, width * 0.17, height * 0.12, 0.48 - now * 0.00016, 0.2 + pointer.influence * 0.05, 1, -12);
+
+				const nodes = seeds.map((seed) => {
+					const x =
+						seed.x * width +
+						Math.sin(now * seed.speed + seed.phase) * seed.driftX * width * driftScale;
+					const y =
+						seed.y * height +
+						Math.cos(now * seed.speed * 1.12 + seed.phase) * seed.driftY * height * driftScale;
+					const dx = pointer.x - x;
+					const dy = pointer.y - y;
+					const distance = Math.hypot(dx, dy);
+					const influenceRadius = minSide * 0.64;
+					const influence =
+						motionEnabled && pointer.influence > 0.02
+							? Math.max(0, 1 - distance / influenceRadius) * pointer.influence
+							: 0;
+
+					return {
+						x: x + dx * influence * 0.22,
+						y: y + dy * influence * 0.22,
+						size: seed.size + influence * 3.1,
+						tone: seed.tone,
+						influence,
+					};
+				});
+
+				for (let index = 0; index < nodes.length; index += 1) {
+					for (let next = index + 1; next < nodes.length; next += 1) {
+						const nodeA = nodes[index];
+						const nodeB = nodes[next];
+						const dx = nodeA.x - nodeB.x;
+						const dy = nodeA.y - nodeB.y;
+						const distance = Math.hypot(dx, dy);
+						const maxDistance = minSide * 0.42;
+						if (distance > maxDistance) continue;
+
+						const strength = (1 - distance / maxDistance) ** 1.7;
+						context.beginPath();
+						context.moveTo(nodeA.x, nodeA.y);
+						context.lineTo(nodeB.x, nodeB.y);
+						context.lineWidth = 1 + strength * 0.9;
+						context.strokeStyle = this.colorFromRgb(accent, 0.08 + strength * 0.24 + pointer.influence * 0.06);
+						context.stroke();
+					}
+				}
+
+				for (let index = pulses.length - 1; index >= 0; index -= 1) {
+					const pulse = pulses[index];
+					const elapsed = now - pulse.startedAt;
+					if (elapsed > 780) {
+						pulses.splice(index, 1);
+						continue;
+					}
+
+					const progress = elapsed / 780;
+					context.beginPath();
+					context.arc(pulse.x, pulse.y, 18 + progress * minSide * 0.28, 0, Math.PI * 2);
+					context.lineWidth = 1.4 - progress * 0.76;
+					context.strokeStyle = this.colorFromRgb(accent, 0.34 * (1 - progress));
+					context.stroke();
+				}
+
+				context.beginPath();
+				context.arc(focusX, focusY, minSide * 0.052, 0, Math.PI * 2);
+				context.fillStyle = this.colorFromRgb(accent, 0.24 + pointer.influence * 0.08);
+				context.fill();
+
+				for (const node of nodes) {
+					context.beginPath();
+					context.arc(node.x, node.y, node.size * 2.2, 0, Math.PI * 2);
+					context.fillStyle = toneColor(node.tone, 0.1 + node.influence * 0.12);
+					context.fill();
+
+					context.beginPath();
+					context.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+					context.fillStyle = toneColor(node.tone, 0.88);
+					context.shadowColor = toneColor(node.tone, 0.52);
+					context.shadowBlur = 18;
+					context.fill();
+					context.shadowBlur = 0;
+				}
+			};
+
+			const start = () => {
+				if (animationFrame !== 0) return;
+				animationFrame = window.requestAnimationFrame(render);
+			};
+
+			const stop = () => {
+				if (animationFrame === 0) return;
+				window.cancelAnimationFrame(animationFrame);
+				animationFrame = 0;
+			};
+
+			const handleVisibility = () => {
+				if (document.hidden) {
+					stop();
+					return;
+				}
+				start();
+			};
+
+			const resizeObserver = new ResizeObserver(resize);
+			resizeObserver.observe(stage);
+			resize();
+			start();
+
+			stage.addEventListener("pointermove", updatePointer);
+			stage.addEventListener("pointerenter", handlePointerEnter);
+			stage.addEventListener("pointerleave", releasePointer);
+			stage.addEventListener("pointerdown", addPulse);
+			stage.addEventListener("pointerup", handlePointerEnd);
+			stage.addEventListener("pointercancel", releasePointer);
+			document.addEventListener("visibilitychange", handleVisibility);
+
+			this.cleanupFns.push(() => {
+				stop();
+				resizeObserver.disconnect();
+				stage.removeEventListener("pointermove", updatePointer);
+				stage.removeEventListener("pointerenter", handlePointerEnter);
+				stage.removeEventListener("pointerleave", releasePointer);
+				stage.removeEventListener("pointerdown", addPulse);
+				stage.removeEventListener("pointerup", handlePointerEnd);
+				stage.removeEventListener("pointercancel", releasePointer);
+				document.removeEventListener("visibilitychange", handleVisibility);
+			});
 		}
 
-		private updateClock = () => {};
+		private readAccentRgb() {
+			const value = getComputedStyle(this).getPropertyValue("--about-active-rgb").trim();
+			return value || "170 230 219";
+		}
+
+		private colorFromRgb(rgb: string, alpha: number) {
+			const [red = 170, green = 230, blue = 219] = rgb
+				.split(/\s+/)
+				.map((value) => Number.parseFloat(value))
+				.filter((value) => Number.isFinite(value));
+			return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+		}
 
 		private setupMotionToggle() {
 			const toggle = this.querySelector<HTMLElement>("[data-about-motion-toggle]");
