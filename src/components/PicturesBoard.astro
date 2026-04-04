@@ -49,9 +49,10 @@ const pictures = entries.map((entry, index) => {
 ---
 
 <pictures-board class="block w-full" data-ready="false">
-	<div class="board-shell relative overflow-hidden rounded-[1.6rem] border border-[var(--line-divider)] p-3 backdrop-blur-sm dark:bg-white/[0.03] md:p-4">
-		<div class="pointer-events-none absolute inset-0 opacity-35 [background-image:linear-gradient(to_right,rgba(255,255,255,0.22)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.22)_1px,transparent_1px)] [background-size:24px_24px]"></div>
-		<div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(120,168,158,0.12),transparent_32rem),radial-gradient(circle_at_bottom_right,rgba(241,248,246,0.72),transparent_26rem)] dark:bg-[radial-gradient(circle_at_top_left,rgba(88,135,126,0.18),transparent_30rem),radial-gradient(circle_at_bottom_right,rgba(34,53,50,0.28),transparent_22rem)]"></div>
+	<div class="board-shell relative overflow-hidden rounded-[1.6rem] border border-[var(--line-divider)] p-3 backdrop-blur-sm dark:bg-white/[0.03] md:p-4" data-board-shell data-parallax="idle">
+		<div class="board-parallax-layer board-parallax-layer--grid"></div>
+		<div class="board-parallax-layer board-parallax-layer--glow"></div>
+		<div class="board-parallax-layer board-parallax-layer--veil"></div>
 
 		<div class="board-stage relative h-[34rem] overflow-hidden rounded-[1.3rem] md:h-[40rem]" data-stage>
 			{pictures.map((picture) => (
@@ -61,11 +62,11 @@ const pictures = entries.map((entry, index) => {
 					data-index={String(picture.index)}
 					data-x={String(picture.x)}
 					data-y={String(picture.y)}
-					data-description-visible="false"
+					data-description={picture.description}
+					data-title={picture.title}
+					data-selected="false"
 					tabindex="0"
-					role="button"
-					aria-pressed="false"
-					aria-label={`Toggle description for ${picture.title}`}
+					aria-label={`${picture.title}. ${picture.description}`}
 					draggable="false"
 					style={`--picture-width:${picture.width}px; --picture-rotate:${picture.rotate}deg; animation-delay: calc(var(--content-delay) + ${picture.index * 45}ms);`}
 				>
@@ -77,27 +78,73 @@ const pictures = entries.map((entry, index) => {
 							fit={picture.fit}
 							overlay={false}
 						/>
-						<div class="picture-card-overlay">
-							<p class="picture-card-description">{picture.description}</p>
-						</div>
 					</div>
 				</article>
 			))}
 		</div>
+	</div>
+
+	<div class="picture-info-panel" data-picture-info data-active="false" aria-live="polite">
+		<p class="picture-info-text" data-picture-info-text></p>
 	</div>
 </pictures-board>
 
 <style>
 	pictures-board {
 		display: block;
+		padding-bottom: calc(7.8rem + env(safe-area-inset-bottom, 0px));
 	}
 
 	.board-shell {
+		--board-shift-x: 0px;
+		--board-shift-y: 0px;
 		background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(243, 248, 247, 0.78));
 		box-shadow: 0 34px 76px -48px rgba(24, 51, 56, 0.3);
 		transition:
 			opacity var(--page-transition-duration-fast) var(--page-transition-easing),
 			transform var(--page-transition-duration) var(--page-transition-easing);
+	}
+
+	.board-parallax-layer {
+		position: absolute;
+		pointer-events: none;
+		will-change: transform;
+		transition:
+			transform 260ms var(--page-transition-easing),
+			opacity 240ms ease;
+	}
+
+	.board-parallax-layer--grid {
+		inset: 0;
+		opacity: 0.34;
+		background-image:
+			linear-gradient(to right, rgba(255, 255, 255, 0.24) 1px, transparent 1px),
+			linear-gradient(to bottom, rgba(255, 255, 255, 0.24) 1px, transparent 1px);
+		background-size: 24px 24px;
+		transform: translate3d(calc(var(--board-shift-x) * -0.28), calc(var(--board-shift-y) * -0.28), 0);
+	}
+
+	.board-parallax-layer--glow {
+		inset: -8%;
+		opacity: 0.92;
+		background:
+			radial-gradient(circle at top left, rgba(120, 168, 158, 0.16), transparent 32rem),
+			radial-gradient(circle at bottom right, rgba(241, 248, 246, 0.84), transparent 26rem),
+			radial-gradient(circle at 84% 18%, rgba(194, 225, 255, 0.22), transparent 20rem);
+		transform: translate3d(calc(var(--board-shift-x) * 0.72), calc(var(--board-shift-y) * 0.72), 0);
+	}
+
+	.board-parallax-layer--veil {
+		inset: 0;
+		opacity: 0.58;
+		background:
+			linear-gradient(140deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 42%),
+			radial-gradient(circle at 20% 14%, rgba(255, 218, 229, 0.18), transparent 24rem);
+		transform: translate3d(calc(var(--board-shift-x) * -0.16), calc(var(--board-shift-y) * -0.16), 0);
+	}
+
+	.board-shell[data-parallax="active"] .board-parallax-layer--glow {
+		opacity: 1;
 	}
 
 	pictures-board[data-ready="false"] .board-shell {
@@ -163,53 +210,93 @@ const pictures = entries.map((entry, index) => {
 		cursor: grabbing;
 	}
 
+	.picture-card[data-selected="true"] {
+		--picture-lift: -8px;
+		--picture-scale: 1.03;
+		border-color: rgba(125, 191, 175, 0.26);
+		box-shadow:
+			0 28px 54px -30px rgba(24, 51, 56, 0.26),
+			0 0 0 0.14rem rgba(125, 191, 175, 0.14);
+	}
+
 	.picture-card-frame {
 		position: relative;
 		border-radius: inherit;
 		overflow: hidden;
 	}
 
-	.picture-card-overlay {
-		position: absolute;
-		inset: 0;
+	.picture-card:hover .picture-media,
+	.picture-card:focus-visible .picture-media {
+		transform: scale(1.02);
+		filter: saturate(0.94) brightness(0.88);
+	}
+
+	.picture-info-panel {
+		position: fixed;
+		left: 50%;
+		bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+		z-index: 80;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 1.15rem 1rem;
-		border-radius: inherit;
+		width: min(calc(100vw - 2.2rem), 46rem);
+		min-height: 0;
+		padding: 0.9rem 1.15rem 0.92rem;
+		border-radius: 1.45rem;
+		border: 1px solid rgba(255, 255, 255, 0.78);
 		background:
-			linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.68)),
-			radial-gradient(circle at top left, rgba(255, 214, 228, 0.16), rgba(255, 255, 255, 0) 38%),
-			radial-gradient(circle at bottom right, rgba(170, 230, 219, 0.16), rgba(255, 255, 255, 0) 42%);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
+			linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(247, 250, 249, 0.72)),
+			linear-gradient(135deg, rgba(255, 220, 229, 0.16), rgba(189, 229, 255, 0.08)),
+			rgba(255, 255, 255, 0.72);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.92),
+			0 20px 40px -24px rgba(24, 51, 56, 0.16),
+			0 8px 18px -16px rgba(24, 51, 56, 0.1);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+		overflow: hidden;
 		opacity: 0;
-		transform: translateY(10px);
 		pointer-events: none;
+		transform: translateX(-50%) translateY(0.7rem) scale(0.985);
 		transition:
-			opacity 260ms ease,
-			transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
-			background 260ms ease;
+			opacity 220ms ease,
+			border-color 220ms ease,
+			box-shadow 220ms ease,
+			transform 260ms var(--page-transition-easing);
 	}
 
-	.picture-card[data-description-visible="true"] .picture-card-overlay {
+	.picture-info-panel::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto auto 1.05rem;
+		width: 3.4rem;
+		height: 2px;
+		border-radius: 999px;
+		background: linear-gradient(90deg, rgba(255, 208, 221, 0.9), rgba(var(--about-active-rgb, 170 230 219), 0.9));
+		opacity: 0.86;
+	}
+
+	.picture-info-panel[data-active="true"] {
 		opacity: 1;
-		transform: translateY(0);
+		border-color: rgba(var(--about-active-rgb, 170 230 219), 0.16);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.94),
+			0 22px 44px -22px rgba(24, 51, 56, 0.18),
+			0 10px 22px -18px rgba(24, 51, 56, 0.12);
+		transform: translateX(-50%) translateY(0) scale(1);
 	}
 
-	.picture-card[data-description-visible="true"] .picture-media {
-		transform: scale(1.02);
-		filter: saturate(0.92) brightness(0.82);
-	}
-
-	.picture-card-description {
+	.picture-info-text {
 		margin: 0;
+		width: 100%;
+		min-height: 1.55em;
+		padding-top: 0.1rem;
+		font-size: 0.88rem;
+		line-height: 1.7;
+		color: rgba(67, 82, 89, 0.88);
 		text-align: center;
-		font-size: 0.94rem;
-		line-height: 1.8;
-		color: rgba(59, 75, 82, 0.92);
-		text-wrap: balance;
-		text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+		letter-spacing: 0.01em;
+		text-wrap: pretty;
 	}
 
 	.picture-media {
@@ -225,20 +312,63 @@ const pictures = entries.map((entry, index) => {
 		box-shadow: 0 20px 46px -30px rgba(5, 12, 18, 0.44);
 	}
 
+	:global(:root.dark) .board-parallax-layer--grid {
+		opacity: 0.16;
+		background-image:
+			linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+			linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+	}
+
+	:global(:root.dark) .board-parallax-layer--glow {
+		background:
+			radial-gradient(circle at top left, rgba(88, 135, 126, 0.22), transparent 30rem),
+			radial-gradient(circle at bottom right, rgba(34, 53, 50, 0.32), transparent 22rem),
+			radial-gradient(circle at 84% 18%, rgba(124, 153, 183, 0.16), transparent 18rem);
+	}
+
+	:global(:root.dark) .board-parallax-layer--veil {
+		background:
+			linear-gradient(140deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 42%),
+			radial-gradient(circle at 20% 14%, rgba(214, 171, 191, 0.08), transparent 22rem);
+	}
+
 	:global(:root.dark) .picture-card-frame {
 		background: rgba(255, 255, 255, 0.02);
 	}
 
-	:global(:root.dark) .picture-card-overlay {
-		background:
-			linear-gradient(180deg, rgba(19, 24, 30, 0.08), rgba(21, 27, 33, 0.72)),
-			radial-gradient(circle at top left, rgba(221, 171, 194, 0.12), rgba(255, 255, 255, 0) 38%),
-			radial-gradient(circle at bottom right, rgba(158, 214, 203, 0.12), rgba(255, 255, 255, 0) 42%);
+	:global(:root.dark) .picture-card[data-selected="true"] {
+		border-color: rgba(158, 214, 203, 0.24);
+		box-shadow:
+			0 24px 46px -28px rgba(5, 12, 18, 0.42),
+			0 0 0 0.12rem rgba(158, 214, 203, 0.16);
 	}
 
-	:global(:root.dark) .picture-card-description {
-		color: rgba(238, 243, 246, 0.9);
-		text-shadow: 0 1px 10px rgba(0, 0, 0, 0.22);
+	:global(:root.dark) .picture-info-panel {
+		background:
+			linear-gradient(180deg, rgba(36, 43, 51, 0.92), rgba(27, 33, 41, 0.84)),
+			linear-gradient(135deg, rgba(221, 171, 194, 0.08), rgba(158, 214, 203, 0.05)),
+			rgba(22, 27, 34, 0.82);
+		border-color: rgba(228, 239, 236, 0.1);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.05),
+			0 22px 42px -24px rgba(5, 12, 18, 0.38),
+			0 8px 18px -16px rgba(5, 12, 18, 0.28);
+	}
+
+	:global(:root.dark) .picture-info-panel::before {
+		background: linear-gradient(90deg, rgba(230, 184, 202, 0.78), rgba(158, 214, 203, 0.76));
+	}
+
+	:global(:root.dark) .picture-info-panel[data-active="true"] {
+		border-color: rgba(158, 214, 203, 0.14);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.06),
+			0 24px 46px -22px rgba(5, 12, 18, 0.42),
+			0 10px 20px -16px rgba(5, 12, 18, 0.3);
+	}
+
+	:global(:root.dark) .picture-info-text {
+		color: rgba(238, 243, 246, 0.86);
 	}
 
 	@media (max-width: 900px) {
@@ -248,6 +378,10 @@ const pictures = entries.map((entry, index) => {
 	}
 
 	@media (max-width: 640px) {
+		pictures-board {
+			padding-bottom: calc(7rem + env(safe-area-inset-bottom, 0px));
+		}
+
 		.board-shell {
 			padding: 0.7rem;
 			border-radius: 1.3rem;
@@ -263,20 +397,30 @@ const pictures = entries.map((entry, index) => {
 			--picture-corner: 0.88rem;
 		}
 
-		.picture-card-overlay {
-			padding: 0.9rem 0.8rem;
+		.picture-info-panel {
+			left: 50%;
+			bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+			width: min(calc(100vw - 1rem), 46rem);
+			padding: 0.82rem 0.88rem 0.84rem;
+			border-radius: 1.15rem;
 		}
 
-		.picture-card-description {
-			font-size: 0.8rem;
-			line-height: 1.65;
+		.picture-info-panel::before {
+			left: 0.88rem;
+			width: 2.6rem;
+		}
+
+		.picture-info-text {
+			font-size: 0.76rem;
+			line-height: 1.55;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.board-parallax-layer,
 		.picture-card,
 		.picture-media,
-		.picture-card-overlay {
+		.picture-info-panel {
 			transition: none !important;
 		}
 	}
@@ -285,13 +429,21 @@ const pictures = entries.map((entry, index) => {
 <script>
 	class PicturesBoard extends HTMLElement {
 		private stage: HTMLElement | null = null;
+		private shell: HTMLElement | null = null;
 		private cards: HTMLElement[] = [];
+		private infoPanel: HTMLElement | null = null;
+		private infoText: HTMLElement | null = null;
 		private resizeObserver: ResizeObserver | null = null;
+		private cleanupFns: Array<() => void> = [];
+		private activeCard: HTMLElement | null = null;
 		private nextZIndex = 20;
 
 		connectedCallback() {
 			this.stage = this.querySelector("[data-stage]");
+			this.shell = this.querySelector("[data-board-shell]");
 			this.cards = Array.from(this.querySelectorAll("[data-picture-card]"));
+			this.infoPanel = this.querySelector("[data-picture-info]");
+			this.infoText = this.querySelector("[data-picture-info-text]");
 			this.dataset.ready = "false";
 
 			if (!(this.stage instanceof HTMLElement) || this.cards.length === 0) {
@@ -305,13 +457,29 @@ const pictures = entries.map((entry, index) => {
 				this.dataset.ready = "true";
 			});
 
+			this.setupParallax();
 			this.cards.forEach((card) => this.bindCard(card));
 			this.resizeObserver = new ResizeObserver(() => this.clampCards());
 			this.resizeObserver.observe(this.stage);
+
+			if (!this.hasFineHover()) {
+				const onStagePointerDown = (event: PointerEvent) => {
+					const target = event.target;
+					if (!(target instanceof Element)) return;
+					if (target.closest("[data-picture-card]")) return;
+					this.setActiveCard(null);
+				};
+				this.stage.addEventListener("pointerdown", onStagePointerDown);
+				this.cleanupFns.push(() => {
+					this.stage?.removeEventListener("pointerdown", onStagePointerDown);
+				});
+			}
 		}
 
 		disconnectedCallback() {
 			this.resizeObserver?.disconnect();
+			this.cleanupFns.forEach((cleanup) => cleanup());
+			this.cleanupFns = [];
 		}
 
 		private syncAllCardRatios() {
@@ -324,6 +492,120 @@ const pictures = entries.map((entry, index) => {
 			if (window.innerWidth <= 640) return 6;
 			if (window.innerWidth <= 900) return 10;
 			return 14;
+		}
+
+		private hasFineHover() {
+			return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+		}
+
+		private setInfoText(title: string, description: string) {
+			if (!(this.infoPanel instanceof HTMLElement) || !(this.infoText instanceof HTMLElement)) return;
+
+			if (!description) {
+				this.infoPanel.dataset.active = "false";
+				this.infoText.textContent = "";
+				return;
+			}
+
+			this.infoPanel.dataset.active = "true";
+			this.infoText.textContent = title ? `${title} · ${description}` : description;
+		}
+
+		private setActiveCard(card: HTMLElement | null) {
+			if (this.activeCard && this.activeCard !== card) {
+				this.activeCard.dataset.selected = "false";
+			}
+
+			if (!card) {
+				this.activeCard = null;
+				this.setInfoText("", "");
+				return;
+			}
+
+			const isSameCard = this.activeCard === card;
+			if (isSameCard) {
+				card.dataset.selected = "false";
+				this.activeCard = null;
+				this.setInfoText("", "");
+				return;
+			}
+
+			this.activeCard = card;
+			card.dataset.selected = "true";
+			this.setInfoText(card.dataset.title || "", card.dataset.description || "");
+		}
+
+		private setupParallax() {
+			if (!(this.shell instanceof HTMLElement)) return;
+			if (!window.matchMedia("(pointer: fine)").matches) return;
+			if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+			let frame = 0;
+			let currentX = 0;
+			let currentY = 0;
+			let targetX = 0;
+			let targetY = 0;
+
+			const tick = () => {
+				currentX += (targetX - currentX) * 0.14;
+				currentY += (targetY - currentY) * 0.14;
+
+				this.shell?.style.setProperty("--board-shift-x", `${currentX.toFixed(2)}px`);
+				this.shell?.style.setProperty("--board-shift-y", `${currentY.toFixed(2)}px`);
+
+				if (
+					Math.abs(targetX - currentX) < 0.08 &&
+					Math.abs(targetY - currentY) < 0.08 &&
+					Math.abs(currentX) < 0.08 &&
+					Math.abs(currentY) < 0.08
+				) {
+					frame = 0;
+					this.shell?.style.setProperty("--board-shift-x", "0px");
+					this.shell?.style.setProperty("--board-shift-y", "0px");
+					return;
+				}
+
+				frame = window.requestAnimationFrame(tick);
+			};
+
+			const ensureFrame = () => {
+				if (frame !== 0) return;
+				frame = window.requestAnimationFrame(tick);
+			};
+
+			const onMove = (event: PointerEvent) => {
+				const rect = this.shell?.getBoundingClientRect();
+				if (!rect) return;
+
+				const relativeX = (event.clientX - rect.left) / rect.width - 0.5;
+				const relativeY = (event.clientY - rect.top) / rect.height - 0.5;
+
+				targetX = relativeX * 18;
+				targetY = relativeY * 14;
+				if (this.shell) {
+					this.shell.dataset.parallax = "active";
+				}
+				ensureFrame();
+			};
+
+			const reset = () => {
+				targetX = 0;
+				targetY = 0;
+				if (this.shell) {
+					this.shell.dataset.parallax = "idle";
+				}
+				ensureFrame();
+			};
+
+			this.shell.addEventListener("pointermove", onMove);
+			this.shell.addEventListener("pointerleave", reset);
+			this.cleanupFns.push(() => {
+				if (frame !== 0) {
+					window.cancelAnimationFrame(frame);
+				}
+				this.shell?.removeEventListener("pointermove", onMove);
+				this.shell?.removeEventListener("pointerleave", reset);
+			});
 		}
 
 		private syncCardRatio(card: HTMLElement) {
@@ -396,14 +678,18 @@ const pictures = entries.map((entry, index) => {
 			let moved = false;
 			let settleTimer = 0;
 			const dragThreshold = 10;
+			const usesHoverDescription = this.hasFineHover();
 			const bringToFront = () => {
 				card.style.zIndex = String(this.nextZIndex++);
 			};
-			const toggleDescription = () => {
-				const isVisible = card.dataset.descriptionVisible === "true";
-				card.dataset.descriptionVisible = isVisible ? "false" : "true";
-				card.setAttribute("aria-pressed", isVisible ? "false" : "true");
-				bringToFront();
+			const showDescription = () => {
+				card.dataset.selected = "true";
+				this.setInfoText(card.dataset.title || "", card.dataset.description || "");
+			};
+			const clearDescription = () => {
+				if (this.activeCard === card) return;
+				card.dataset.selected = "false";
+				this.setInfoText("", "");
 			};
 
 			const onPointerMove = (event: PointerEvent) => {
@@ -450,8 +736,8 @@ const pictures = entries.map((entry, index) => {
 				card.removeEventListener("pointerup", finishPointer);
 				card.removeEventListener("pointercancel", finishPointer);
 
-				if (event.type === "pointerup" && !moved) {
-					toggleDescription();
+				if (event.type === "pointerup" && !moved && !usesHoverDescription) {
+					this.setActiveCard(card);
 				}
 
 				pointerId = -1;
@@ -486,11 +772,25 @@ const pictures = entries.map((entry, index) => {
 			card.addEventListener("dragstart", (event: DragEvent) => {
 				event.preventDefault();
 			});
-			card.addEventListener("pointerenter", bringToFront);
-			card.addEventListener("keydown", (event: KeyboardEvent) => {
-				if (event.key !== "Enter" && event.key !== " ") return;
-				event.preventDefault();
-				toggleDescription();
+			card.addEventListener("pointerenter", () => {
+				bringToFront();
+				if (usesHoverDescription) {
+					showDescription();
+				}
+			});
+			card.addEventListener("pointerleave", () => {
+				if (usesHoverDescription) {
+					clearDescription();
+				}
+			});
+			card.addEventListener("focus", showDescription);
+			card.addEventListener("blur", () => {
+				if (usesHoverDescription || this.activeCard !== card) {
+					clearDescription();
+				}
+			});
+			this.cleanupFns.push(() => {
+				window.clearTimeout(settleTimer);
 			});
 		}
 
